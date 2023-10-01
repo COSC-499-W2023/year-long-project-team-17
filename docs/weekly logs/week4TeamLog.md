@@ -30,7 +30,7 @@ charviey -> Charvie Yadav
 ## Completed tasks
 - Coding python completed by DavitAbrahamyan
 - Project plan #3 completed by DavitAbrahamyan, Gerry2002, charviey, harshg03
-- Weekly team log completed by Gerry2002
+- Weekly team log completed by Gerry2002, harshg03
   
 
 ## In progress tasks
@@ -45,3 +45,4 @@ charviey -> Charvie Yadav
 
 
 ## Test report
+- This week there was no coding done, so there is no test report
