@@ -1,8 +1,10 @@
 #Davit Abrahamyan (36173516) Individual Logs
 
 ##Week4 (Sept.25, 2023 - Oct.1, 2023)
+
 ###Goals Recap
 -My goals for this week was to complete tech stack as well as try to complete the task of generating presentations based on the user prompt
+
 ###Tasks on board
 -I completed the tech stack of the project planning as well as wrote a functioning code in python that takes an input the user prompt and generates and outputs a power point presentation file.
 
