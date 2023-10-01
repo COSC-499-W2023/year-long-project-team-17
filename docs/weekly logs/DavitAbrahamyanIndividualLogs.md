@@ -4,7 +4,7 @@
 ###Goals Recap
 -My goals for this week was to complete tech stack as well as try to complete the task of generating presentations based on the user prompt
 ###Tasks on board
--I completed the tech stack of the project planning as well as wrote a functioning code in python that takes an input the user prompt and generates and outputs a power point presentation file.
+-I completed the tech stack of the project planning (name of assosicated task on Kanban: Project Plan) as well as wrote a functioning code in python that takes an input the user prompt and generates and outputs a power point presentation file (name of task on Kanban: Python PowerPoint Creation).
 
 ###Completed vs InProgress
 - Project planning is fully completed. The code is fully functioning, only refactoring and cleansing is remaining.
