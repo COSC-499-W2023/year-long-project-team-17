@@ -12,6 +12,7 @@
 - Project planning is fully completed. The code is fully functioning, only refactoring and cleansing is remaining.
 
 ###Context
+
 This was an important week which helped us to make sure that everyone in the team is on the same track. Major features were identified and prioritized and everyone came to a consensus regarding the overall structure and fucntionalities that the project will include.
 
 ###Peer eval
