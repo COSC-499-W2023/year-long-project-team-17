@@ -24,15 +24,19 @@ charviey -> Charvie Yadav
 - This week we had two main goals. Create a feature as a proof of concept that powerpoint presentations could be created by using the OpenAI API and finish the project plan.
 -  We were able to complete the team project plan and the feature to create presentations by using the OpenAI API in python
 
+## Associated board tasks
+![Screenshot](images/ProjectBoardScreenshotWeek4.png)
 
 ## Completed tasks
 - Coding python completed by DavitAbrahamyan
-- Project plan completed by DavitAbrahamyan, Gerry2002, charviey, harshg03
+- Project plan #3 completed by DavitAbrahamyan, Gerry2002, charviey, harshg03
 - Weekly team log completed by Gerry2002
   
 
 ## In progress tasks
-- System set up is being completed by DavidAbrahamyan, Gerry2002, charviey, and harshg03 
+- Docker setup and installation #2 is being completed by DavidAbrahamyan, Gerry2002, charviey, and harshg03
+- Python Powerpoint Creation #4 is being completed by DavitAbrahamyan
+- Research on frontend stack with connections to backend #5 is being completed by charviey
 
 
 
@@ -41,4 +45,3 @@ charviey -> Charvie Yadav
 
 
 ## Test report
-![Screenshot](TestsPassing.jpg)
