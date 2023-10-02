@@ -41,7 +41,7 @@ charviey -> Charvie Yadav
 
 
 ## Burnup chart
-
+![Screenshot](images/burnupchartweek4.png)
 
 
 ## Test report
