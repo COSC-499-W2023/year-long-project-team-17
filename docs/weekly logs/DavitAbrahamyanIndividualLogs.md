@@ -17,3 +17,22 @@
 
 ### Peer eval
 ![Screenshot](images/Week4DavitAbrahamyanPeerEval.png)
+
+
+## Week5 (Oct.2, 2023 - Oct.8, 2023)
+
+### Goals Recap
+- My goals for this week was to complete the task of generating presentations based on the user prompt, complete the task of generating a summary based on the user content, as well as start learning django and setup our project envioronment on my computer.
+
+### Tasks on board
+- I completed generating presentations based on the content (name of assosicated task on Kanban: Python Powerpoint Creation) as well as generating summary based on the user content (name of task on Kanban: Generate a summary based on the user content). I am currently doing the research on Django and in the process of setting up the project environment locally on my computer (name of task on Kanban: Learn Django, setup our project environment locally).
+
+### Completed vs InProgress
+- Presentation generation and summary generation is fully completed (as a separate file) and the only remaining thing is to add it to the whole project. The django research and setting up the project locally is in progress.
+
+### Context
+
+- This week was helful in terms of getting started with the project overall and setting up the development environment. It was also productive, as some of the main features of the project were implemented.
+
+### Peer eval
+![Screenshot](images/Week5DavitAbrahamyanPeerEval.png)
