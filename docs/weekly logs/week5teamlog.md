@@ -16,7 +16,7 @@ harshg03 -> Harsh Gill
 
 Gerry2002 -> Gerard Escolano
 
-DavidAbrahamyan -> David Abrahamyan
+DavidAbrahamyan -> Davit Abrahamyan
 
 charviey -> Charvie Yadav
 
