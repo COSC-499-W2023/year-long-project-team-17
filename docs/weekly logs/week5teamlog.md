@@ -39,7 +39,7 @@ charviey -> Charvie Yadav
 - #7 Generate a summary based on the user content -> DavidAbrahamyan
 - #8 Login, logout, registration -> Gerry2002
 - #9 Learning Django framework -> Gerry2002
-- #12 Learn Django, review front end, and python -> harshg03
+- #12 Learn Django, review front end, and python -> harshg03, charviey
 
 ## Burnup chart
 ![Screenshot](images/burnupchartweek5.png)
