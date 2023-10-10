@@ -3,8 +3,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignUpForm, AddRecordForm
 from .models import Record
-
-
+from util.generate_summary import generate_summary
+import os
+import docx
+from pptx import Presentation
+import PyPDF2
 # Create your views here.
 
 def home(request):
@@ -98,3 +101,95 @@ def update_record(request, pk):
     else:
         messages.success(request, "You must be logged in")
         return redirect('home')
+
+def generate_summary_view(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            input_option = request.POST.get("input_option")
+            if input_option == "write":
+
+                input_text = request.POST.get("input_text")
+                if input_text:
+                    summary = generate_summary(input_text)
+                    return render(request, 'summary_generation.html', {'summary': summary["choices"][0]["message"]["content"]})
+                else:
+                    messages.error(request, "Please enter a text")
+                    return render(request, "summary_generation.html")
+            elif input_option == "upload":
+                uploaded_file = request.FILES.get("file")
+
+                if uploaded_file:
+                    file_extension = os.path.splitext(uploaded_file.name)[1].lower()
+
+                    if file_extension in [".txt", ".pptx", ".docx", ".pdf"]:
+                        if file_extension == ".docx":
+                            doc = docx.Document(uploaded_file)
+                            full_text = []
+                            for paragraph in doc.paragraphs:
+                                full_text.append(paragraph.text)
+
+                            document_text = "\n".join(full_text)
+                            if document_text:
+                                summary = generate_summary(document_text)
+                                return render(request, "summary_generation.html",
+                                              {"summary": summary["choices"][0]["message"]["content"]})
+                            else:
+                                messages.error(request,
+                                               "You uploaded an empty .docx file.")
+
+                        elif file_extension == ".pptx":
+                            presentation = Presentation(uploaded_file)
+
+                            slide_text = []
+
+                            for slide in presentation.slides:
+                                slide_text.append("")
+                                for shape in slide.shapes:
+                                    if hasattr(shape, "text"):
+                                        slide_text.append(shape.text)
+
+                            presentation_text = "\n".join(slide_text)
+                            if presentation_text:
+                                summary = generate_summary(presentation_text)
+                                return render(request, "summary_generation.html",
+                                              {"summary": summary["choices"][0]["message"]["content"]})
+                            else:
+                                messages.error(request,
+                                               "You uploaded an empty .pptx file.")
+
+                        elif file_extension == ".txt":
+                            txt_text = uploaded_file.read().decode('utf-8')
+                            if txt_text:
+                                summary = generate_summary(txt_text)
+                                return render(request, "summary_generation.html",
+                                              {"summary": summary["choices"][0]["message"]["content"]})
+                            else:
+                                messages.error(request,
+                                               "You uploaded an empty .txt file.")
+
+                        elif file_extension == ".pdf":
+                            pdf_content = uploaded_file
+                            pdf_file = PyPDF2.PdfReader(pdf_content)
+                            pdf_text = ""
+
+                            for page_num in range(len(pdf_file.pages)):
+                                page = pdf_file.pages[page_num]
+                                pdf_text += page.extract_text()
+
+                            if pdf_text:
+                                summary = generate_summary(pdf_text)
+                                return render(request, "summary_generation.html",
+                                              {"summary": summary["choices"][0]["message"]["content"]})
+                            else:
+                                messages.error(request,
+                                               "You uploaded an empty .pdf file.")
+                    else:
+                        messages.error(request, "The Uploaded file must have one of the following extensions: .docs, .pptx, .txt, .pdf")
+
+                else:
+                    messages.error(request, "Please upload a file")
+
+        return render(request, "summary_generation.html")
+    else:
+        messages.success(request, "You must be logged in....")
+        return redirect("home")
