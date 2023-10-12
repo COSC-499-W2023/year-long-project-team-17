@@ -18,7 +18,7 @@ I believe this week helped us familiarize with how the project will advance and 
 
 # Gerard Individual Logs
 
-## Week4 (Sept.25, 2023 - Oct.1, 2023)
+## Week5 (Oct.2, 2023 - Oct.8, 2023)
 ### Goals Recap
 - My goals these week were focused on learning the web framework django. And having set up everyones system so that everyone can work efficiently using github. I learned a lot about Django, but I believe that the systems will still need some work as I only know that two of our systems work.
 ### Tasks on board
