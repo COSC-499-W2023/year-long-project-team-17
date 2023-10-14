@@ -11,4 +11,5 @@ urlpatterns = [
     path('add_record/', views.add_record, name='add_record'),
     path('update_record/<int:pk>', views.update_record, name='update_record'),
     path("generate_summary", views.generate_summary_view, name="generate_summary"),
+    path("generate_presentation", views.generate_presentation_view, name="generate_presentation"),
 ]
