@@ -17,12 +17,15 @@
             <a class="nav-link" href="{% url 'home' %}">{{user.username}}</a>
           </li>
 
+          
+           <li class="nav-item">
+          <a class="nav-link" href="{% url 'generate_summary' %}">Generate Summary</a>
+          </li>
+          {% if request.user.groups.all.0.name == 'teacher' %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'add_record' %}">Add Record</a>
           </li>
-           <li class="nav-item">
-          <a class="nav-link" href="{% url 'generate_summary' %}">Generate Summary</a>
-        </li>
+          {% endif %}
 
           {% else %}
 
