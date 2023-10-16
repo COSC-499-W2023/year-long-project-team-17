@@ -32,3 +32,18 @@ I believe this week was really stressfull, as I believed that my team knew which
 
 ### Peer eval
 ![Screenshot](images/Week5GerardPeerEval.png)
+
+## Week6 (Oct.9, 2023 - Oct.15, 2023)
+### Goals Recap
+- My goals this week was to focus on the testing for the python functionalities coded by Davit. But on thusday we realized that we had to work on the feature that diferentiates the type of users, so I decided to do that instead. I did manage to finish that, which has to be implemented as we move forward.
+### Tasks on board
+- My task was changed into the student/teacher differentiation as this was required for the plan that we want for the web application. Also we need to have an idea on how it works so it can be implemented as different features are added
+
+### Completed vs InProgress
+- Python testing is still a task that I need to complete so it is still in progress, and the student/teacher differentiation is complete but not yet pushed to the main
+
+### Context
+
+
+### Peer eval
+![Screenshot](images/Week6GerardPeerEval.png)
