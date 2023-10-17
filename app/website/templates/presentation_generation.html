@@ -1,47 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="col-md-6 offset-md-2">
-    <h1>Please Provide The Text That You Want To Summarize</h1>
+    <h1>Create a Presentation</h1>
 
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-check">
-             {% if input_option == 'upload' %}
-    <input type="radio" class="form-check-input" id="uploadFileRadio" name="input_option" value="upload" checked>
-{% else %}
-    <input type="radio" class="form-check-input" id="uploadFileRadio" name="input_option" value="upload">
-{% endif %}
+            <input type="radio" class="form-check-input" id="uploadFileRadio" name="input_option" value="upload">
             <label class="form-check-label" for="uploadFileRadio">Upload File</label>
         </div>
         <div class="form-check">
-            {% if input_option == 'write' %}
-    <input type="radio" class="form-check-input" id="writeTextRadio" name="input_option" value="write" checked>
-{% else %}
-    <input type="radio" class="form-check-input" id="writeTextRadio" name="input_option" value="write">
-{% endif %}
+            <input type="radio" class="form-check-input" id="writeTextRadio" name="input_option" value="write" checked>
             <label class="form-check-label" for="writeTextRadio">Write Text</label>
         </div>
 
-        <div id="uploadFileField" style="{% if input_option == 'upload' %}display: block;{% else %}display: none;{% endif %}">
+        <div id="uploadFileField" style="display: none;">
             <label for="file">Upload File:</label>
             <input type="file" id="file" name="file">
         </div>
 
-        <div id="writeTextField" style="{% if input_option == 'write' %}display: block;{% else %}display: none;{% endif %}">
+        <div id="writeTextField">
             <label for="input_text">Enter Text:</label>
             <textarea id="input_text" name="input_text" rows="20" cols="100"></textarea>
         </div>
 
-        <button type="submit" name="generate_summary">Generate Summary</button>
+        <button type="submit" name="generate_presentation">Generate Presentation</button>
     </form>
 
-    {% if summary %}
+    {% if generated_presentation_url %}
     <div>
         <br/>
-        <label for="generated_summary">Generated Summary:</label>
-        <textarea id="generated_summary" readonly rows="20" cols="100">{{ summary }}</textarea>
+        <label>Generated Presentation:</label>
+        <a href="{{ generated_presentation_url }}" download="generated_presentation.pptx">Download Presentation</a>
     </div>
-
     {% endif %}
 </div>
 
