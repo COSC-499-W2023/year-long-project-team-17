@@ -7,9 +7,11 @@ load_dotenv(find_dotenv())
 
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
+#print(openai.api_key)
 
 def generate_summary(text: str):
     generated_summary = ""
+   # print(openai.api_key)
     try:
         generated_summary = openai.ChatCompletion.create(
             model=config.ENGINE,

@@ -9,11 +9,20 @@ class SignUpForm(UserCreationForm):
     email = forms.EmailField(label='', widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
     first_name = forms.CharField(label='', max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'First Name'}))
     last_name = forms.CharField(label='', max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Last Name'}))
+    GROUP_CHOICES = [
+        ('student', 'Student'),
+        ('teacher', 'Teacher'),
+    ]
+    user_group = forms.ChoiceField(
+        label='Select Group',
+        choices=GROUP_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
 
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'user_group')
 
     def __init__(self, *args: Any, **kwargs: Any):
         super(SignUpForm, self).__init__(*args, **kwargs)

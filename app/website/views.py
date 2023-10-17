@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.models import Group
+
+from .decorators import *
 from .forms import SignUpForm, AddRecordForm
 from .models import Record
 from util.generate_summary import generate_summary
@@ -41,7 +44,26 @@ def logout_user(request):
     messages.success(request, "You have been Logged Out...")
     return redirect('home')
 
+@unauthenticated_user
 def register_user(request):
+<<<<<<< HEAD
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            #Authenticate and login
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            groupName = form.cleaned_data['user_group']
+            group = Group.objects.get(name=groupName)
+            user = authenticate(username = username, password = password)
+            user.groups.add(group)
+            login(request, user)
+            messages.success(request, "You have succesfully registered")
+            return redirect('home')
+    else:
+        form = SignUpForm()
+=======
     if not request.user.is_authenticated:
         if request.method == 'POST':
             form = SignUpForm(request.POST)
@@ -57,6 +79,7 @@ def register_user(request):
         else:
             form = SignUpForm()
             return render(request, 'register.html', {'form':form})
+>>>>>>> appTrial
         return render(request, 'register.html', {'form':form})
     else:
         messages.success(request, "You have already registered an account")
@@ -72,6 +95,7 @@ def customer_record(request, pk):
         messages.success(request, "You must be logged in to view that page")
         return redirect('home')
     
+@allowed_users(allowed_roles=['teacher'])
 def delete_record(request, pk):
     if request.user.is_authenticated:
         delete_it = Record.objects.get(id=pk)
@@ -82,6 +106,8 @@ def delete_record(request, pk):
         messages.success(request, "You must be logged in do that action")
         return redirect('home')
     
+
+@allowed_users(allowed_roles=['teacher'])
 def add_record(request):
     form = AddRecordForm(request.POST or None)
     if request.user.is_authenticated:
@@ -96,6 +122,7 @@ def add_record(request):
         messages.success(request, "You must be logged in")
         return redirect('home')
 
+@allowed_users(allowed_roles=['teacher'])
 def update_record(request, pk):
     if request.user.is_authenticated:
         current_record = Record.objects.get(id=pk)
