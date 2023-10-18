@@ -12,4 +12,5 @@ urlpatterns = [
     path('update_record/<int:pk>', views.update_record, name='update_record'),
     path("generate_summary", views.generate_summary_view, name="generate_summary"),
     path("generate_presentation", views.generate_presentation_view, name="generate_presentation"),
+    path("detect_plagiarism", views.detect_plagiarism_view, name="detect_plagiarism")
 ]
