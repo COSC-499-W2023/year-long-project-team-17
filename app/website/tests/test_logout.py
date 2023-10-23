@@ -9,6 +9,7 @@ class TestLogout(TestCase):
     account; if successful the user should be redirected back to the home page
     and their account is no longer authenticated.    
     """
+    
     def test_logout(self):    
          #creates the user and saves it in test database
         user = User.objects.create_user(username='test', password='passpass22')
@@ -28,4 +29,4 @@ class TestLogout(TestCase):
         self.assertRedirects(response, reverse("home"))
         #Should return false if user logged out successfully
         self.assertFalse(user.is_authenticated)
-   
+    

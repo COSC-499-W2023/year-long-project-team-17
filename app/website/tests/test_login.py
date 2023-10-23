@@ -9,6 +9,7 @@ class TestLogin(TestCase):
     authenticated; if the user's password or username is incorrect they will
     not be authenticated meaning logged in.
     """
+
     def test_login(self):
         #creates the user and saves it in the test database
         user = User.objects.create_user(username='test', password='passpass22')
