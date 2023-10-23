@@ -10,6 +10,10 @@
         {% if user.is_authenticated %} 
 
         <li class="nav-item">
+          <a class="nav-link text-light" href="{% url 'edit_profile' %}">Edit Profile</a>
+        </li>
+
+        <li class="nav-item">
           <a class="nav-link text-light" href="{% url 'logout' %}">Logout</a>
         </li>
 
@@ -30,6 +34,7 @@
        <li class="nav-item">
         <a class="nav-link text-light" href="{% url 'generate_presentation' %}">Generate Presentation</a>
       </li>
+      
 
         {% else %}
 
