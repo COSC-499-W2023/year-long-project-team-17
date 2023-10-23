@@ -36,3 +36,39 @@
 
 ### Peer eval
 ![Screenshot](images/Week5DavitAbrahamyanPeerEval.png)
+
+## Week6 (Oct.9, 2023 - Oct.15, 2023)
+
+### Goals Recap
+- My goals for this week was to complete the task of creating plagiarism detection mechanism based on the uploaded files as well as do some refactoring on presentation and summary generation.
+
+### Tasks on board
+- I completed creating plagiarism detection mechanism (name of associated task on Kanban: generate Plagiarism Detection Mechanism) as well as did some refactoring for presentation generation and summary generation. 
+
+### Completed vs InProgress
+- Both refactoring and plagiarism detection mechanism are fully complete.
+
+### Context
+
+- This week was helpful in terms of making the overall code cleaner and more understandable for others to review it. It was also productive, as one of the main features of the project  (plagiarism detection)  was implemented.
+
+### Peer eval
+![Screenshot](images/Week6DavitAbrahamyanPeerEvaluation.png)
+
+## Week7 (Oct.16, 2023 - Oct.22, 2023)
+
+### Goals Recap
+- My goals for this week was to complete the task of generating exercises based on the user provided prompt or uploaded files as well as start implementing a basic virtual assistant (chatbot) for our website.
+
+### Tasks on board
+- I completed exercise generation task (name of associated task on Kanban: Practice Exercise Generation) as well as started implementing the virtual assistant. 
+
+### Completed vs InProgress
+-  The exercise generation task is fully complete and is under code review and the virtual assistant implementation in currently in progress.
+
+### Context
+
+-  It was a productive week, as one of the main features of the project  (exercise generation)  was implemented and the initial steps towards creating the virtual assistant were done.
+
+### Peer eval
+![Screenshot](images/Week6DavitAbrahamyanPeerEvaluation.png)
