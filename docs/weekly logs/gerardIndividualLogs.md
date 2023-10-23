@@ -16,7 +16,6 @@ I believe this week helped us familiarize with how the project will advance and 
 ![Screenshot](images/Week4GerardPeerEval.png)
 
 
-# Gerard Individual Logs
 
 ## Week5 (Oct.2, 2023 - Oct.8, 2023)
 ### Goals Recap
@@ -32,3 +31,36 @@ I believe this week was really stressfull, as I believed that my team knew which
 
 ### Peer eval
 ![Screenshot](images/Week5GerardPeerEval.png)
+
+## Week6 (Oct.9, 2023 - Oct.15, 2023)
+### Goals Recap
+- My goals this week was to focus on the testing for the python functionalities coded by Davit. But on thusday we realized that we had to work on the feature that diferentiates the type of users, so I decided to do that instead. I did manage to finish that, which has to be implemented as we move forward.
+### Tasks on board
+- My task was changed into the student/teacher differentiation as this was required for the plan that we want for the web application. Also we need to have an idea on how it works so it can be implemented as different features are added
+
+### Completed vs InProgress
+- Python testing is still a task that I need to complete so it is still in progress, and the student/teacher differentiation is complete but not yet pushed to the main
+
+### Context
+
+
+### Peer eval
+![Screenshot](images/Week6GerardPeerEval.png)
+
+## Week7 (Oct.16, 2023 - Oct.22, 2023)
+### Goals Recap
+- My focus this week was to get everything pushed into the master branch of the poject so we could have everything already up to date for the presentation.
+### Tasks on board
+- My task on board is still to create the testing for multiple python functions, and this is because for the past week I did not manage to finish it
+
+### Completed vs InProgress
+- Python testing is still a task that I need to complete so it is still in progress. But now our progress is on the main, which took some time because of merge conflicts.
+
+### Context
+This was a week in which I did not do as much as previous weeks as I had to study for midterms.
+
+### Peer eval
+There is no week7 Peer eval, so I used the same from last week.
+![Screenshot](images/Week6GerardPeerEval.png)
+
+
