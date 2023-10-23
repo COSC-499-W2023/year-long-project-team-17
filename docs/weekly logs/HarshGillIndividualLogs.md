@@ -37,3 +37,23 @@ our login/signup feature for the milestone.
 
 ## Completed vs in progress
 - The in-progress task this week is just #12, learning the Django framework and reviewing front-end and Python; I had no completed tasks this week.
+
+
+## Week 6/7
+
+## Work period
+- Oct.9, 2023 - Oct.22, 2023
+
+## Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek6.png)
+
+## Weekly goal recap
+- My goals for these two weeks were to review and test the Django login/logout and sign-up authentication system.
+As well as test the views and URLs for our website.
+- My goals for next week are to help our group complete documentation regarding our two features, prepare for the presentation and start working on features for the second milestone.
+
+## Tasks on board
+![Screenshot](images/ProjectBoardScreenshotHarshWeek6.png)
+
+## Completed vs in progress
+- I just had one task this week, which was task #19, and it is completed.
