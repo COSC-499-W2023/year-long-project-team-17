@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-md-6 offset-md-2">
+    <h1>Create a Presentation</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-check">
+            <input type="radio" class="form-check-input" id="uploadFileRadio" name="input_option" value="upload">
+            <label class="form-check-label" for="uploadFileRadio">Upload File</label>
+        </div>
+        <div class="form-check">
+            <input type="radio" class="form-check-input" id="writeTextRadio" name="input_option" value="write" checked>
+            <label class="form-check-label" for="writeTextRadio">Write Text</label>
+        </div>
+
+        <div id="uploadFileField" style="display: none;">
+            <label for="file">Upload File:</label>
+            <input type="file" id="file" name="file">
+        </div>
+
+        <div id="writeTextField">
+            <label for="input_text">Enter Text:</label>
+            <textarea id="input_text" name="input_text" rows="20" cols="100"></textarea>
+        </div>
+
+        <button type="submit" name="generate_presentation">Generate Presentation</button>
+    </form>
+
+    {% if generated_presentation_url %}
+    <div>
+        <br/>
+        <label>Generated Presentation:</label>
+        <a href="{{ generated_presentation_url }}" download="generated_presentation.pptx">Download Presentation</a>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const uploadFileRadio = document.getElementById('uploadFileRadio');
+        const writeTextRadio = document.getElementById('writeTextRadio');
+        const uploadFileField = document.getElementById('uploadFileField');
+        const writeTextField = document.getElementById('writeTextField');
+        const generatedSummary = document.getElementById('generated_summary');
+        const generatedSummaryLabel = document.querySelector('label[for="generated_summary"]');
+
+
+        uploadFileRadio.addEventListener('change', function () {
+            if (uploadFileRadio.checked) {
+                uploadFileField.style.display = 'block';
+                writeTextField.style.display = 'none';
+                generatedSummary.style.display = 'none';
+                generatedSummaryLabel.style.display = 'none';  // Hide the label
+            }
+        });
+
+        writeTextRadio.addEventListener('change', function () {
+            if (writeTextRadio.checked) {
+
+                uploadFileField.style.display = 'none';
+                writeTextField.style.display = 'block';
+                generatedSummary.style.display = 'none';
+                generatedSummaryLabel.style.display = 'none';  // Hide the label
+            }
+        });
+    });
+</script>
+{% endblock %}

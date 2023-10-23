@@ -26,6 +26,7 @@ charviey -> Charvie Yadav
 
 - Our team's goal these two weeks was to work on our two features for the milestone, which were
 the login, logout, and registration system and generating a summary based on the user content
+
 - So far, both features are functional, and testing is completed for the login, logout and registration
 system. Testing is to be completed for the summary generation feature as well as the documentation for both features.
 
@@ -50,6 +51,7 @@ system. Testing is to be completed for the summary generation feature as well as
 - #17 Frontend mockup UI/UX #17 -> charviey
 - #21 Frontend for homepage, login, registration -> charviey
 - #23 Practice excercise generation -> DavidAbrahamyan
+
 
 ## Burnup chart
 

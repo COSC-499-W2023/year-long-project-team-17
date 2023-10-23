@@ -38,7 +38,6 @@ our login/signup feature for the milestone.
 ## Completed vs in progress
 - The in-progress task this week is just #12, learning the Django framework and reviewing front-end and Python; I had no completed tasks this week.
 
-
 ## Week 6/7
 
 ## Work period
