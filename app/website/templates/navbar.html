@@ -13,27 +13,33 @@
           <a class="nav-link text-light" href="{% url 'edit_profile' %}">Edit Profile</a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link text-light" href="{% url 'logout' %}">Logout</a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
 
-        <li class="nav-item">
-          <a class="nav-link text-light" href="{% url 'home' %}">{{user.username}}</a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">{{user.username}}</a>
+          </li>
 
-        {% if request.user.groups.all.0.name == 'teacher' %}
-        <li class="nav-item">
-          <a class="nav-link text-light" href="{% url 'add_record' %}">Add Record</a>
-        </li>
+          {% if request.user.groups.all.0.name == 'teacher' %}
 
-        {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add_record' %}">Add Record</a>
+          </li>
+
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'detect_plagiarism' %}">Detect Plagiarism</a>
+          </li>
+
+          {% endif %}
 
          <li class="nav-item">
         <a class="nav-link text-light" href="{% url 'generate_summary' %}">Generate Summary</a>
-      </li>
-       <li class="nav-item">
+        </li>
+
+         <li class="nav-item">
         <a class="nav-link text-light" href="{% url 'generate_presentation' %}">Generate Presentation</a>
-      </li>
+        </li>
       
 
         {% else %}
