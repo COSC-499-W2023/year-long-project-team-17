@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.views.generic import CreateView
 from django.contrib import messages
 from django.contrib.auth.models import Group
-
+from django.urls import reverse_lazy
+from django.views import generic
 from .decorators import *
-from .forms import SignUpForm, AddRecordForm
-from .models import Record
+from .forms import SignUpForm, AddRecordForm, EditProfileForm, ProfilePageForm
+from .models import Record, Profile
 from util.generate_summary import generate_summary
 from util.generate_presentation import generate_presentation
 from util.detect_plagiarism import detect_plagiarism
@@ -16,7 +18,33 @@ from pptx import Presentation
 import PyPDF2
 import logging
 from django.http import HttpResponse
+
 # Create your views here.
+
+class CreateProfilePageView(CreateView):
+    model = Profile
+    form_class = ProfilePageForm
+    template_name = 'create_user_profile_page.html'
+    # fields = '__all__'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class EditProfilePageView(generic.UpdateView):
+    model = Profile
+    template_name = 'edit_profile_page.html'
+    fields = ['bio', 'profile_pic', 'website_url', 'facebook_url', 'twitter_url', 'instagram_url', 'pinterest_url']
+    success_url = reverse_lazy('home')
+
+class UserEditView(generic.UpdateView):
+    form_class = EditProfileForm
+    template_name = 'edit_profile.html'
+    success_url = reverse_lazy('home')
+
+    def get_object(self):
+        return self.request.user
+
 
 def home(request):
     records = Record.objects.all()
@@ -62,8 +90,6 @@ def register_user(request):
             login(request, user)
             messages.success(request, "You have succesfully registered")
             return redirect('home')
-        else:
-            return render(request, 'register.html', {'form':form})
     else:
         form = SignUpForm()
         return render(request, 'register.html', {'form':form})
@@ -317,6 +343,7 @@ def generate_presentation_view(request):
     else:
         messages.success(request, "You must be logged in to view that page...")
         return redirect('home')
+<<<<<<< HEAD
 
 
 @allowed_users(allowed_roles=['teacher'])
@@ -460,3 +487,5 @@ def generate_exercise_view(request):
     else:
         messages.success(request, "You must be logged in....")
         return redirect("home")
+=======
+>>>>>>> master

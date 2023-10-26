@@ -1,17 +1,5 @@
 # Charvie Yadav (89136931) Individual Logs
 
-## Week5 (Oct.2, 2023 - Oct.8, 2023)
-
-### Goals Recap
-- My goal this week was to learn the Django framework and to set up and integrate the project folder locally so that we can begin coding.
-
-### Tasks on board
-![Screenshot](images/ProjectBoardScreenshotCharvieWeek5.png)
-
-### Completed vs InProgress
-- The inprogress work is to just finish learning Django and start the frontend work with the login page, homepage and rest of the features. Additionally, I had completed some research on the frontend and backend connections but that was taken over with our decision to use Django.
-
-
 ## Week4 (Sept.25, 2023 - Oct.1, 2023)
 
 ### Goals Recap

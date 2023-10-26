@@ -26,13 +26,13 @@
             <label for="file">Upload File:</label>
             <input type="file" id="file" name="file">
         </div>
-
-        <div id="writeTextField" style="{% if input_option == 'write' %}display: block;{% else %}display: none;{% endif %}">
+        <br>
+        <div id="writeTextField" style= "{% if input_option == 'write' %}display: block;{% else %}display: none;{% endif %}">
             <label for="input_text">Enter Text:</label>
-            <textarea id="input_text" name="input_text" rows="20" cols="100"></textarea>
+            <textarea id="input_text" name="input_text" rows="20" cols="100" style="border-radius: 6px; padding: 10px;"></textarea>
         </div>
-
-        <button type="submit" name="generate_summary">Generate Summary</button>
+        <br>
+        <button type="submit" class="btn btn-dark" name="generate_summary">Generate Summary</button>
     </form>
 
     {% if summary %}
