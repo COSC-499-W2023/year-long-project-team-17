@@ -27,3 +27,7 @@ For example. ```USER: "I want a presentation on the topic of NLP and Deep Learni
 """
 
 SUMMARIZATION_GENERATION_PROMPT = """You are given a text provided by the user. Generate a summary based on that. Do not mention anything about the user. Don't ask any questions. Don't introduce yourself. Just summarize the text."""
+
+EXERCISE_GENERATION_PROMPT = """You are given a user prompt. You have to generate practice exercises based on the user prompt or related to that topic. If the users asks for the answers or soltions as well, have them under each corresponding question. Do not add any words from you or ask something else. Just generate exrecises and that's all. Do not add any notes from you."""
+
+SIMILAR_EXERCISE_GENERATION_PROMPT = """You are given a set of exercises or questions. Generate exercises similar or cover the same concepts as the given ones. The number of exercises that you generate do not have to be the equal to the number of questions given by the user. Make sure it is undestandable to the user what the question is. Do not add any words from you. Just generate the exercises."""

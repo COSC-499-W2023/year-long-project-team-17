@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-md-6 offset-md-2">
+    <h1>Exercise Generation Page</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-check">
+             {% if input_option == 'upload' %}
+    <input type="radio" class="form-check-input" id="uploadFileRadio" name="input_option" value="upload" checked>
+{% else %}
+    <input type="radio" class="form-check-input" id="uploadFileRadio" name="input_option" value="upload">
+{% endif %}
+            <label class="form-check-label" for="uploadFileRadio">Upload File</label>
+        </div>
+        <div class="form-check">
+            {% if input_option == 'write' %}
+    <input type="radio" class="form-check-input" id="writeTextRadio" name="input_option" value="write" checked>
+{% else %}
+    <input type="radio" class="form-check-input" id="writeTextRadio" name="input_option" value="write">
+{% endif %}
+            <label class="form-check-label" for="writeTextRadio">Describe Exercises</label>
+        </div>
+
+        <div id="uploadFileField" style="{% if input_option == 'upload' %}display: block;{% else %}display: none;{% endif %}">
+            <label for="file">Upload File:</label>
+            <input type="file" id="file" name="file">
+        </div>
+
+        <div id="writeTextField" style="{% if input_option == 'write' %}display: block;{% else %}display: none;{% endif %}">
+            <label for="input_text">What type of exercises do you need?</label>
+            <textarea id="input_text" name="input_text" rows="20" cols="100"></textarea>
+        </div>
+
+        <button type="submit" name="generate_exercises">Generate Similar Exercises</button>
+    </form>
+
+    {% if generated_exercises %}
+    <div>
+        <br/>
+        <label for="generated_exercises">Generated Exercises:</label>
+        <textarea id="generated_exercises" readonly rows="20" cols="100">{{ generated_exercises }}</textarea>
+    </div>
+
+    {% endif %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const uploadFileRadio = document.getElementById('uploadFileRadio');
+        const writeTextRadio = document.getElementById('writeTextRadio');
+        const uploadFileField = document.getElementById('uploadFileField');
+        const writeTextField = document.getElementById('writeTextField');
+        const generatedExercises = document.getElementById('generated_exercises');
+        const generatedExercisesLabel = document.querySelector('label[for="generated_exercises"]');
+
+
+        uploadFileRadio.addEventListener('change', function () {
+            if (uploadFileRadio.checked) {
+                uploadFileField.style.display = 'block';
+                writeTextField.style.display = 'none';
+                generatedExercises.style.display = 'none';
+                generatedExercisesLabel.style.display = 'none';  // Hide the label
+            }
+        });
+
+        writeTextRadio.addEventListener('change', function () {
+            if (writeTextRadio.checked) {
+
+                uploadFileField.style.display = 'none';
+                writeTextField.style.display = 'block';
+                generatedExercises.style.display = 'none';
+                generatedExercisesLabel.style.display = 'none';  // Hide the label
+            }
+        });
+    });
+</script>
+{% endblock %}
