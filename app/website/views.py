@@ -10,6 +10,8 @@ from .forms import SignUpForm, AddRecordForm, EditProfileForm, ProfilePageForm
 from .models import Record, Profile
 from util.generate_summary import generate_summary
 from util.generate_presentation import generate_presentation
+from util.detect_plagiarism import detect_plagiarism
+
 import os
 import docx
 from pptx import Presentation
@@ -88,6 +90,8 @@ def register_user(request):
             login(request, user)
             messages.success(request, "You have succesfully registered")
             return redirect('home')
+        else:
+            return render(request, 'register.html', {'form':form})
     else:
         form = SignUpForm()
         return render(request, 'register.html', {'form':form})
@@ -338,6 +342,86 @@ def generate_presentation_view(request):
                 #     messages.error(request, "Please enter text for the presentation")
                 #     return render(request, "presentation_generation.html")
         return render(request, "presentation_generation.html")
+    else:
+        messages.success(request, "You must be logged in to view that page...")
+        return redirect('home')
+
+
+@allowed_users(allowed_roles=['teacher'])
+def detect_plagiarism_view(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            uploaded_files = request.FILES.getlist('file')
+            if uploaded_files and len(uploaded_files) > 1:
+                for uploaded_file in uploaded_files:
+                    file_extension = os.path.splitext(uploaded_file.name)[1].lower()
+                    if file_extension not in [".docx", ".pdf"]:
+                        messages.error(request, "The uploaded files must have one of the following extensions: .docx, .pdf")
+                        return render(request, "plagiarism_detection.html")
+                uploaded_files_names = []
+                uploaded_files_texts = []
+                for uploaded_file in uploaded_files:
+                    uploaded_files_names.append(uploaded_file.name)
+                    file_extension = os.path.splitext(uploaded_file.name)[1].lower()
+                    if file_extension == ".docx":
+                        doc = docx.Document(uploaded_file)
+                        full_text = []
+                        for paragraph in doc.paragraphs:
+                            full_text.append(paragraph.text)
+
+                        document_text = "\n".join(full_text)
+                        if document_text.strip():
+                            uploaded_files_texts.append(document_text)
+                            print(document_text)
+                        else:
+                            messages.error(request,
+                                           "You uploaded an empty .docx file. The file name is the following: " + uploaded_file.name)
+                            return render(request, "plagiarism_detection.html")
+
+                    elif file_extension == ".pdf":
+                        pdf_content = uploaded_file
+                        pdf_file = PyPDF2.PdfReader(pdf_content)
+                        pdf_text = ""
+
+                        for page_num in range(len(pdf_file.pages)):
+                            page = pdf_file.pages[page_num]
+                            pdf_text += page.extract_text()
+
+                        if pdf_text.strip():
+                            uploaded_files_texts.append(pdf_text)
+                            print(pdf_text)
+                        else:
+                            messages.error(request,
+                                           "You uploaded an empty .pdf file. The file name is the following: " + uploaded_file.name)
+                            return render(request, "plagiarism_detection.html")
+
+                plagiarised_files = []
+                similarity_for_each_file_pair = []
+                if uploaded_files_texts:
+                    plagiarism_pairs, all_similarity_scores = detect_plagiarism(uploaded_files_texts, 0.85)
+                    print(plagiarism_pairs)
+                    print(all_similarity_scores)
+                    if plagiarism_pairs:
+                        for plag_pairs in plagiarism_pairs:
+                            plagiarised_files.append((uploaded_files_names[plag_pairs[0]], uploaded_files_names[plag_pairs[1]], plag_pairs[2]*100))
+                    if all_similarity_scores:
+                        for sim_score in all_similarity_scores:
+                            similarity_for_each_file_pair.append((uploaded_files_names[sim_score[0]], uploaded_files_names[sim_score[1]], sim_score[2]*100))
+                if plagiarised_files:
+                    print(plagiarised_files)
+                if similarity_for_each_file_pair:
+                    print(similarity_for_each_file_pair)
+
+                return render(request, "plagiarism_detection.html",
+                              {"plagiarised_files": plagiarised_files, "all_similarities": similarity_for_each_file_pair})
+
+            elif len(uploaded_files) == 1:
+                messages.error(request, "Please upload more than one file.")
+                return render(request, "plagiarism_detection.html")
+            else:
+                messages.error(request, "Please upload files before clicking the button. The number of files should be at least two.")
+                return render(request, "plagiarism_detection.html")
+        return render(request, "plagiarism_detection.html")
     else:
         messages.success(request, "You must be logged in to view that page...")
         return redirect('home')
