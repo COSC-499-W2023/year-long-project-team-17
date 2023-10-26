@@ -44,7 +44,6 @@ our login/signup feature for the milestone.
 - Oct.9, 2023 - Oct.22, 2023
 
 ## Tasks worked on
-
 ![Screenshot](images/PeerEvaluationHarshWeek6.png)
 
 ## Weekly goal recap
