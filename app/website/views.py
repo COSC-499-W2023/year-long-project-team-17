@@ -343,7 +343,6 @@ def generate_presentation_view(request):
     else:
         messages.success(request, "You must be logged in to view that page...")
         return redirect('home')
-<<<<<<< HEAD
 
 
 @allowed_users(allowed_roles=['teacher'])
@@ -487,5 +486,4 @@ def generate_exercise_view(request):
     else:
         messages.success(request, "You must be logged in....")
         return redirect("home")
-=======
->>>>>>> master
+
