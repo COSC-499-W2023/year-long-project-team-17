@@ -61,6 +61,7 @@ This was a week in which I did not do as much as previous weeks as I had to stud
 
 ### Peer eval
 There is no week7 Peer eval, so I used the same from last week.
+
 ![Screenshot](images/Week6GerardPeerEval.png)
 
 
