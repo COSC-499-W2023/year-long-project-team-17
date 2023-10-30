@@ -72,3 +72,21 @@
 
 ### Peer eval
 ![Screenshot](images/Week6DavitAbrahamyanPeerEvaluation.png)
+
+## Week8 (Oct.23, 2023 - Oct.29, 2023)
+
+### Goals Recap
+- My goals for this week was to complete the implementation of a basic virtual assistant (chatbot) for our website.
+
+### Tasks on board
+- I completed implementing the virtual assistant (name of associated task on Kanban: Generate virtual assistant (chatbot) for the website). 
+
+### Completed vs InProgress
+-  The virtual assistant creation task is fully complete and is under code review. Currently, no task in progress.
+
+### Context
+
+-  It was a productive week, as a very useful and important feature of the project  (virtual assistant)  was implemented.
+
+### Peer eval
+![Screenshot](images/Week8DavitAbrahamyanPeerEval.png)
