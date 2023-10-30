@@ -1,22 +1,50 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.views.generic import CreateView
 from django.contrib import messages
 from django.contrib.auth.models import Group
-
+from django.urls import reverse_lazy
+from django.views import generic
 from .decorators import *
-from .forms import SignUpForm, AddRecordForm
-from .models import Record
+from .forms import SignUpForm, AddRecordForm, EditProfileForm, ProfilePageForm
+from .models import Record, Profile
 from util.generate_summary import generate_summary
 from util.generate_presentation import generate_presentation
 from util.detect_plagiarism import detect_plagiarism
-
+from util.generate_exercises import generate_exercises_from_prompt, generate_similar_exercises
 import os
 import docx
 from pptx import Presentation
 import PyPDF2
 import logging
 from django.http import HttpResponse
+
 # Create your views here.
+
+class CreateProfilePageView(CreateView):
+    model = Profile
+    form_class = ProfilePageForm
+    template_name = 'create_user_profile_page.html'
+    # fields = '__all__'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class EditProfilePageView(generic.UpdateView):
+    model = Profile
+    template_name = 'edit_profile_page.html'
+    fields = ['bio', 'profile_pic', 'website_url', 'facebook_url', 'twitter_url', 'instagram_url', 'pinterest_url']
+    success_url = reverse_lazy('home')
+
+class UserEditView(generic.UpdateView):
+    form_class = EditProfileForm
+    template_name = 'edit_profile.html'
+    success_url = reverse_lazy('home')
+
+    def get_object(self):
+        return self.request.user
+
 
 def home(request):
     records = Record.objects.all()
@@ -62,8 +90,6 @@ def register_user(request):
             login(request, user)
             messages.success(request, "You have succesfully registered")
             return redirect('home')
-        else:
-            return render(request, 'register.html', {'form':form})
     else:
         form = SignUpForm()
         return render(request, 'register.html', {'form':form})
@@ -397,3 +423,67 @@ def detect_plagiarism_view(request):
     else:
         messages.success(request, "You must be logged in to view that page...")
         return redirect('home')
+
+def generate_exercise_view(request):
+    if request.user.is_authenticated:
+            if request.method == "POST":
+                input_option = request.POST.get("input_option")
+                if input_option == "write":
+                    input_text = request.POST.get("input_text")
+                    if input_text:
+                        generated_exercises = generate_exercises_from_prompt(input_text)
+                        return render(request, 'exercise_generation.html',
+                                      {'generated_exercises': generated_exercises,
+                                       "input_option": input_option})
+                    else:
+                        messages.error(request, "Please describe what type of exercises do you want.")
+                        return render(request, "exercise_generation.html")
+                elif input_option == "upload":
+                    uploaded_file = request.FILES.get("file")
+                    if uploaded_file:
+                        file_extension = os.path.splitext(uploaded_file.name)[1].lower()
+                        if file_extension not in [".docx", ".pdf"]:
+                            messages.error(request,
+                                           "The uploaded file must have one of the following extensions: .docx, .pdf")
+                            return render(request, "exercise_generation.html")
+                        elif file_extension == ".docx":
+                                doc = docx.Document(uploaded_file)
+                                full_text = []
+                                for paragraph in doc.paragraphs:
+                                    full_text.append(paragraph.text)
+
+                                document_text = "\n".join(full_text)
+                                if document_text.strip():
+                                    similar_exercises = generate_similar_exercises(document_text)
+                                    return render(request, "exercise_generation.html",
+                                                  {"generated_exercises": similar_exercises,
+                                                   "input_option": input_option})
+                                else:
+                                    messages.error(request,
+                                                   "You uploaded an empty .docx file.")
+                        elif file_extension == ".pdf":
+                            pdf_content = uploaded_file
+                            pdf_file = PyPDF2.PdfReader(pdf_content)
+                            pdf_text = ""
+
+                            for page_num in range(len(pdf_file.pages)):
+                                page = pdf_file.pages[page_num]
+                                pdf_text += page.extract_text()
+
+                            if pdf_text.strip():
+                                similar_exercises = generate_similar_exercises(pdf_text)
+                                return render(request, "exercise_generation.html",
+                                              {"generated_exercises": similar_exercises,
+                                               "input_option": input_option})
+                            else:
+                                messages.error(request,
+                                               "You uploaded an empty .pdf file.")
+                    else:
+                        messages.error(request,
+                                       "Please upload a file before Pressing the button. The uploaded file must have one of the following extensions: .docx, .pdf")
+                        return render(request, "exercise_generation.html")
+            return render(request, "exercise_generation.html")
+    else:
+        messages.success(request, "You must be logged in....")
+        return redirect("home")
+

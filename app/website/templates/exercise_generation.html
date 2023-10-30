@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="col-md-6 offset-md-2">
-    <h1>Please Provide The Text That You Want To Summarize</h1>
+    <h1>Exercise Generation Page</h1>
 
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -19,27 +19,27 @@
 {% else %}
     <input type="radio" class="form-check-input" id="writeTextRadio" name="input_option" value="write">
 {% endif %}
-            <label class="form-check-label" for="writeTextRadio">Write Text</label>
+            <label class="form-check-label" for="writeTextRadio">Describe Exercises</label>
         </div>
 
         <div id="uploadFileField" style="{% if input_option == 'upload' %}display: block;{% else %}display: none;{% endif %}">
             <label for="file">Upload File:</label>
             <input type="file" id="file" name="file">
         </div>
-        <br>
-        <div id="writeTextField" style= "{% if input_option == 'write' %}display: block;{% else %}display: none;{% endif %}">
-            <label for="input_text">Enter Text:</label>
-            <textarea id="input_text" name="input_text" rows="20" cols="100" style="border-radius: 6px; padding: 10px;"></textarea>
+
+        <div id="writeTextField" style="{% if input_option == 'write' %}display: block;{% else %}display: none;{% endif %}">
+            <label for="input_text">What type of exercises do you need?</label>
+            <textarea id="input_text" name="input_text" rows="20" cols="100"></textarea>
         </div>
-        <br>
-        <button type="submit" class="btn btn-dark" name="generate_summary">Generate Summary</button>
+
+        <button type="submit" name="generate_exercises">Generate Similar Exercises</button>
     </form>
 
-    {% if summary %}
+    {% if generated_exercises %}
     <div>
         <br/>
-        <label for="generated_summary">Generated Summary:</label>
-        <textarea id="generated_summary" readonly rows="20" cols="100">{{ summary }}</textarea>
+        <label for="generated_exercises">Generated Exercises:</label>
+        <textarea id="generated_exercises" readonly rows="20" cols="100">{{ generated_exercises }}</textarea>
     </div>
 
     {% endif %}
@@ -51,16 +51,16 @@
         const writeTextRadio = document.getElementById('writeTextRadio');
         const uploadFileField = document.getElementById('uploadFileField');
         const writeTextField = document.getElementById('writeTextField');
-        const generatedSummary = document.getElementById('generated_summary');
-        const generatedSummaryLabel = document.querySelector('label[for="generated_summary"]');
+        const generatedExercises = document.getElementById('generated_exercises');
+        const generatedExercisesLabel = document.querySelector('label[for="generated_exercises"]');
 
 
         uploadFileRadio.addEventListener('change', function () {
             if (uploadFileRadio.checked) {
                 uploadFileField.style.display = 'block';
                 writeTextField.style.display = 'none';
-                generatedSummary.style.display = 'none';
-                generatedSummaryLabel.style.display = 'none';  // Hide the label
+                generatedExercises.style.display = 'none';
+                generatedExercisesLabel.style.display = 'none';  // Hide the label
             }
         });
 
@@ -69,8 +69,8 @@
 
                 uploadFileField.style.display = 'none';
                 writeTextField.style.display = 'block';
-                generatedSummary.style.display = 'none';
-                generatedSummaryLabel.style.display = 'none';  // Hide the label
+                generatedExercises.style.display = 'none';
+                generatedExercisesLabel.style.display = 'none';  // Hide the label
             }
         });
     });
