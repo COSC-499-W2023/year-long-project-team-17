@@ -55,7 +55,7 @@ system. Testing is to be completed for the summary generation feature as well as
 
 ## Burnup chart
 
-![Screenshot](images/burnupchartweek6.png)
+![Screenshot](images/burnupchartweek6-7.png)
 
 ## Test report
 
