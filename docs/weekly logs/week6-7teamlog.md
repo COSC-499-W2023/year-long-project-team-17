@@ -44,14 +44,14 @@ system. Testing is to be completed for the summary generation feature as well as
 - #11 Create connection with MySQL -> Gerry2002
 - #13 Learn Django, setup our project environment locally -> DavidAbrahamyan
 - #18 Student/Teacher differentiation -> Gerry2002
-- #19 Testing login, logout, registrations, views and urls -> harshg03
-- #21 Frontend for homepage, login, registration -> charviey
-- #24 Profile Page
+- #19 Testing login, logout, registrations, views and URLs -> harshg03
 
 ## In progress tasks
 
-- #31 Make website responsive -> charviey
-- #23 Practice excercise generation -> DavidAbrahamyan
+- #17 Frontend mockup UI/UX #17 -> charviey
+- #21 Frontend for homepage, login, registration -> charviey
+- #23 Practice exercise generation -> DavidAbrahamyan
+
 
 ## Burnup chart
 
