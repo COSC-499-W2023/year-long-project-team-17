@@ -21,39 +21,63 @@ Completed tasks this week for me were just project plan #3, and in-progress task
 
 ## Week 5
 
-## Work period
+### Work period
 - Oct.2, 2023 - Oct.8, 2023
 
-## Tasks worked on
+### Tasks worked on
 ![Screenshot](images/PeerEvaluationHarshWeek5.png)
 
-## Weekly goal recap
+### Weekly goal recap
 - My goals for this week were to learn the Django framework and review Python, and front-end coding
 - Goals for next week are to continue to get more familiar with Django and get started working on 
 our login/signup feature for the milestone.
 
-## Tasks on board
+### Tasks on board
 ![Screenshot](images/ProjectBoardScreenshotHarshWeek5.png)
 
-## Completed vs in progress
+### Completed vs in progress
 - The in-progress task this week is just #12, learning the Django framework and reviewing front-end and Python; I had no completed tasks this week.
 
 ## Week 6/7
 
-## Work period
+### Work period
 - Oct.9, 2023 - Oct.22, 2023
 
-## Tasks worked on
+### Tasks worked on
 
 ![Screenshot](images/PeerEvaluationHarshWeek6.png)
 
-## Weekly goal recap
+### Weekly goal recap
 - My goals for these two weeks were to review and test the Django login/logout and sign-up authentication system.
 As well as test the views and URLs for our website.
 - My goals for next week are to help our group complete documentation regarding our two features, prepare for the presentation and start working on features for the second milestone.
 
-## Tasks on board
+### Tasks on board
 ![Screenshot](images/ProjectBoardScreenshotHarshWeek6.png)
 
-## Completed vs in progress
+### Completed vs in progress
 - I just had one task this week, which was task #19, and it is completed.
+
+
+## Week 8
+
+### Work period
+- Oct.23, 2023 - Oct.29, 2023
+
+### Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek8.png)
+
+### Weekly goal recap
+
+- My goals for this week were to work on testing and start working on my features for the next milestone.
+
+- My goals for next week are to be prepared for our group's live demo, finish up on the testing, and work on account
+recovery feature.
+
+### Tasks on board
+
+![Screenshot](images/ProjectBoardScreenshotHarshWeek8.png)
+
+### Completed vs in progress
+
+- I had two tasks this week, tasks #38 and #39, and both are in progress.
