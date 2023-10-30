@@ -45,13 +45,13 @@ system. Testing is to be completed for the summary generation feature as well as
 - #13 Learn Django, setup our project environment locally -> DavidAbrahamyan
 - #18 Student/Teacher differentiation -> Gerry2002
 - #19 Testing login, logout, registrations, views and urls -> harshg03
+- #21 Frontend for homepage, login, registration -> charviey
+- #24 Profile Page
 
 ## In progress tasks
 
-- #17 Frontend mockup UI/UX #17 -> charviey
-- #21 Frontend for homepage, login, registration -> charviey
+- #31 Make website responsive -> charviey
 - #23 Practice excercise generation -> DavidAbrahamyan
-
 
 ## Burnup chart
 
