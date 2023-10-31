@@ -64,4 +64,20 @@ There is no week7 Peer eval, so I used the same from last week.
 
 ![Screenshot](images/Week6GerardPeerEval.png)
 
+## Week8 (Oct.23, 2023 - Oct.29, 2023)
+### Goals Recap
+- My goal this week stayed the same, getting all of the updates and pull requests merged into the master to show what we have in the presentation. Also planned which parts of the website we will be sharing in the presentation
+### Tasks on board
+- My task on board is still to create the testing for multiple python functions, and this is because I have nt worked on it untill we have everything for the presentation ready.
+
+### Completed vs InProgress
+- Python testing is still a task that I need to complete so it is still in progress. But now our progress is on the main, which took some time because of merge conflicts.(Same as last week)
+
+### Context
+This was a slow week as we are mostly figuring out the things that are needed for the presentation and we dont want to have any problems whith the live presentation
+
+### Peer eval
+
+
+![Screenshot](images/Week8GerardPeerEval.png)
 
