@@ -17,8 +17,9 @@ import docx
 from pptx import Presentation
 import PyPDF2
 import logging
-from django.http import HttpResponse
-
+from django.http import HttpResponse, JsonResponse
+import openai
+from util import config
 # Create your views here.
 
 class CreateProfilePageView(CreateView):
@@ -487,3 +488,45 @@ def generate_exercise_view(request):
         messages.success(request, "You must be logged in....")
         return redirect("home")
 
+def chatbot_view(request):
+    if request.user.is_authenticated:
+        chat_history = request.session.get('chat_history', [])
+
+        if request.method == "POST":
+            message = request.POST.get('message')
+            chat_history_string = ""
+            if chat_history:
+                chat_history_string = "\n".join([f'User: {entry.get("USER")}\nAI: {entry.get("AI")}' for entry in chat_history])
+            response = get_chatbot_response(chat_history_string, message)
+
+            chat_history.append({'USER': message, 'AI': response})
+
+            # Store the updated chat history in the session
+            request.session['chat_history'] = chat_history
+
+            return JsonResponse({'message': message, 'response': response})
+        return render(request, "chatbot.html")
+    else:
+        messages.error(request, "You must be logged in to chat with our assistant...")
+        return redirect('home')
+
+def get_chatbot_response(chat_history: str, request: str):
+    response = ""
+    try:
+        response = openai.ChatCompletion.create(
+            model=config.ENGINE,
+            messages=[
+                {'role': 'user',
+                 'content': f'{config.WEBSITE_DESCRIPTION_FOR_CHATBOT}.\n This is your chat history: {chat_history}. \nUSER:{request}\nYour Response:'}
+            ],
+
+        )
+        final_response = response["choices"][0]["message"]["content"]
+
+        logging.info(final_response)
+        return final_response
+
+    except Exception as e:
+        logging.info(response["choices"][0]["message"]["content"])
+        logging.info("something went wrong with generating exercises based on the provided prompt.")
+        logging.error(e)
