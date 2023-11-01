@@ -24,10 +24,6 @@
           {% if request.user.groups.all.0.name == 'teacher' %}
 
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'add_record' %}">Add Record</a>
-          </li>
-
-          <li class="nav-item">
           <a class="nav-link" href="{% url 'detect_plagiarism' %}">Detect Plagiarism</a>
           </li>
 
@@ -51,13 +47,20 @@
 
         {% else %}
 
+        
+
         <li class="nav-item">
-          <a class="nav-link-text-light" href="{% url 'home' %}">Login</a>
+          <a class="nav-link text-light" href="{% url 'home' %}">Login</a>
         </li>
+
 
         <li class="nav-item">
           <a class="nav-link text-light" href="{% url 'register' %}">Register</a>
         </li>
+
+        
+
+      
 
         {% endif %}
       </ul>
