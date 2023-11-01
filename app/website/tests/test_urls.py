@@ -1,7 +1,6 @@
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve
-from website.views import home, logout_user, register_user, customer_record, delete_record, update_record, add_record, generate_summary_view, generate_presentation_view
-
+from website.views import *
 class TestUrls(SimpleTestCase):
     """
     These tests are testing to see if the URL's are connecting to the correct view function
@@ -43,3 +42,10 @@ class TestUrls(SimpleTestCase):
         url = reverse("generate_presentation")
         self.assertEquals(resolve(url).func, generate_presentation_view)
 
+    def test_url_detectPlagiarism_is_resolved(self):
+        url = reverse("detect_plagiarism")
+        self.assertEquals(resolve(url).func, detect_plagiarism_view)
+
+    def test_url_generatePresentation_is_resolved(self):
+        url = reverse("generate_exercise")
+        self.assertEquals(resolve(url).func, generate_exercise_view)
