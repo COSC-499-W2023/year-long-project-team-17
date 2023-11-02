@@ -28,11 +28,11 @@
         </div>
 
         <div id="writeTextField" style="{% if input_option == 'write' %}display: block;{% else %}display: none;{% endif %}">
-            <label for="input_text">What type of exercises do you need?</label>
+            <label class="mt-3" for="input_text">What type of exercises do you need?</label>
             <textarea id="input_text" name="input_text" rows="20" cols="100"></textarea>
         </div>
 
-        <button type="submit" name="generate_exercises">Generate Similar Exercises</button>
+        <button type="submit" class="btn btn-outline-light mt-4" name="generate_exercises">Generate Similar Exercises</button>
     </form>
 
     {% if generated_exercises %}
