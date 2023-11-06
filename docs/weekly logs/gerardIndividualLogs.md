@@ -81,3 +81,21 @@ This was a slow week as we are mostly figuring out the things that are needed fo
 
 ![Screenshot](images/Week8GerardPeerEval.png)
 
+## Week9 (Oct.30, 2023 - Nov.5, 2023)
+### Goals Recap
+- This week the goal was to have a fully functional live demo for the presentation and deciding which features we would show
+
+### Tasks on board
+- My task on board is still to create the testing for multiple python functions
+
+### Completed vs InProgress
+- Python testing is still a task that I need to complete so it is still in progress. But now our progress is on the main, which took some time because of merge conflicts.(Same as last week)
+
+### Context
+This week I did not have any advancement in features as I was focused on the live demo
+
+### Peer eval
+
+
+![Screenshot](images/Week9GerardPeerEval.png)
+
