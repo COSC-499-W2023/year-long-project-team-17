@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Coverage for app/util/config.py: 100%</title>
+    <link rel="icon" sizes="32x32" href="favicon_32.png">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script type="text/javascript" src="coverage_html.js" defer></script>
+</head>
+<body class="pyfile">
+<header>
+    <div class="content">
+        <h1>
+            <span class="text">Coverage for </span><b>app/util/config.py</b>:
+            <span class="pc_cov">100%</span>
+        </h1>
+        <aside id="help_panel_wrapper">
+            <input id="help_panel_state" type="checkbox">
+            <label for="help_panel_state">
+                <img id="keyboard_icon" src="keybd_closed.png" alt="Show/hide keyboard shortcuts" />
+            </label>
+            <div id="help_panel">
+                <p class="legend">Shortcuts on this page</p>
+                <div class="keyhelp">
+                    <p>
+                        <kbd>r</kbd>
+                        <kbd>m</kbd>
+                        <kbd>x</kbd>
+                        &nbsp; toggle line displays
+                    </p>
+                    <p>
+                        <kbd>j</kbd>
+                        <kbd>k</kbd>
+                        &nbsp; next/prev highlighted chunk
+                    </p>
+                    <p>
+                        <kbd>0</kbd> &nbsp; (zero) top of page
+                    </p>
+                    <p>
+                        <kbd>1</kbd> &nbsp; (one) first highlighted chunk
+                    </p>
+                    <p>
+                        <kbd>[</kbd>
+                        <kbd>]</kbd>
+                        &nbsp; prev/next file
+                    </p>
+                    <p>
+                        <kbd>u</kbd> &nbsp; up to the index
+                    </p>
+                    <p>
+                        <kbd>?</kbd> &nbsp; show/hide this help
+                    </p>
+                </div>
+            </div>
+        </aside>
+        <h2>
+            <span class="text">7 statements &nbsp;</span>
+            <button type="button" class="run button_toggle_run" value="run" data-shortcut="r" title="Toggle lines run">7<span class="text"> run</span></button>
+            <button type="button" class="mis show_mis button_toggle_mis" value="mis" data-shortcut="m" title="Toggle lines missing">0<span class="text"> missing</span></button>
+            <button type="button" class="exc show_exc button_toggle_exc" value="exc" data-shortcut="x" title="Toggle lines excluded">0<span class="text"> excluded</span></button>
+        </h2>
+        <p class="text">
+            <a id="prevFileLink" class="nav" href="d_5f5a17c013354698_manage_py.html">&#xab; prev</a> &nbsp; &nbsp;
+            <a id="indexLink" class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
+            <a id="nextFileLink" class="nav" href="d_4a962b0c746dd8a7_detect_plagiarism_py.html">&#xbb; next</a>
+            &nbsp; &nbsp; &nbsp;
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.3.2">coverage.py v7.3.2</a>,
+            created at 2023-11-02 11:56 -0700
+        </p>
+        <aside class="hidden">
+            <button type="button" class="button_next_chunk" data-shortcut="j"/>
+            <button type="button" class="button_prev_chunk" data-shortcut="k"/>
+            <button type="button" class="button_top_of_page" data-shortcut="0"/>
+            <button type="button" class="button_first_chunk" data-shortcut="1"/>
+            <button type="button" class="button_prev_file" data-shortcut="["/>
+            <button type="button" class="button_next_file" data-shortcut="]"/>
+            <button type="button" class="button_to_index" data-shortcut="u"/>
+            <button type="button" class="button_show_hide_help" data-shortcut="?"/>
+        </aside>
+    </div>
+</header>
+<main id="source">
+    <p class="run"><span class="n"><a id="t1" href="#t1">1</a></span><span class="t"><span class="nam">ENGINE</span> <span class="op">=</span> <span class="str">"gpt-3.5-turbo-16k"</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t2" href="#t2">2</a></span><span class="t"><span class="nam">USER_INPUT_TOKEN_LIMIT</span> <span class="op">=</span> <span class="num">2000</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t3" href="#t3">3</a></span><span class="t"><span class="com"># PRESENTATION_GENERATION_PROMPT = """ You are given a content based on which you should create the template for powerpoint</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t4" href="#t4">4</a></span><span class="t"><span class="com"># presentation. You should generate structure and content of each page using properties of slide pages from python pptx library.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t5" href="#t5">5</a></span><span class="t"><span class="com"># The output should be in json format. All strings must be in double quotes. Double check that the output is in json format, otherwise you will fail in your task.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t6" href="#t6">6</a></span><span class="t"><span class="com"># For example. ```USER: "I want you to generate a presentation on multivariable calculus.".</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t7" href="#t7">7</a></span><span class="t"><span class="com">#  ```AI_ASSISTANT: {"slide1":{"slide_layout":0, "title":"Understanding Multivariable Calculus", "subtitle":"Exploring Functions of Multiple Variables", "space_after_paragraphs":-1, "paragraphs":{}}, "slide2":{"slide_layout":1, "title":"Introduction to Multivariable Calculus", "subtitle":"", "space_after_paragraphs":0.1, "paragraphs":{"paragraph1":"Multivariable calculus is important in physics, economics, and engineering.","paragraph2":"It deals with functions of more than one variable."}}, "slide3":{"slide_layout":1, "title":"Multivariable Functions", "subtitle":"", "space_after_paragraphs":0.1, "paragraphs":{"paragraph1":"Multivariable functions take multiple inputs and produce a single output.", "paragraph2":"Notation: f(x, y), g(x, y, z), etc."}}}</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t8" href="#t8">8</a></span><span class="t"><span class="com">#    If a page doesn't need a paragraph, return an empty dict {} for its "paragraph" key and the space_after_paragraphs parameter equal to -1.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t9" href="#t9">9</a></span><span class="t"><span class="com">#    The number of paragraphs in a single page should not exceed 3 But the paragraphs must be thorough and profoundly written so the content is delivered in the best possible way. Use examples to explain the concepts. If you think that you need more than 3 paragraphs, increase the number of pages to fit your desired content, instead of increasing the number of paragraphs in a single page.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t10" href="#t10">10</a></span><span class="t"><span class="com">#    If a page should not include any subtitle, return an empty double quoted string for subtitle key ("").</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t11" href="#t11">11</a></span><span class="t"><span class="com">#    the slide_layout parameter must be set based on the index of slide_layouts parameter in the python-pptx library.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t12" href="#t12">12</a></span><span class="t"><span class="com">#    Slide layout must be set to 0 only for the first slide of a presentation and includes a title and subtitle. The first page should not contain paragraphs. Do not forget to put a conclusion page. Do not include any punctuation marks at the end including ".". The slideshow must be comprehensive so try to use as many paragraphs and slides as needed. Again, DOUBLE CHECK THAT THE OUTPUT IS IN JSON FORMAT.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t13" href="#t13">13</a></span><span class="t"><span class="com">#    If the output is not in a valid json format you will fail in your task.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t14" href="#t14">14</a></span><span class="t"><span class="com"># """</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t15" href="#t15">15</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t16" href="#t16">16</a></span><span class="t"><span class="nam">PRESENTATION_GENERATION_PROMPT</span> <span class="op">=</span> <span class="str">""" You are given a content based on which you should create the template for powerpoint</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t17" href="#t17">17</a></span><span class="t"><span class="str">presentation. You should generate structure and content of each page using properties of slide pages from python pptx library.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t18" href="#t18">18</a></span><span class="t"><span class="str">The output should be in json format. All strings must be in double quotes. Double check that the output is in json format, otherwise you will fail in your task.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t19" href="#t19">19</a></span><span class="t"><span class="str">For example. ```USER: "I want a presentation on the topic of NLP and Deep Learning. I want my presentation ot have 15 pages.".</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t20" href="#t20">20</a></span><span class="t"><span class="str"> ```AI_ASSISTANT: {'slide1': {'slide_layout': 0, 'title': 'Introduction to NLP with Deep Learning', 'subtitle': 'Understanding the Intersection of Natural Language Processing and Deep Learning', 'space_after_paragraphs': -1, 'paragraphs': {}}, 'slide2': {'slide_layout': 1, 'title': 'What is NLP?', 'subtitle': '', 'space_after_paragraphs': 0.1, 'paragraphs': {'paragraph1': 'Natural Language Processing (NLP) is a subfield of artificial intelligence that focuses on the interaction between computers and human language.', 'paragraph2': 'Its goal is to enable computers to understand, interpret, and generate human language in a valuable and meaningful way.'}}, 'slide3': {'slide_layout': 1, 'title': 'Why Deep Learning in NLP?', 'subtitle': '', 'space_after_paragraphs': 0.1, 'paragraphs': {'paragraph1': 'Deep learning is a subfield of machine learning that leverages artificial neural networks to model and understand complex patterns and relationships in data.', 'paragraph2': 'In NLP, deep learning algorithms have achieved remarkable success in various tasks such as sentiment analysis, machine translation, and question answering.'}}, 'slide4': {'slide_layout': 1, 'title': 'Neural Networks in NLP', 'subtitle': '', 'space_after_paragraphs': 0.1, 'paragraphs': {'paragraph1': 'Neural networks are a fundamental component of deep learning.', 'paragraph2': 'In NLP, neural networks can be used for tasks such as text classification, named entity recognition, and language generation.', 'paragraph3': 'They are capable of automatically learning and extracting meaningful representations of textual data.'}}, 'slide5': {'slide_layout': 1, 'title': 'Recurrent Neural Networks (RNNs)', 'subtitle': '', 'space_after_paragraphs': 0.1, 'paragraphs': {'paragraph1': 'RNNs are a type of neural network that can capture sequential information in data.', 'paragraph2': 'In NLP, RNNs are commonly used for tasks such as text generation, language modeling, and sentiment analysis.', 'paragraph3': 'They can handle variable-length inputs and have a built-in memory to retain previous information.'}}, 'slide6': {'slide_layout': 1, 'title': 'Long Short-Term Memory (LSTM)', 'subtitle': '', 'space_after_paragraphs': 0.1, 'paragraphs': {'paragraph1': 'LSTM is a variant of RNNs that addresses the vanishing gradient problem.', 'paragraph2': 'In NLP, LSTMs are widely used for tasks such as machine translation, speech recognition, and text summarization.', 'paragraph3': 'They can effectively capture long-range dependencies in sequential data.'}}, 'slide7': {'slide_layout': 1, 'title': 'Convolutional Neural Networks (CNNs)', 'subtitle': '', 'space_after_paragraphs': 0.1, 'paragraphs': {'paragraph1': 'CNNs are primarily used for image recognition, but they can also be applied to NLP tasks.', 'paragraph2': 'In NLP, CNNs can be used for tasks such as text classification, sentiment analysis, and document classification.', 'paragraph3': 'They can learn local features from text and effectively capture patterns in different scales.'}}, 'slide8': {'slide_layout': 1, 'title': 'Transformers', 'subtitle': '', 'space_after_paragraphs': 0.1, 'paragraphs': {'paragraph1': 'Transformers are a type of deep learning model that has revolutionized NLP.', 'paragraph2': 'They utilize self-attention mechanisms to capture relationships between different words in a sentence.', 'paragraph3': 'Transformers have achieved state-of-the-art performance in various NLP tasks such as language translation, question answering, and text summarization.'}}, 'slide9': {'slide_layout': 1, 'title': 'Applications of NLP with Deep Learning', 'subtitle': '', 'space_after_paragraphs': 0.1, 'paragraphs': {'paragraph1': 'The combination of NLP and deep learning has enabled advancements in many real-world applications.', 'paragraph2': 'Some examples include chatbots, sentiment analysis in social media, machine translation, and voice assistants like Siri and Alexa.', 'paragraph3': 'These applications have greatly impacted industries such as healthcare, customer service, and e-commerce.'}}, 'slide10': {'slide_layout': 1, 'title': 'Challenges and Limitations', 'subtitle': '', 'space_after_paragraphs': 0.1, 'paragraphs': {'paragraph1': 'While NLP with deep learning has achieved remarkable progress, there are still challenges and limitations to overcome.', 'paragraph2': 'Some challenges include the lack of interpretability in deep learning models, the need for large amounts of labeled data, and biases in language representations.', 'paragraph3': 'Researchers are actively working on addressing these challenges to further advance the field.'}}, 'slide11': {'slide_layout': 1, 'title': 'Future Directions', 'subtitle': '', 'space_after_paragraphs': 0.1, 'paragraphs': {'paragraph1': 'The future of NLP with deep learning holds exciting possibilities.', 'paragraph2': 'Areas of future research include multimodal NLP, better language generation models, and addressing ethical concerns related to bias and misinformation.', 'paragraph3': 'Advancements in NLP will continue to shape how we interact with computers and enable new forms of human-computer communication.'}}, 'slide12': {'slide_layout': 1, 'title': 'Conclusion', 'subtitle': '', 'space_after_paragraphs': 0.1, 'paragraphs': {'paragraph1': 'In conclusion, NLP with deep learning is a powerful combination that enables computers to understand and process human language.', 'paragraph2': 'By leveraging neural networks and deep learning architectures, significant progress has been made in various NLP tasks.', 'paragraph3': 'As research and development in this field continue, we can expect even more exciting advancements and applications in the future.'}}, 'slide13': {'slide_layout': 1, 'title': 'References', 'subtitle': '', 'space_after_paragraphs': 0.1, 'paragraphs': {'paragraph1': '1. Goldberg, Y. (2017). Neural network methods for natural language processing. Synthesis Lectures on Human Language Technologies, 10(1), 1-309.', 'paragraph2': '2. Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ... &amp; Polosukhin, I. (2017). Attention is all you need. Advances in Neural Information Processing Systems, 30, 5998-6008.', 'paragraph3': '3. Jurafsky, D., &amp; Martin, J. H. (2019). Speech and Language Processing (3rd ed.). Pearson.'}}, 'slide14': {'slide_layout': 1, 'title': 'Thank You', 'subtitle': '', 'space_after_paragraphs': 0.1, 'paragraphs': {'paragraph1': 'Thank you for your attention!', 'paragraph2': 'Any questions?'}}}</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t21" href="#t21">21</a></span><span class="t"><span class="str">   If a page doesn't need a paragraph, return an empty dict {} for its "paragraph" key and the space_after_paragraphs parameter equal to -1.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t22" href="#t22">22</a></span><span class="t"><span class="str">   The number of paragraphs in a single page should not exceed 3 But the paragraphs must be thorough and profoundly written so the content is delivered in the best possible way. Use examples to explain the concepts. If you think that you need more than 3 paragraphs, increase the number of pages to fit your desired content, instead of increasing the number of paragraphs in a single page.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t23" href="#t23">23</a></span><span class="t"><span class="str">   If a page should not include any subtitle, return an empty double quoted string for subtitle key ("").</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t24" href="#t24">24</a></span><span class="t"><span class="str">   the slide_layout parameter must be set based on the index of slide_layouts parameter in the python-pptx library.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t25" href="#t25">25</a></span><span class="t"><span class="str">   Slide layout must be set to 0 only for the first slide of a presentation and includes a title and subtitle. The first page should not contain paragraphs. Do not forget to put a conclusion page. Do not include any punctuation marks at the end including ".". The slideshow must be comprehensive so try to use as many paragraphs and slides as needed. Again, DOUBLE CHECK THAT THE OUTPUT IS IN JSON FORMAT.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t26" href="#t26">26</a></span><span class="t"><span class="str">   If the output is not in a valid json format you will fail in your task.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t27" href="#t27">27</a></span><span class="t"><span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t29" href="#t29">29</a></span><span class="t"><span class="nam">SUMMARIZATION_GENERATION_PROMPT</span> <span class="op">=</span> <span class="str">"""You are given a text provided by the user. Generate a summary based on that. Do not mention anything about the user. Don't ask any questions. Don't introduce yourself. Just summarize the text."""</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t30" href="#t30">30</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t31" href="#t31">31</a></span><span class="t"><span class="nam">EXERCISE_GENERATION_PROMPT</span> <span class="op">=</span> <span class="str">"""You are given a user prompt. You have to generate practice exercises based on the user prompt or related to that topic. If the users asks for the answers or soltions as well, have them under each corresponding question. Do not add any words from you or ask something else. Just generate exrecises and that's all. Do not add any notes from you."""</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t32" href="#t32">32</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t33" href="#t33">33</a></span><span class="t"><span class="nam">SIMILAR_EXERCISE_GENERATION_PROMPT</span> <span class="op">=</span> <span class="str">"""You are given a set of exercises or questions. Generate exercises similar or cover the same concepts as the given ones. The number of exercises that you generate do not have to be the equal to the number of questions given by the user. Make sure it is undestandable to the user what the question is. Do not add any words from you. Just generate the exercises."""</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t34" href="#t34">34</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t35" href="#t35">35</a></span><span class="t"><span class="nam">WEBSITE_DESCRIPTION_FOR_CHATBOT</span> <span class="op">=</span> <span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t36" href="#t36">36</a></span><span class="t"><span class="str">You are a helpful ai virtual assistant in our website. You are a chatbot for our company. You are going to be given different questions from our customers regarding our website, and you should try to asnwer them. If you do not know the answer, tell them that you don't know. DO NOT ANSWER ANY QUESTIONS THAT ARE NOT ABOUT OUR WEBSITE.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t37" href="#t37">37</a></span><span class="t"><span class="str">Our Website name is Edu Prompt. This is a website enhanced by generative AI. It provides a wide range of functionalities connected to education.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t38" href="#t38">38</a></span><span class="t"><span class="str">We also have capabilities of generating presentations. In order to do so, the user will need to be logged in. There are two options: the user can either write a prompt describing the presentation that they need or they can upload a file (either pdf, word, or txt) based on which the presentation will be generated.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t39" href="#t39">39</a></span><span class="t"><span class="str">We have Summary generation functionality. Similar to presentation generation, the users can choose to either write the text that they want to summarize or upload a file (either pdf or word).</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t40" href="#t40">40</a></span><span class="t"><span class="str">We have plagiarism detection mechanism specifically designed for teachers. There the teachers can upload two or more files, and similarity scores between files would be given bacl as a result between each of the files. Here again, acceptable file formats are pdf or word.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t41" href="#t41">41</a></span><span class="t"><span class="str">We have practice exercise generation functionality. Here users can choose to either dscribe the topic based on which they want practice exercises, or they can upload an existing file containing exercises, and similar exercises would be generated.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t42" href="#t42">42</a></span><span class="t"><span class="str">We also have a virtual ai assistant (you are that assistant) which is always ready to help with anything regarding the website.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t43" href="#t43">43</a></span><span class="t"><span class="str">Make sure that you don't answer any questions that do not refer to our website. If user asks such question, tell them the question is not about our wesbite and that you do not know the answer.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t44" href="#t44">44</a></span><span class="t"><span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
+</main>
+<footer>
+    <div class="content">
+        <p>
+            <a id="prevFileLink" class="nav" href="d_5f5a17c013354698_manage_py.html">&#xab; prev</a> &nbsp; &nbsp;
+            <a id="indexLink" class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
+            <a id="nextFileLink" class="nav" href="d_4a962b0c746dd8a7_detect_plagiarism_py.html">&#xbb; next</a>
+            &nbsp; &nbsp; &nbsp;
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.3.2">coverage.py v7.3.2</a>,
+            created at 2023-11-02 11:56 -0700
+        </p>
+    </div>
+</footer>
+</body>
+</html>
