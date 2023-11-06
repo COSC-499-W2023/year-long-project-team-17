@@ -90,3 +90,21 @@
 
 ### Peer eval
 ![Screenshot](images/Week8DavitAbrahamyanPeerEval.png)
+
+## Week9 (Oct.30, 2023 - Nov. 5, 2023)
+
+### Goals Recap
+- My goals for this week was to prepare for the mini-presentation.
+
+### Tasks on board
+- There were no specific tasks on board on which I worked. I tested overall system to see if it breaks and prepared for the presentation.
+
+### Completed vs InProgress
+-  Successfully completed the presentation. Will start working on adaptive student material generation.
+
+### Context
+
+-  It was a productive week, mini-presentations were done successfully. It was very helpful in terms of looking at other team's presentations as well as receiving feedback from them.
+
+### Peer eval
+![Screenshot](images/Week9DavitPeerEval.png)
