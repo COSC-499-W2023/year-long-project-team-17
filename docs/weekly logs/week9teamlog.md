@@ -40,6 +40,7 @@ charviey -> Charvie Yadav
 - #23 Practice excercise generation -> DavidAbrahamyan
 - #28 Python function testing -> Gerry2002
 - #31 Make website responsive -> charviey
+- #30 About Us/Contact Page -> charviey
 - #39 Account recovery -> harshg03
 
 ## Burnup chart
