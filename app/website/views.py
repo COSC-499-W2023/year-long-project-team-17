@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 from django.urls import reverse_lazy
 from django.views import generic
 from .decorators import *
-from .forms import SignUpForm, AddRecordForm, EditProfileForm, ProfilePageForm
+from .forms import SignUpForm,  EditProfileForm, ProfilePageForm
 from .models import Record, Profile
 from util.generate_summary import generate_summary
 from util.generate_presentation import generate_presentation
@@ -20,6 +20,18 @@ import logging
 from django.http import HttpResponse
 
 # Create your views here.
+
+class AboutUsView(CreateView):
+    template_name = 'about_us.html'
+    model = Profile
+    form_class = ProfilePageForm
+    # fields = '__all__'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+   
 
 class CreateProfilePageView(CreateView):
     model = Profile
@@ -118,35 +130,6 @@ def delete_record(request, pk):
         messages.success(request, "You must be logged in do that action")
         return redirect('home')
     
-
-@allowed_users(allowed_roles=['teacher'])
-def add_record(request):
-    form = AddRecordForm(request.POST or None)
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            if form.is_valid():
-                add_record = form.save()
-                messages.success(request, "Record Added...")
-                return redirect('home')
-
-        return render(request, 'add_record.html', {'form':form})
-    else:
-        messages.success(request, "You must be logged in")
-        return redirect('home')
-
-@allowed_users(allowed_roles=['teacher'])
-def update_record(request, pk):
-    if request.user.is_authenticated:
-        current_record = Record.objects.get(id=pk)
-        form = AddRecordForm(request.POST or None, instance = current_record)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Record has been updated")
-            return redirect('home')
-        return render(request, 'update_record.html', {'form':form})
-    else:
-        messages.success(request, "You must be logged in")
-        return redirect('home')
 
 def generate_summary_view(request):
     if request.user.is_authenticated:

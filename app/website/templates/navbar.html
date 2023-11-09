@@ -13,19 +13,20 @@
           <a class="nav-link text-light" href="{% url 'edit_profile' %}">Edit Profile</a>
         </li>
 
+        <li class="nav-item">
+          <a class="nav-link text-light" href="{% url 'create_user_profile_page' %}">User</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-light" href="{% url 'about_us' %}">About Us</a>
+        </li>
+
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'home' %}">{{user.username}}</a>
-          </li>
 
           {% if request.user.groups.all.0.name == 'teacher' %}
-
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'add_record' %}">Add Record</a>
-          </li>
 
           <li class="nav-item">
           <a class="nav-link" href="{% url 'detect_plagiarism' %}">Detect Plagiarism</a>
@@ -40,8 +41,8 @@
          <li class="nav-item">
         <a class="nav-link text-light" href="{% url 'generate_presentation' %}">Generate Presentation</a>
         </li>
-      
 
+      
         {% else %}
 
         <li class="nav-item">
