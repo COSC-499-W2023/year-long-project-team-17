@@ -99,3 +99,21 @@ This week I did not have any advancement in features as I was focused on the liv
 
 ![Screenshot](images/Week9GerardPeerEval.png)
 
+## Week10 (Nov. 6, 2023 - Nov. 12, 2023)
+### Goals Recap
+- This week the goal was to move forward with deciding which feature everyone is gonna work on, and start coding it.
+
+### Tasks on board
+- This week my tasks on board changed. I moved back function testing and took on two different tasks. Implementing different colored messages and a live messaging system
+
+### Completed vs InProgress
+- I have completed the different colored toast messages depending on the type of information being shown. And I will start working on the implementation of live messages over the following weeks.
+
+### Context
+- The messages took priority as these were comments from the presentation given in the previous week.
+
+### Peer eval
+
+
+![Screenshot](images/Week10GerardPeerEval.png)
+
