@@ -108,3 +108,21 @@
 
 ### Peer eval
 ![Screenshot](images/Week9DavitPeerEval.png)
+
+## Week10 (Nov. 6, 2023 - Nov. 13, 2023)
+
+### Goals Recap
+- My goals for this week was to prepare start working on adapting educational materials from one age group into another. There was a priority shift in the tasks. This task went back to backlog and I started working on incorporating images into presentation generation.
+
+### Tasks on board
+- I worked on incorporating images into presentation generation (associated task on Kanban: Add images to presentation generation).
+
+### Completed vs InProgress
+-  The task on Adaptive education material went back to backlog. Adding images to presentation generation is in progress.
+
+### Context
+
+-  It was a productive week as we identified our priorities for now and the tasks changed accordingly.
+
+### Peer eval
+![Screenshot](images/Week10DavitPeerEval.png)
