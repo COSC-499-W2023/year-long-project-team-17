@@ -1,5 +1,44 @@
 # Charvie Yadav (89136931) Individual Logs
 
+## Week9 (Oct.30, 2023 - Nov. 5, 2023)
+
+### Goals Recap
+- My goals for this week was to fix changes to the front end and work on new frontend features.
+
+### Tasks on board
+- I made the entire website responsive now and worked on creating the about us page that is in review.
+
+### Completed vs InProgress
+-  Successfully completed the presentation. Completed working on responsiveness and new page (both are under review).
+
+### Peer eval
+![Screenshot](images/Week9CharvieYadavPeerEval.png)
+
+## Week8 (Oct.23, 2023 - Oct.29, 2023)
+
+### Goals Recap
+- My goals for this week was to complete working for the presentation and work on making sure the frontend was ready for MVP.
+
+### Tasks on board
+- Task on board was nothing in particular, apart from fixing issues in frontend before the presentation.
+
+### Completed vs InProgress
+-  All tasks/featues were completed for the MVP
+
+### Peer eval
+![Screenshot](images/Week8CharvieYadavPeerEval.png)
+
+## Week7 (Oct.16, 2023 - Oct.22, 2023)
+
+### Goals Recap
+- My goal for the week was to complete the profile page creation 
+
+### Tasks on board
+- My task on board was listed as "Profile Page"
+
+### Completed vs InProgress
+- The Profile Page creation is completed with edit profile, create profile page options and the inprogress tasks is to make the website responsive.
+
 ## Week6 (Oct.9, 2023 - Oct.15, 2023)
 
 ### Goals Recap
@@ -14,31 +53,19 @@
 ### Peer eval
 ![Screenshot](images/Week6CharvieYadavPeerEvaluation.png)
 
-## Week7 (Oct.16, 2023 - Oct.22, 2023)
-
-### Goals Recap
-- My goal for the week was to complete the profile page creation 
-
-### Tasks on board
-- My task on board was listed as "Profile Page"
-
-### Completed vs InProgress
-- The Profile Page creation is completed with edit profile, create profile page options and the inprogress tasks is to make the website responsive.
-
-### Peer eval
-![Screenshot](images/Week6CharvieYadavPeerEvaluation.png)
-
 ## Week5 (Oct.2, 2023 - Oct.8, 2023)
 
 ### Goals Recap
 - My goal this week was to learn the Django framework and to set up and integrate the project folder locally so that we can begin coding.
 
 ### Tasks on board
-
+- Task on board was called "learn django, review frontend and python"
 
 ### Completed vs InProgress
 - The inprogress work is to just finish learning Django and start the frontend work with the login page, homepage and rest of the features. Additionally, I had completed some research on the frontend and backend connections but that was taken over with our decision to use Django.
 
+### Peer eval
+![Screenshot](images/PeerEvaluationCharvieWeek5.png)
 
 ## Week4 (Sept.25, 2023 - Oct.1, 2023)
 
@@ -56,4 +83,4 @@
 - This week will set everything in stone and give each one of us mor clarity on our project as we brainstormed ideas on features during our standup meetings. We will be more in action with our plan.
 
 ### Peer eval
-![Screenshot](images/Week6CharvieYadavPeerEvaluation.png)
+![Screenshot](images/Week4CharviePeerEval.png)

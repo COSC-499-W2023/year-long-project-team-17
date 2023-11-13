@@ -81,3 +81,56 @@ recovery feature.
 ### Completed vs in progress
 
 - I had two tasks this week, tasks #38 and #39, and both are in progress.
+
+## Week 9
+
+### Work period
+- Oct.30, 2023 - Nov.5, 2023
+
+### Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek9.png)
+
+### Weekly goal recap
+
+- My goals for this week were to finish testing and start working on my features for the next milestone, also
+to be prepared for our group's live demo.
+
+- My goals for next week are to finish the account recovery feature and try to finish the testing
+for that as well.
+
+### Tasks on board
+
+![Screenshot](images/ProjectBoardScreenshotHarshWeek9.png)
+
+### Completed vs in progress
+
+- I had two tasks this week, tasks #38 and #39, task #39 is in progress and 
+task #38 student/teacher role testing is complete.
+
+
+
+## Week 10
+
+### Work period
+- Nov.6, 2023 - Nov.12, 2023
+
+### Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek10.png)
+
+### Weekly goal recap
+
+- My goals for this week were to finish the account recovery feature and start the testing on it. So far, the feature itself is functional.
+The templates for the feature, however, need some adjustments.
+
+- My goals for next week are to finish the account recovery feature, complete the testing, and start working on my second feature.
+
+### Tasks on board
+
+![Screenshot](images/ProjectBoardScreenshotHarshWeek10.png)
+
+### Completed vs in progress
+
+- I had one task this week task #39, and it is in progress.
+
+
+
