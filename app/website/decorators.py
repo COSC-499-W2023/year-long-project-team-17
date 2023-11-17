@@ -5,10 +5,21 @@ from django.contrib import messages
 def unauthenticated_user(view_func):
     def wrapper_func(request, *args, **kwargs):
         if request.user.is_authenticated:
-            messages.success(request,"You are already logged in")
+            messages.error(request,"You are already logged in")
             return redirect('home')
         else:
             return view_func(request, *args, **kwargs)
+    
+    return wrapper_func
+
+def authenticated_user(view_func):
+    def wrapper_func(request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return view_func(request, *args, **kwargs)
+        else:
+            messages.error(request,"You are not logged in")
+            return redirect('home')
+            
     
     return wrapper_func
 
@@ -24,7 +35,7 @@ def allowed_users(allowed_roles=[]):
                 return view_func(request, *args, **kwargs)
             
             else:
-                messages.success(request,"You are not authorized")
+                messages.error(request,"You are not authorized")
                 return redirect('home')
             
 

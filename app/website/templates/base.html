@@ -13,11 +13,30 @@
         {% if messages %}
 
           {% for message in messages %}
+          
+          {% if message.tags == 'info' %}
+          <!-- For info messages -->
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endif %}
 
+          {% if message.tags == 'success' %}
+          <!-- For success messages -->
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endif %}
+
+          {% if message.tags == 'error' %}
+          <!-- For error messages -->
           <div class="alert alert-danger alert-dismissible fade show" role="alert">
             {{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
+            {% endif %}
 
           {% endfor %}
         {% endif %}
