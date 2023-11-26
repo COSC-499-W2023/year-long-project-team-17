@@ -19,8 +19,21 @@ import PyPDF2
 import logging
 from django.http import HttpResponse, JsonResponse
 import openai
+from openai import OpenAI
+
 from util import config
 # Create your views here.
+# logging.info("----"*100)
+#
+# logging.info(os.environ.get("OPENAI_API_KEY"))
+# print("----"*100)
+#
+# print(os.environ.get("OPENAI_API_KEY"))
+
+client = OpenAI(
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    api_key=os.environ.get("OPENAI_API_KEY"),
+)
 
 class CreateProfilePageView(CreateView):
     model = Profile
@@ -162,7 +175,7 @@ def generate_summary_view(request):
             if input_text:
                 summary = generate_summary(input_text)
                 return render(request, 'summary_generation.html',
-                                {'summary': summary["choices"][0]["message"]["content"],
+                                {'summary': summary,
                                 "input_option": input_option})
             else:
                 messages.error(request, "Please enter a text")
@@ -504,10 +517,11 @@ def chatbot_view(request):
     return render(request, "chatbot.html")
 
 
+
 def get_chatbot_response(chat_history: str, request: str):
     response = ""
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model=config.ENGINE,
             messages=[
                 {'role': 'user',
@@ -515,12 +529,12 @@ def get_chatbot_response(chat_history: str, request: str):
             ],
 
         )
-        final_response = response["choices"][0]["message"]["content"]
+        final_response = response.choices[0].message.content
 
         logging.info(final_response)
         return final_response
 
     except Exception as e:
-        logging.info(response["choices"][0]["message"]["content"])
+        logging.info(response.choices[0].message.content)
         logging.info("something went wrong with generating exercises based on the provided prompt.")
         logging.error(e)

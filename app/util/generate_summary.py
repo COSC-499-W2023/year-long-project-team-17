@@ -1,19 +1,24 @@
 import openai
+from openai import OpenAI
 import logging
 from . import config
 from dotenv import load_dotenv, find_dotenv
 import os
 load_dotenv(find_dotenv())
 
-openai.api_key = os.getenv('OPENAI_API_KEY')
+# openai.api_key = os.getenv('OPENAI_API_KEY')
 
-#print(openai.api_key)
+client = OpenAI(
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    api_key=os.environ.get("OPENAI_API_KEY"),
+)
+
 
 def generate_summary(text: str):
     generated_summary = ""
    # print(openai.api_key)
     try:
-        generated_summary = openai.ChatCompletion.create(
+        generated_summary = client.chat.completions.create(
             model=config.ENGINE,
             messages=[
                 {'role': 'user',
@@ -22,8 +27,8 @@ def generate_summary(text: str):
 
         )
 
-        logging.info(generated_summary)
-        return generated_summary
+        logging.info(generated_summary.choices[0].message.content)
+        return generated_summary.choices[0].message.content
 
     except Exception as e:
         logging.info("something went wrong with generating presentation json based on the provided content")
