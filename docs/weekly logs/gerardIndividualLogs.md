@@ -117,3 +117,39 @@ This week I did not have any advancement in features as I was focused on the liv
 
 ![Screenshot](images/Week10GerardPeerEval.png)
 
+## Week11 (Nov. 13, 2023 - Nov. 19, 2023)
+### Goals Recap
+- During the break I started working on the messaging implementation for the application
+
+### Tasks on board
+- The only task on board is the live messaging functionality
+
+### Completed vs InProgress
+- Live messaging functionality is still in progress
+
+### Context
+- Advances were made in database model and django that can be used for live messaging
+
+### Peer eval
+
+
+![Screenshot](images/Week12GerardPeerEval.png)
+
+## Week12 (Nov. 20, 2023 - Nov. 26, 2023)
+### Goals Recap
+- This week my focus was to keep going with a functional live chat
+
+### Tasks on board
+- Same as last week live chatting is my only task on board
+
+### Completed vs InProgress
+- Live chatting is InProgress
+
+### Context
+- Messaging different users is working, but at this time the messaging functionality is being done with the database, but its not fully functional for live messaging. Therefore I am still working on getting ports to work, but this seems to be larger topic than expected and I may need to come up with a different approach to make it functional.
+
+### Peer eval
+
+
+![Screenshot](images/Week12GerardPeerEval.png)
+
