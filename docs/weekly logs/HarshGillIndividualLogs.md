@@ -134,3 +134,27 @@ The templates for the feature, however, need some adjustments.
 
 
 
+## Week 12
+
+### Work period
+- Nov.20, 2023 - Nov.26, 2023
+
+### Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek12.png)
+
+### Weekly goal recap
+
+- My goals for this week were to finish the account recovery feature and start working on the rate limit feature.
+
+- My goals for next week are to finish the rate limit feature and help my group complete the rest of the design milestone.
+
+### Tasks on board
+
+![Screenshot](images/ProjectBoardScreenshotHarshWeek12.png)
+
+### Completed vs in progress
+
+- task #39 account recovery (forgot password) is complete
+- task #65 rate limit is in progress
+
+
