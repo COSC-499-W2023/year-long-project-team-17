@@ -109,7 +109,7 @@
 ### Peer eval
 ![Screenshot](images/Week9DavitPeerEval.png)
 
-## Week10 (Nov. 6, 2023 - Nov. 13, 2023)
+## Week10 (Nov. 6, 2023 - Nov. 12, 2023)
 
 ### Goals Recap
 - My goals for this week was to prepare start working on adapting educational materials from one age group into another. There was a priority shift in the tasks. This task went back to backlog and I started working on incorporating images into presentation generation.
@@ -126,3 +126,39 @@
 
 ### Peer eval
 ![Screenshot](images/Week10DavitPeerEval.png)
+
+## Week11 (Nov. 13, 2023 - Nov. 19, 2023)
+
+### Goals Recap
+- My goals for this week was add images to Presentation Generation.
+
+### Tasks on board
+- The name of the associated task on the Kanban Board was "Add Images to Presentation Generation"
+
+### Completed vs InProgress
+-  Successfully completed the presentation generation with images. The work in progress is refactoring the code according to the recent update in Python openai library.
+
+### Context
+
+-  It was a productive week as the generated presentations are now more entertaining for the user
+
+### Peer eval
+![Screenshot](images/Week11DavitPeerEval.png)
+
+## Week12 (Nov. 20, 2023 - Nov. 26, 2023)
+
+### Goals Recap
+- My goals for this week were code refactoring based on the latest openai library update.
+
+### Tasks on board
+- I worked on refactoring the code (associated task on Kanban: Code Refactoring).
+
+### Completed vs InProgress
+-  The Code Refactoring task is fully completed and the code is fully functional. The current task that is in progress is adapting educational materials from one age group to another (associated task on Kanban Board: adaptive educational materials).
+
+### Context
+
+-  It was a productive week the code was refactored, and now we are up-to-date with the latest updated in the openai library.
+
+### Peer eval
+![Screenshot](images/Week11DavitPeerEval.png)
