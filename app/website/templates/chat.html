@@ -1,0 +1,26 @@
+<body>
+    <h2>Chat with {{ receiver.username }}</h2>
+    <div id="chat-messages">
+      {% for message in messages %}
+        <p>{{ message.sender.username }}: {{ message.content }}</p>
+      {% endfor %}
+    </div>
+  
+    <form method="post" action="{% url 'send_message' username=receiver.username %}">
+      {% csrf_token %}
+      <textarea id="message-input" name="content" required></textarea>
+      <button type="submit">Send</button>
+    </form>
+  
+    <script>
+      window.onload = function () {
+        const roomName = "{{ receiver.username }}";
+  
+        // Auto-refresh every 3-5 seconds
+        setInterval(function () {
+          window.location.reload();
+        }, 5000);  // Random interval between 3 to 5 seconds
+      };
+    </script>
+  </body>
+  
