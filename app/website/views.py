@@ -6,8 +6,8 @@ from django.contrib.auth.models import Group, User
 from django.urls import reverse_lazy
 from django.views import generic
 from .decorators import *
-from .forms import SignUpForm, AddRecordForm, EditProfileForm, ProfilePageForm
-from .models import Record, Profile, Message
+from .forms import SignUpForm, EditProfileForm, ProfilePageForm
+from .models import Profile, Message
 from util.generate_summary import generate_summary
 from util.generate_presentation import generate_presentation
 from util.detect_plagiarism import detect_plagiarism
@@ -88,7 +88,6 @@ class UserEditView(generic.UpdateView):
 
 
 def home(request):
-    records = Record.objects.all()
 
 
     #check to see if logging in
@@ -107,7 +106,7 @@ def home(request):
             return redirect('home')
         
     else:
-        return render(request, 'home.html', {'records':records})
+        return render(request, 'home.html')
 
 @authenticated_user
 def logout_user(request):
