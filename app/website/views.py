@@ -35,6 +35,17 @@ client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
+class AboutUsView(CreateView):
+    template_name = 'about_page.html'
+    model = Profile
+    form_class = ProfilePageForm
+    # fields = '__all__'
+
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 class CreateProfilePageView(CreateView):
     model = Profile
     form_class = ProfilePageForm
