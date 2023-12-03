@@ -22,6 +22,9 @@ import openai
 from openai import OpenAI
 from django.contrib.auth.decorators import login_required
 from django.db import models
+from django_ratelimit.decorators import ratelimit
+from django_ratelimit.core import get_usage, is_ratelimited
+from humanfriendly import format_timespan
 
 from util import config
 # Create your views here.
@@ -86,7 +89,25 @@ class UserEditView(generic.UpdateView):
     def get_object(self):
         return self.request.user
 
+def isLimited(request, exception):
+    values = {}
+    values['timeleft'] = 0
 
+    if request.get_full_path() == "/":
+        usage = get_usage(request, method=get_usage.ALL, key='post:username',
+                       rate='5/5m', group='a')
+        values['timeleft'] = format_timespan(usage['time_left'])
+        return render(request, 'limited.html', values, status=429)
+      
+    elif request.get_full_path() == "/reset_password/":
+        usage = get_usage(request, method=get_usage.ALL, key='ip', rate='8/5h', group='b')
+        values['timeleft'] = format_timespan(usage['time_left'])
+        return render(request, 'limited.html', values, status=429)
+
+
+
+@ratelimit(key='post:username', rate='5/5m',
+           method=['POST'], group='a')
 def home(request):
 
 
