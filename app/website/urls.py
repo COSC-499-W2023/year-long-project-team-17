@@ -4,6 +4,7 @@ from .views import UserEditView, EditProfilePageView, CreateProfilePageView, Abo
 from django.contrib.auth import views as auth_views
 
 
+
 urlpatterns = [
     path('', views.home, name='home'),
     #path('login/', views.login_user, name='login'),

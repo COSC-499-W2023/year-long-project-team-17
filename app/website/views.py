@@ -56,6 +56,7 @@ def chat(request, username):
 
     return render(request, 'chat.html', {'messages': messages, 'receiver': receiver})
 
+
 @login_required
 def send_message(request, username):
     if request.method == 'POST':
