@@ -2,12 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import CreateView
 from django.contrib import messages
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.urls import reverse_lazy
 from django.views import generic
 from .decorators import *
-from .forms import SignUpForm, AddRecordForm, EditProfileForm, ProfilePageForm
-from .models import Record, Profile
+from .forms import SignUpForm, EditProfileForm, ProfilePageForm
+from .models import Profile, Message
 from util.generate_summary import generate_summary
 from util.generate_presentation import generate_presentation
 from util.detect_plagiarism import detect_plagiarism
@@ -20,6 +20,8 @@ import logging
 from django.http import HttpResponse, JsonResponse
 import openai
 from openai import OpenAI
+from django.contrib.auth.decorators import login_required
+from django.db import models
 
 from util import config
 # Create your views here.
@@ -35,6 +37,7 @@ client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
+
 class AboutUsView(CreateView):
     template_name = 'about_page.html'
     model = Profile
@@ -45,7 +48,7 @@ class AboutUsView(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-    
+
 @login_required
 def chat(request, username):
     receiver = User.objects.get(username=username)
@@ -55,7 +58,6 @@ def chat(request, username):
     ).order_by('timestamp')
 
     return render(request, 'chat.html', {'messages': messages, 'receiver': receiver})
-
 
 @login_required
 def send_message(request, username):
@@ -98,7 +100,6 @@ class UserEditView(generic.UpdateView):
 
 
 def home(request):
-    records = Record.objects.all()
 
 
     #check to see if logging in
@@ -117,7 +118,7 @@ def home(request):
             return redirect('home')
         
     else:
-        return render(request, 'home.html', {'records':records})
+        return render(request, 'home.html')
 
 @authenticated_user
 def logout_user(request):
