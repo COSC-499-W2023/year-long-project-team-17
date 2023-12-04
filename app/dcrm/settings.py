@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "website",
     "widget_tweaks",
+    'django_extensions',
+    #"django_ratelimit",
 ]
 
 MIDDLEWARE = [
@@ -58,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_ratelimit.middleware.RatelimitMiddleware',
 ]
 
 ROOT_URLCONF = 'dcrm.urls'
@@ -144,3 +147,20 @@ EMAIL_PORT = '587'
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = email_host_user
 EMAIL_HOST_PASSWORD = email_host_password
+
+
+#Memcache configuration
+''' Remove theses comment tags and the ones below after Memcache is installed and running
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+'''
+
+#RATELIMIT_USE_CACHE = 'default'
+#RATELIMIT_ENABLE = True
+#Remove this line below
+RATELIMIT_ENABLE = False
+#RATELIMIT_VIEW = 'website.views.isLimited'
