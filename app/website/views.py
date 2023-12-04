@@ -45,6 +45,31 @@ class AboutUsView(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+    
+@login_required
+def chat(request, username):
+    receiver = User.objects.get(username=username)
+    messages = Message.objects.filter(
+        (models.Q(sender=request.user) & models.Q(receiver=receiver)) |
+        (models.Q(sender=receiver) & models.Q(receiver=request.user))
+    ).order_by('timestamp')
+
+    return render(request, 'chat.html', {'messages': messages, 'receiver': receiver})
+
+@login_required
+def send_message(request, username):
+    if request.method == 'POST':
+        receiver = User.objects.get(username=username)
+        content = request.POST.get('content', '')
+
+        if content:
+            message = Message.objects.create(
+                sender=request.user,
+                receiver=receiver,
+                content=content
+            )
+
+    return redirect('chat', username=username)
 
 class CreateProfilePageView(CreateView):
     model = Profile
