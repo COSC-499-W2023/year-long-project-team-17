@@ -1,8 +1,9 @@
 from . import views
 from django.urls import path
-from .views import UserEditView, EditProfilePageView, CreateProfilePageView, chat, send_message
+from .views import UserEditView, EditProfilePageView, CreateProfilePageView, AboutUsView, chat, send_message
 from django.contrib.auth import views as auth_views
 from django_ratelimit.decorators import ratelimit
+
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -14,6 +15,7 @@ urlpatterns = [
     # path('add_record/', views.add_record, name='add_record'),
     # path('update_record/<int:pk>', views.update_record, name='update_record'),
     path("generate_summary", views.generate_summary_view, name="generate_summary"),
+    path('about_page', AboutUsView.as_view(), name='about_page'),
     path("generate_presentation", views.generate_presentation_view, name="generate_presentation"),
     path("detect_plagiarism", views.detect_plagiarism_view, name="detect_plagiarism"),
     path("generate_exercise", views.generate_exercise_view, name="generate_exercise"),
