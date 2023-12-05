@@ -27,7 +27,7 @@ charviey -> Charvie Yadav
 
 ## Milestone goals recap
 
-- Our team's goal this week was to have each member of our groups two features done before the milestone deadline and complete the design document and video. 
+- Our team's goal this week was to have each member of our group's two features done before the milestone deadline and complete the design document and video. 
 
 
 ## Associated board tasks
@@ -43,7 +43,7 @@ charviey -> Charvie Yadav
 
 ## In progress tasks
 
-- Make website responsive -> charviey
+- #31 Make website responsive -> charviey
 
 
 ## Burnup chart
