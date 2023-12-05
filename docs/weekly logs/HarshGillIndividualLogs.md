@@ -158,3 +158,30 @@ The templates for the feature, however, need some adjustments.
 - task #65 rate limit is in progress
 
 
+## Week 13
+
+### Work period
+- Nov.27, 2023 - Dec.3, 2023
+
+### Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek13.png)
+
+### Weekly goal recap
+
+- My goals for this week were to finish the rate limiting feature (done for login and password reset) and get some testing done for the 
+account recovery and rate limiting feature. I also helped our group finish the design milestone as well. 
+
+
+### Tasks on board
+
+![Screenshot](images/ProjectBoardScreenshotHarshWeek13.png)
+
+### Completed vs in progress
+
+- Task #76 Account recovery testing is complete
+- Task #74 Rate limit testing is in review (complete for login and reset password)
+- Task #65 Rate limit is in review (complete for login and reset password)
+
+
+
+
