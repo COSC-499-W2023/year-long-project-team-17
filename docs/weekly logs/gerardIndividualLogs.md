@@ -153,3 +153,20 @@ This week I did not have any advancement in features as I was focused on the liv
 
 ![Screenshot](images/Week12GerardPeerEval.png)
 
+## Week13 (Nov. 27, 2023 - Dec, 3, 2023)
+### Goals Recap
+- This week I worked on getting the design document and on the testing for the messaging
+
+### Tasks on board
+- Live chatting is still my task on the board, this is because I want to make it work with ports before moving on
+
+### Completed vs InProgress
+- Live chatting is InProgress
+
+### Context
+- Focused on the design document getting completed and completing testing for the messaging
+
+### Peer eval
+
+
+![Screenshot](images/Week13GerardPeerEval.png)
