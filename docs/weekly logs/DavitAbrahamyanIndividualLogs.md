@@ -162,3 +162,21 @@
 
 ### Peer eval
 ![Screenshot](images/Week11DavitPeerEval.png)
+
+## Week13 (Nov. 27, 2023 - Dec. 3, 2023)
+
+### Goals Recap
+- My goals for this week was to work on the Design milestone with the team and finilize it.
+
+### Tasks on board
+- The current task that is in progress is adapting educational materials from one age group to another (associated task on Kanban Board: adaptive educational materials). I will continue working on it this week
+
+### Completed vs InProgress
+-  I worked on making the presentation slides as well as the video for the Design Milestone. The current task that is in progress is adapting educational materials from one age group to another (associated task on Kanban Board: adaptive educational materials).
+
+### Context
+
+-  It was a productive week as we worked on and completed the design milestone which helped us to make sure that we are all on the same and correct track.
+
+### Peer eval
+![Screenshot](images/Week13DavitPeerEval.png)
