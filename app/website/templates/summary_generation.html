@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="col-md-6 offset-md-2">
-    <h1>Please Provide The Text That You Want To Summarize</h1>
+    <h1>Summary Generation</h1>
 
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -21,14 +21,21 @@
 {% endif %}
             <label class="form-check-label" for="writeTextRadio">Write Text</label>
         </div>
-
         <div id="uploadFileField" style="{% if input_option == 'upload' %}display: block;{% else %}display: none;{% endif %}">
-            <label for="file">Upload File:</label>
+            <br>
+            <label for="file">Upload File:<span class="question-mark-upload" onclick="showInstructionsUploadFile()">?</span></label>
+            <div class="cloud-tooltip-2" id="textInstructionsUploadFile">
+                <p>Please upload a file below. Summary will be generated based on the contents of that file. The allowable file formats are .docx, .txt, .pptx and .pdf.</p>
+            </div>
+            <br>
             <input type="file" id="file" name="file">
         </div>
         <br>
         <div id="writeTextField" style= "{% if input_option == 'write' %}display: block;{% else %}display: none;{% endif %}">
-            <label for="input_text">Enter Text:</label>
+            <label for="input_text">Enter Text:<span class="question-mark" onclick="showInstructions()">?</span></label>
+            <div class="cloud-tooltip" id="textInstructions">
+                <p>Please write below the text that you would like us to summarize.</p>
+            </div>
             <textarea id="input_text" name="input_text" rows="20" cols="100" style="border-radius: 6px; padding: 10px;"></textarea>
         </div>
         <br>
@@ -45,6 +52,80 @@
     {% endif %}
 </div>
 
+<style>
+    .question-mark {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #3498db; /* You can change the color as needed */
+        color: #fff; /* Text color inside the circle */
+        text-align: center;
+        line-height: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-left: 5px; /* Adjust as needed for spacing */
+    }
+
+    .question-mark-upload {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #3498db; /* You can change the color as needed */
+        color: #fff; /* Text color inside the circle */
+        text-align: center;
+        line-height: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-left: 5px; /* Adjust as needed for spacing */
+    }
+
+
+.cloud-tooltip {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 1;
+    transform: translate(36%, -100%);
+
+    max-width: 300px;
+}
+
+.cloud-tooltip-2 {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 1;
+    transform: translate(40%, -100%);
+
+    max-width: 300px;
+}
+
+   .question-mark:hover {
+        background-color: #800080; /* Change the color on hover to desired color */
+    }
+
+    .question-mark-upload:hover {
+        background-color: #800080; /* Change the color on hover to desired color */
+    }
+
+    .question-mark:hover + .cloud-tooltip {
+        display: block;
+    }
+
+    .label-with-tooltip {
+        position: relative;
+        display: inline-block;
+    }
+</style>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const uploadFileRadio = document.getElementById('uploadFileRadio');
@@ -53,6 +134,31 @@
         const writeTextField = document.getElementById('writeTextField');
         const generatedSummary = document.getElementById('generated_summary');
         const generatedSummaryLabel = document.querySelector('label[for="generated_summary"]');
+
+        const textInstructions = document.getElementById('textInstructions');
+        const questionMark = document.querySelector('.question-mark');
+
+        function showInstructions() {
+            textInstructions.style.display = 'block';
+        }
+
+        questionMark.addEventListener('mouseenter', showInstructions);
+        questionMark.addEventListener('mouseleave', function () {
+            textInstructions.style.display = 'none';
+        });
+
+        const textInstructionsUploadFile = document.getElementById('textInstructionsUploadFile');
+
+
+        function showInstructionsUploadFile() {
+            textInstructionsUploadFile.style.display = 'block';
+        }
+
+        const questionMarkUpload = document.querySelector('.question-mark-upload');
+        questionMarkUpload.addEventListener('mouseenter', showInstructionsUploadFile);
+        questionMarkUpload.addEventListener('mouseleave', function () {
+            textInstructionsUploadFile.style.display = 'none';
+        });
 
 
         uploadFileRadio.addEventListener('change', function () {
