@@ -48,7 +48,7 @@
         <label for="generated_summary">Generated Summary:</label>
         <textarea id="generated_summary" readonly rows="20" cols="100">{{ summary }}</textarea>
     </div>
-
+s
     {% endif %}
 </div>
 
@@ -112,17 +112,28 @@
         background-color: #800080; /* Change the color on hover to desired color */
     }
 
-    .question-mark-upload:hover {
+   .question-mark-upload:hover {
         background-color: #800080; /* Change the color on hover to desired color */
     }
 
-    .question-mark:hover + .cloud-tooltip {
+   .question-mark:hover + .cloud-tooltip {
         display: block;
     }
 
-    .label-with-tooltip {
+   .label-with-tooltip {
         position: relative;
         display: inline-block;
+    }
+
+   .btn-outline-primary {
+        background: linear-gradient(to right, #3498db 0%, #800080 100%);
+        background-size: 200% 100%;
+        transition: background-position 0.4s ease;
+    }
+
+   .btn-outline-primary:hover,
+   .btn-outline-primary:focus {
+        background-position: -100% 0;
     }
 </style>
 
