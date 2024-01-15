@@ -180,3 +180,25 @@
 
 ### Peer eval
 ![Screenshot](images/Week13DavitPeerEval.png)
+
+
+## Week 1 Term 2
+
+### Work period
+- Jan.8, 2024 - Jan.14, 2024
+
+### Goals Recap
+- My goals for this week was to get started with new term, see what was expected from us, have a meeting with the team and work on improving the project
+
+### Tasks on board
+- The current task that I worked on was implementing helper icons (associated task on Kanban Board: Helpers for different functionalities). The other task is the adapted content generation (associated task on Kanban Board: adaptive educational materials)
+
+### Completed vs InProgress
+-  I worked on and successfully implemented the helper icons for different functionalities (associated task on Kanban Board: Helpers for different functionalities). Currently, I am working on implementing the adaptive content generation functionality (Associated task on Kanban Board: adaptive educational materials).
+
+### Context
+
+-  It was a productive week as we got started with the new term as well as discussed our future plans for the project.
+
+### Peer eval
+![Screenshot](images/Term2Week1DavitPeerEval.png)
