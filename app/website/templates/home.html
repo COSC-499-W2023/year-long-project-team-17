@@ -4,12 +4,63 @@
 
 {% if user.is_authenticated %}
 
-<div class="col-md-6 offset-md-3">
-<h1>Welcome to EduPrompt!</h1>
-</div>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Animation Example</title>
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .animated-text {
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .animated-text2 {
+            animation: slideIn 1.5s ease-out;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="container col-md-6 offset-md-3">
+        <h1 class="animated-text">Welcome to EduPrompt</h1>
+    </div>
+    <br>
+    <br>
+    <div class="container col-md-8 offset-md-2">
+        <h2 class="animated-text2">Education is one thing no one can take away from you. —Elin Nordegren</h2>
+    </div>
+    <br>
+    <div class="container col-md-8 offset-md-2">
+        <h2 class="animated-text2">Give a man a fish and you feed him for a day; teach a man to fish and you feed him for a lifetime. —Maimonides
+        </h2>
+    </div>
+    <br>
+    <div class="container col-md-8 offset-md-2">
+        <h2 class="animated-text2">The aim of education is the knowledge, not of facts, but of values. —William S. Burroughs</h2>
+    </div>
 
 
-
+</body>
+</html>
 
 
 {% else %}
