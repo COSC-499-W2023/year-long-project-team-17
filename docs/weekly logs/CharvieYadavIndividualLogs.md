@@ -1,5 +1,18 @@
 # Charvie Yadav (89136931) Individual Logs
 
+## T2 Week 1 (Jan.8, 2024 - Jan. 14, 2024)
+
+### Goals Recap
+- My goals this week was to get accustomed to the new term and set my work priorities.
+
+### Tasks on board
+- I finished working on the homepage quote animation feature (associated task on board: Homepage - quote changer animation).
+### Completed vs InProgress
+-  Successfully completed the homepage quote animation feature and waiting for peer review. In progress to fix the about page. I am also working on planning to beautify the website by adding more interactive elements.
+
+### Peer eval
+![Screenshot](images/PeerEvalJan17.png)
+
 ## Week9 (Oct.30, 2023 - Nov. 5, 2023)
 
 ### Goals Recap
