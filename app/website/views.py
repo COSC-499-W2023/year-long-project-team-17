@@ -25,6 +25,7 @@ from django.db import models
 from django_ratelimit.decorators import ratelimit
 from django_ratelimit.core import get_usage, is_ratelimited
 from humanfriendly import format_timespan
+from django.db import connection
 
 from util import config
 # Create your views here.
@@ -77,6 +78,44 @@ def send_message(request, username):
 
     return redirect('chat', username=username)
 
+@login_required
+def open_chats(request):
+    # Write your raw SQL query
+    raw_query = """
+        SELECT
+    CASE
+        WHEN sender_id = %s THEN receiver_id
+        ELSE sender_id
+    END AS chat_partner_id,
+    MAX(timestamp) AS last_message_time,
+    MAX(id) AS message_id
+FROM
+    website_message
+WHERE
+    sender_id = %s OR receiver_id = %s
+GROUP BY
+    chat_partner_id
+ORDER BY
+    last_message_time ASC;
+
+    """
+
+    # Execute the raw SQL query
+    with connection.cursor() as cursor:
+        cursor.execute(raw_query, [request.user.id, request.user.id, request.user.id])
+        rows = cursor.fetchall()
+
+    # Fetch Message objects based on the IDs returned by the query
+    chat_ids = [row[2] for row in rows]
+    chats = Message.objects.filter(id__in=chat_ids).order_by('-id')
+    print(rows)
+    print(chats)
+
+    # Render the 'open_chats.html' template with the retrieved messages
+    
+    return render(request, 'open_chats.html', {'chats': chats})
+
+    
 class CreateProfilePageView(CreateView):
     model = Profile
     form_class = ProfilePageForm
