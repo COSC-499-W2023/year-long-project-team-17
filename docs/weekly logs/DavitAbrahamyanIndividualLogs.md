@@ -202,3 +202,24 @@
 
 ### Peer eval
 ![Screenshot](images/Term2Week1DavitPeerEval.png)
+
+## Week 2 Term 2
+
+### Work period
+- Jan.15, 2024 - Jan.21, 2024
+
+### Goals Recap
+- My goals for this week was to implement adapted content generation
+
+### Tasks on board
+- The current task that I worked on was implementing the adapted content generation (associated task on Kanban Board: adaptive educational materials)
+
+### Completed vs InProgress
+-  I worked on and successfully implemented  the adaptive content generation functionality (Associated task on Kanban Board: adaptive educational materials). Currently, I am working on implementing loading page for presentation generation
+
+### Context
+
+-  It was a productive week as I was able to implement one of the tasks and get started with another one.
+
+### Peer eval
+![Screenshot](images/Term2Week2DavitPeerEval.png)
