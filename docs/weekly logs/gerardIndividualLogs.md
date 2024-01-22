@@ -190,3 +190,21 @@ This week I did not have any advancement in features as I was focused on the liv
 
 
 ![Screenshot](images/T2Week1GerardPeerEval.png)
+
+## Week2 (Jan 15, 2023 - Jan 21, 2023)
+### Goals Recap
+- This week my goal was to focus on the front end of the chat website. I have not completed it
+
+### Tasks on board
+- Live chatting is still my task on the board, this is still my task, as now I have worked on the front end
+
+### Completed vs InProgress
+- Live chatting is InProgress
+
+### Context
+- I tried to work on the front end, but decided to work on the backend to improve the functionality of the live chatting, but yet none of the options worked as expected
+
+### Peer eval
+
+
+![Screenshot](images/T2Week2GerardPeerEval.png)
