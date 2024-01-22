@@ -1,0 +1,7 @@
+{# messages.html #}
+
+{% for message in messages %}
+  <p class="{% if message.sender == request.user %}sent{% else %}received{% endif %}">
+    {{ message.sender.username }}: {{ message.content }}
+  </p>
+{% endfor %}
