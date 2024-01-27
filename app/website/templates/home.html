@@ -116,7 +116,8 @@
 
 
 <div class="container col-md-7 offset-md-0">
-    <img onload="loaded(this, 'success')" onerror="myFunction()" src="/year-long-project-team-17/app/website/images/Techguy.png">
+    {% load static %}
+    <img onload="loaded(this, 'success')" onerror="myFunction()" src="{% static '/year-long-project-team-17/app/website/images/Techguy.png' %}" alt="Tech">
 
 <p id="demo"></p>
 
@@ -130,15 +131,15 @@ function myFunction() {
 
 </div>
 
-
 <div class="team-details container col-md-6 offset-md-3 text-center">
     <div>
         <h1>Meet the Team</h1>
     </div>
-    <img src="/year-long-project-team-17/app/website/templates/images/Founder1.jpeg" alt="Gerard">
-    <img src="/year-long-project-team-17/app/website/templates/images/Founder2.jpg" alt="Charvie">
-    <img src="/year-long-project-team-17/app/website/templates/images/Founder3.jpg" alt="Harsh">
-    <img src="/year-long-project-team-17/app/website/templates/images/Founder4.jpg" alt="Davit">
+    {% load static %}
+    <img src="{% static 'year-long-project-team-17\app\website\templates\images\Founder1.jpeg' %}" alt="Gerard">
+    <img src="{% static 'year-long-project-team-17\app\website\templates\images\Founder2.jpg' %}" alt="Charvie">
+    <img src="{% static 'year-long-project-team-17\app\website\templates\images\Founder3.jpg' %}" alt="Harsh">
+    <img src="{% static 'year-long-project-team-17\app\website\templates\images\Founder4.jpg' %}" alt="Davit">
 </div>
 
 <br>
@@ -164,11 +165,12 @@ function myFunction() {
             <h2 class="container">Detect Plagiarism</h2>
             <p class="container">Utilizing advanced algorithms and text-matching techniques, our plagiarism detector helps teachers identify intellectual property theft. By efficiently scanning and comparing texts, the plagiarism detection tool plays a crucial role in upholding academic integrity in schools and universities and maintaining ethical standards.</p>
             <br>
-            <button type="button" class="btn btn-danger col-md-0 offset-md-0" style="background-color: #930e74; border-color: #930e74; color: #fff;">Try It</button>
+            <button href="C:/Users/yadav/latestcode/year-long-project-team-17/app/website/templates/plagiarism_detection.html" type="button" class="btn btn-danger col-md-0 offset-md-0" style="background-color: #930e74; border-color: #930e74; color: #fff;">Try It</button>
         </div>
 
         <div class="col-md-5 offset-md-0">
-            <img src="/year-long-project-team-17/app/website/templates/images/detect_plagiarism.png" alt="plagiarism" class="img-fluid">
+            {% load static %}
+            <img src="{% static '/year-long-project-team-17/app/website/templates/images/detect_plagiarism.png' %}" alt="plagiarism" class="img-fluid">
         </div>
     </div>
 </section>
@@ -186,7 +188,8 @@ function myFunction() {
         </div>
 
         <div class="col-md-5 offset-md-0 text-md-end">
-            <img src="/year-long-project-team-17/app/website/templates/images/generate_presentation.png" alt="presentation" class="img-fluid">
+            {% load static %}
+            <img src="{% static '/year-long-project-team-17/app/website/templates/images/generate_presentation.png' %}" alt="presentation" class="img-fluid">
         </div>
     </div>
 </div>
@@ -202,7 +205,8 @@ function myFunction() {
         </div>
 
         <div class="col-md-5 offset-md-0">
-            <img src="/year-long-project-team-17/app/website/templates/images/generate_content.png" alt="content" class="img-fluid">
+            {% load static %}
+            <img src="{% static '/year-long-project-team-17/app/website/templates/images/generate_content.png' %}" alt="content" class="img-fluid">
         </div>
     </div>
 </div>
@@ -219,7 +223,8 @@ function myFunction() {
         </div>
 
         <div class="col-md-5 offset-md-0 text-md-end">
-            <img src="/year-long-project-team-17/app/website/templates/images/generate_summary.png" alt="summary" class="img-fluid">
+            {% load static %}
+            <img src="{% static '/year-long-project-team-17/app/website/templates/images/generate_summary.png' %}" alt="summary" class="img-fluid">
         </div>
     </div>
 </div>
@@ -237,11 +242,11 @@ function myFunction() {
         </div>
 
         <div class="col-md-5 offset-md-0">
-            <img src="/year-long-project-team-17/app/website/templates/images/virtual_assistant.png" alt="assistant" class="img-fluid">
+            {% load static %}
+            <img src="{% static '/year-long-project-team-17/app/website/templates/images/virtual_assistant.png' %}" alt="assistant" class="img-fluid">
         </div>
     </div>
 </div>
-
 
 <br>
 <br>
@@ -356,7 +361,8 @@ function myFunction() {
         <br>
 
         <div class="col-md-3">
-            <img src="/year-long-project-team-17/app/website/templates/images/Contact-card.png" alt="Contact" style="width: 100%; max-width: 200px; margin-left: auto;">
+            {% load static %}
+            <img src="{% static '/year-long-project-team-17/app/website/templates/images/Contact-card.png' %}" alt="Contact" style="width: 100%; max-width: 200px; margin-left: auto;">
         </div>
     </div>
 
