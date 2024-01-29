@@ -30,6 +30,18 @@ class TestUrls(SimpleTestCase):
         url = reverse("detect_plagiarism")
         self.assertEquals(resolve(url).func, detect_plagiarism_view)
 
-    def test_url_generatePresentation_is_resolved(self):
+    def test_url_generateExercise_is_resolved(self):
         url = reverse("generate_exercise")
         self.assertEquals(resolve(url).func, generate_exercise_view)
+    
+    def test_url_virtualAssistant_is_resolved(self):
+        url = reverse("chatbot")
+        self.assertEquals(resolve(url).func, chatbot_view)
+    
+    def test_url_faq_is_resolved(self):
+        url = reverse("faq")
+        self.assertEquals(resolve(url).func, faq)
+    
+    def test_url_contactUs_is_resolved(self):
+        url = reverse("contact_us")
+        self.assertEquals(resolve(url).func, contact_us)

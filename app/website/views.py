@@ -30,7 +30,10 @@ from django.db import models
 from django_ratelimit.decorators import ratelimit
 from django_ratelimit.core import get_usage, is_ratelimited
 from humanfriendly import format_timespan
-
+from django.core.mail import send_mail
+from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from util import config
 # Create your views here.
 # logging.info("----"*100)
@@ -120,6 +123,36 @@ def isLimited(request, exception):
         usage = get_usage(request, method=get_usage.ALL, key='ip', rate='8/5h', group='b')
         values['timeleft'] = format_timespan(usage['time_left'])
         return render(request, 'limited.html', values, status=429)
+
+def faq(request):
+    return render(request,'faq.html')
+
+def contact_us(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        message = request.POST['question']
+        if(len(message) == 0):
+            messages.error(request, "Please enter a question.")
+            return render(request, 'contact_us.html')
+        try:
+            validate_email(email)
+        except ValidationError as err:
+            messages.error(request, "An invalid email address was entered please try again.")
+            return render(request, 'contact_us.html')
+        else:
+            subject = 'Question from ' + email   
+            #Sends question from user as email to noreplyeduprompt@gmail.com
+            send_mail(subject,
+                    message,
+                    settings.EMAIL_HOST_USER,
+                    ['noreplyeduprompt@gmail.com'],
+                    fail_silently=False)
+            messages.success(request, "Your question has been sent.")
+            return render(request, 'contact_us.html')
+        
+    else:
+        return render(request, 'contact_us.html')
+
 
 
 

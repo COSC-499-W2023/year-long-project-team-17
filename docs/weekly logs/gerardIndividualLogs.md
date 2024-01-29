@@ -170,3 +170,23 @@ This week I did not have any advancement in features as I was focused on the liv
 
 
 ![Screenshot](images/Week13GerardPeerEval.png)
+
+# Term 2
+
+## Week1 (Jan 8, 2023 - Jan 14, 2023)
+### Goals Recap
+- We just came back from winter break so this weeks goal was to chck up on the team and see the objective for the upcoming weeks
+
+### Tasks on board
+- Live chatting is still my task on the board, this is because I did not work on it over the break and there is still a lot to improve in the feature
+
+### Completed vs InProgress
+- Live chatting is InProgress
+
+### Context
+- I did not work on the project over the break, and this initial week has was used to get up to date with the team and back into rythm.
+
+### Peer eval
+
+
+![Screenshot](images/T2Week1GerardPeerEval.png)
