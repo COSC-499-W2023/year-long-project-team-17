@@ -7,8 +7,12 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <div id="uploadFileField" style="display: block;">
-            <label for="file">Upload File:</label>
+        <div id="uploadFileField" style="display: block;" >
+            <label for="file">Upload File:<span class="question-mark-upload" onclick="showInstructionsUploadFile()">?</span></label>
+              <div class="cloud-tooltip" id="textInstructionsUploadFile">
+                <p>Please upload files below. Similarity score will be calculated between each pair of files and reported to you in a table. The files that will have a similarity score of more than 85% will be marked as containing a plagiarism.</p>
+            </div>
+            <br>
             <input type="file" id="file" name="file" multiple>
         </div>
         <br>
@@ -72,5 +76,61 @@
         {% endif %}
 
 </div>
+
+
+<style>
+    .question-mark-upload {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #3498db; /* You can change the color as needed */
+        color: #fff; /* Text color inside the circle */
+        text-align: center;
+        line-height: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-left: 5px; /* Adjust as needed for spacing */
+    }
+
+
+    .cloud-tooltip {
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: none;
+        z-index: 1;
+        transform: translate(30%, -100%);
+        max-width: 400px;
+    }
+
+    .question-mark-upload:hover {
+        background-color: #800080; /* Change the color on hover to desired color */
+    }
+
+
+    .label-with-tooltip {
+        position: relative;
+        display: inline-block;
+    }
+</style>
+
+<script>
+
+        const textInstructionsUploadFile = document.getElementById('textInstructionsUploadFile');
+
+
+        function showInstructionsUploadFile() {
+            textInstructionsUploadFile.style.display = 'block';
+        }
+
+        const questionMarkUpload = document.querySelector('.question-mark-upload');
+        questionMarkUpload.addEventListener('mouseenter', showInstructionsUploadFile);
+        questionMarkUpload.addEventListener('mouseleave', function () {
+            textInstructionsUploadFile.style.display = 'none';
+        });
+</script>
 
 {% endblock %}
