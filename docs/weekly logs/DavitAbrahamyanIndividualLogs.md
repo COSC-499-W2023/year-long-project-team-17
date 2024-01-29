@@ -223,3 +223,25 @@
 
 ### Peer eval
 ![Screenshot](images/Term2Week2DavitPeerEval.png)
+
+
+## Week 3 Term 2
+
+### Work period
+- Jan.22, 2024 - Jan.28, 2024
+
+### Goals Recap
+- My goals for this week was to start working on the loading page implementation
+
+### Tasks on board
+- The current task that I worked on was implementing the loading page (associated task on Kanban Board: Loading page)
+
+### Completed vs InProgress
+-  I worked on the loading page implementation (Associated task on Kanban Board: Loading Page). Currently, I continue to work on that as I have not finished it. Also, I have resolved merge conflicts with helper_icons branch and adaptive_content_generation branch. I also modified the button styles on the home page to be consistent with the rest of the pages.
+
+### Context
+
+-  It was a productive week as I was able to resolve all of the merge conflicts that we had and also get started with the loading page which is really essential for the overall user experience.
+
+### Peer eval
+![Screenshot](images/Term2Week3DavitPeerEval.png)
