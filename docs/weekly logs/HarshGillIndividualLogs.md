@@ -183,5 +183,26 @@ account recovery and rate limiting feature. I also helped our group finish the d
 - Task #65 Rate limit is in review (complete for login and reset password)
 
 
+## Week 1 Term 2
+
+### Work period
+- Jan.8, 2024 - Jan.14, 2024
+
+### Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek14.png)
+
+### Weekly goal recap
+
+- My goal this week was to help my group plan out our remaining features so we could start working on our features next week.
+
+
+### Tasks on board
+
+![Screenshot](images/ProjectBoardScreenshotHarshWeek14.png)
+
+### Completed vs in progress
+
+- #66 Help/Faq page -> harshg03 is in progress
+
 
 
