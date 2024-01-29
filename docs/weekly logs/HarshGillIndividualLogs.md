@@ -206,3 +206,26 @@ account recovery and rate limiting feature. I also helped our group finish the d
 
 
 
+## Week 2 Term 2
+
+### Work period
+- Jan.15, 2024 - Jan.21, 2024
+
+### Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek15.png)
+
+### Weekly goal recap
+
+- My goal this week was to work on my faq/help page feature for the upcoming peer testing milestone.
+
+
+### Tasks on board
+
+![Screenshot](images/ProjectBoardScreenshotHarshWeek14.png)
+
+### Completed vs in progress
+
+- #66 Help/Faq page -> harshg03 is in progress
+
+
+
