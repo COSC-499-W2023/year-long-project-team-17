@@ -8,63 +8,110 @@
     <title>Chat with {{ receiver.username }}</title>
     <style>
         #chat-messages {
-            max-height: 300px;
             overflow-y: auto;
             border: 1px solid #ccc;
             padding: 10px;
+            background: linear-gradient(to left, rgba(15, 60, 99, 0.249),rgba(0, 0, 255, 0.098), rgba(103, 7, 81, 0.116));
         }
-
+        #title {
+            color: #111B47;
+            font-family: 'Roboto', sans-serif;
+        }
         .sender-message {
-            color: blue;
+            color: #111B47;
         }
-
         .receiver-message {
             color: green;
         }
+        .title-container{
+            background-color: #B6BFE2;
+            padding: 14px;
+            border-top: 80px;
+            border-color: #111B47;
+        }
+        .main-container{
+            width:50%;
+            border-top: 4px solid #111B47;
+        }
+        .main2{
+            height: 500px;
+        }
+        body {
+            justify-content: center;
+            align-items: center;
+        }
+        #message-form {
+            display: flex;
+            align-items: center;
+        }
+        #btn{
+            padding: 13px;
+            width: 11.5%;
+            height: 100%;
+            border: none;
+            background-color: #111B47;
+            color: white;
+        }
+        
     </style>
 </head>
 
 <body>
-    <h2>Chat with {{ receiver.username }}</h2>
-    <div id="chat-messages">
-        {% for message in messages %}
-            <div class="{% if message.sender == request.user %}sender-message{% else %}receiver-message{% endif %}">
-                <p>{{ message.sender.username }}: {{ message.content }}</p>
+    <div class="main">
+        <div class="main2">
+            <div class="main-container">
+                <div class="title-container">
+                    <h2 id="title">Chat with {{ receiver.username }} 💬</h2>
+                </div>
+                <div id="chat-messages">
+                    {% for message in messages %}
+                        <div class="{% if message.sender == request.user %}sender-message{% else %}receiver-message{% endif %}">
+                            <p>{{ message.sender.username }}: {{ message.content }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-        {% endfor %}
-    </div>
-
-    <form method="post" action="{% url 'send_message' username=receiver.username %}" id="message-form">
-        {% csrf_token %}
-        <textarea id="message-input" name="content" required></textarea>
-        <button type="submit">Send</button>
-    </form>
-
-    <script>
-        window.onload = function () {
-        const chatMessages = document.getElementById("chat-messages");
-        const messageForm = document.getElementById("message-form");
-        const roomName = "{{ receiver.username }}";
-
-        // Auto-scroll to the bottom to show the latest message
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-
-        // Auto-refresh every 3-5 seconds
-        setInterval(function () {
-            window.location.reload();
-        }, 3000 + Math.floor(Math.random() * 2000));  // Random interval between 3 to 5 seconds
-
-        // Submit the form when Enter key is pressed in the textarea
-        document.getElementById("message-input").addEventListener("keydown", function (e) {
-            if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                messageForm.submit();
-            }
-        });
-    };
         
-    </script>
+            <form method="post" action="{% url 'send_message' username=receiver.username %}" id="message-form">
+                {% csrf_token %}
+                <textarea id="message-input" name="content" required rows="2" cols="47" placeholder="Type message"></textarea>
+                <button type="send" id="btn">Send</button>
+    
+            </form>
+        </div>
+        
+        <br>
+    
+        <script>
+            window.onload = function () {
+            const chatMessages = document.getElementById("chat-messages");
+            const messageForm = document.getElementById("message-form");
+            const roomName = "{{ receiver.username }}";
+    
+            // Auto-scroll to the bottom to show the latest message
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+            // Auto-refresh every 3-5 seconds
+            setInterval(function () {
+                window.location.reload();
+            }, 3000 + Math.floor(Math.random() * 2000));  // Random interval between 3 to 5 seconds
+    
+            // Submit the form when Enter key is pressed in the textarea
+            document.getElementById("message-input").addEventListener("keydown", function (e) {
+                if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    messageForm.submit();
+                }
+            });
+        };
+            
+        </script>
+
+    </div>
+    
 </body>
 </html>
+
+
 
 {% endblock %}
