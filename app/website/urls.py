@@ -19,6 +19,7 @@ urlpatterns = [
     path("generate_presentation", views.generate_presentation_view, name="generate_presentation"),
     path("detect_plagiarism", views.detect_plagiarism_view, name="detect_plagiarism"),
     path("generate_exercise", views.generate_exercise_view, name="generate_exercise"),
+    path("generate_adapted_content", views.generate_adapted_content_view, name="generate_adapted_content"),
     path('edit_profile/', UserEditView.as_view(), name='edit_profile'),
     path('edit_profile_page/', EditProfilePageView.as_view(), name='edit_profile_page'),
     path('create_profile_page/', CreateProfilePageView.as_view(), name='create_profile_page'),

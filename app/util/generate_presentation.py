@@ -39,7 +39,6 @@ def get_presentation_json(description: str) -> Dict[str, str]:
                 {'role': 'user',
                  'content': f'{config.PRESENTATION_GENERATION_PROMPT}\nUSER:{description}\nYour Response:'}
             ],
-
         )
         response_json = json.loads(response.choices[0].message.content)
 

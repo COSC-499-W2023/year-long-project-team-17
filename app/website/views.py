@@ -6,12 +6,17 @@ from django.contrib.auth.models import Group, User
 from django.urls import reverse_lazy
 from django.views import generic
 from .decorators import *
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
 from .forms import SignUpForm, EditProfileForm, ProfilePageForm
 from .models import Profile, Message
 from util.generate_summary import generate_summary
 from util.generate_presentation import generate_presentation
 from util.detect_plagiarism import detect_plagiarism
 from util.generate_exercises import generate_exercises_from_prompt, generate_similar_exercises
+from util.adapt_content import generate_adapted_content
 import os
 import docx
 from pptx import Presentation
@@ -290,7 +295,7 @@ def generate_summary_view(request):
                         if document_text:
                             summary = generate_summary(document_text)
                             return render(request, "summary_generation.html",
-                                            {"summary": summary["choices"][0]["message"]["content"],
+                                            {"summary": summary,
                                             "input_option": input_option})
                         else:
                             messages.error(request,
@@ -311,7 +316,7 @@ def generate_summary_view(request):
                         if presentation_text:
                             summary = generate_summary(presentation_text)
                             return render(request, "summary_generation.html",
-                                            {"summary": summary["choices"][0]["message"]["content"],
+                                            {"summary": summary,
                                             "input_option": input_option})
                         else:
                             messages.error(request,
@@ -322,7 +327,7 @@ def generate_summary_view(request):
                         if txt_text:
                             summary = generate_summary(txt_text)
                             return render(request, "summary_generation.html",
-                                            {"summary": summary["choices"][0]["message"]["content"],
+                                            {"summary": summary,
                                             "input_option": input_option})
                         else:
                             messages.error(request,
@@ -340,7 +345,7 @@ def generate_summary_view(request):
                         if pdf_text:
                             summary = generate_summary(pdf_text)
                             return render(request, "summary_generation.html",
-                                            {"summary": summary["choices"][0]["message"]["content"],
+                                            {"summary": summary,
                                             "input_option": input_option})
                         else:
                             messages.error(request,
@@ -630,3 +635,124 @@ def get_chatbot_response(chat_history: str, request: str):
         logging.info(response.choices[0].message.content)
         logging.info("something went wrong with generating exercises based on the provided prompt.")
         logging.error(e)
+
+
+@authenticated_user
+def generate_adapted_content_view(request):
+    if request.method == "POST":
+        input_option = request.POST.get("input_option")
+        if input_option == "write":
+            input_text = request.POST.get("input_text")
+            input_user_group = request.POST.get("input_user_group")
+            if input_text:
+                adapted_content = generate_adapted_content(input_text, input_user_group)
+
+                return render(request, 'adapted_content_generation.html',
+                                          {'adapted_content': adapted_content,
+                                           "input_option": input_option})
+            else:
+                messages.error(request, "Please enter text that needs to be adapted for the target user group")
+                return render(request, "adapted_content_generation.html")
+        elif input_option == "upload":
+            uploaded_file = request.FILES.get("file")
+            input_user_group = request.POST.get("input_user_group")
+            if uploaded_file:
+                file_extension = os.path.splitext(uploaded_file.name)[1].lower()
+
+                if file_extension in [".docx", ".pdf", ".pptx"]:
+                    if file_extension == ".docx":
+                        doc = docx.Document(uploaded_file)
+                        full_text = []
+                        for paragraph in doc.paragraphs:
+                            full_text.append(paragraph.text)
+
+                        document_text = "\n".join(full_text)
+                        if document_text:
+                            adapted_content = generate_adapted_content(document_text, input_user_group)
+
+                            document = docx.Document()
+
+                            document.add_heading(f"Document for: {input_user_group}", level=1)
+                            document.add_paragraph(str(adapted_content))
+
+                            response = HttpResponse(
+                                content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+                            response['Content-Disposition'] = 'attachment; filename="generated_document.docx"'
+
+                            document.save(response)
+                            return response
+                        else:
+                            messages.error(request, "You uploaded an empty .docx file.")
+
+                    elif file_extension == ".pdf":
+                        pdf_content = uploaded_file
+                        pdf_file = PyPDF2.PdfReader(pdf_content)
+                        pdf_text = ""
+
+                        for page_num in range(len(pdf_file.pages)):
+                            page = pdf_file.pages[page_num]
+                            pdf_text += page.extract_text()
+
+                        if pdf_text:
+                            adapted_content = generate_adapted_content(pdf_text, input_user_group)
+
+                            response = HttpResponse(content_type='application/pdf')
+                            response['Content-Disposition'] = 'attachment; filename="generated_document.pdf"'
+
+                            pdf_buffer = response
+
+                            styles = getSampleStyleSheet()
+
+                            story = []
+
+                            title = f"Document for: {input_user_group}"
+                            story.append(Paragraph(title, styles['Title']))
+
+                            story.append(Spacer(1, 12))
+
+                            content_paragraphs = adapted_content.split('\n')
+                            for paragraph in content_paragraphs:
+                                story.append(Paragraph(paragraph, styles['Normal']))
+
+                            doc = SimpleDocTemplate(pdf_buffer, pagesize=letter)
+                            doc.build(story)
+                            return response
+                        else:
+                            messages.error(request,
+                                            "You uploaded an empty .pdf file.")
+
+                    elif file_extension == ".pptx":
+                        presentation = Presentation(uploaded_file)
+
+                        slide_text = []
+
+                        for slide in presentation.slides:
+                            slide_text.append("")
+                            for shape in slide.shapes:
+                                if hasattr(shape, "text"):
+                                    slide_text.append(shape.text)
+
+                        presentation_text = "\n".join(slide_text)
+                        if presentation_text:
+                            uploaded_content_summary = generate_summary(presentation_text)
+                            adapted_content = generate_adapted_content(uploaded_content_summary, input_user_group)
+
+                            presentation = generate_presentation(
+                                f"Generate a presentation using the following content. The content is designed for: {input_user_group}. Do not forget to use images when appropriate to make the presentation more entertaining. Your images must be illustrative for the user group. The content is the following:\n" + str(adapted_content))
+                            response = HttpResponse(
+                                content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
+                            response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
+                            presentation.save(response)
+
+                            return response
+                        else:
+                            messages.error(request,
+                                            "You uploaded an empty .pptx file.")
+                else:
+                    messages.error(request,
+                                    "The Uploaded file must have one of the following extensions: .docs, .pptx, .txt, .pdf")
+
+            else:
+                messages.error(request, "Please upload a file")
+
+    return render(request, "adapted_content_generation.html")
