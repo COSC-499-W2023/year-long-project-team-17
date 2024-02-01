@@ -30,13 +30,14 @@ charviey -> Charvie Yadav
 ## Completed tasks
 
 - #80 Helpers for different functionalities -> DavidAbrahamyan   in review
-- #33 Homepage quoter changer animation -> charviey   in review
 - #54 Live messages -> gerry2002  in review
+- #31 Make website responsive -> charviey
+
 
 ## In progress tasks
 
-- #31 Make website responsive -> charviey
 - #66 Help/Faq page -> harshg03
+- #33 Homepage quoter changer animation -> charviey   in review
 
 ## Burnup chart
 
