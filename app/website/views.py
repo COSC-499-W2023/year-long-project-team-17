@@ -17,6 +17,13 @@ from util.generate_presentation import generate_presentation
 from util.detect_plagiarism import detect_plagiarism
 from util.generate_exercises import generate_exercises_from_prompt, generate_similar_exercises
 from util.adapt_content import generate_adapted_content
+from django.http import FileResponse
+from django.core.cache import cache
+from django.http import JsonResponse
+from django.core.files.storage import FileSystemStorage
+from threading import Thread
+from uuid import uuid4
+
 import os
 import docx
 from pptx import Presentation
@@ -360,6 +367,28 @@ def generate_summary_view(request):
     return render(request, "summary_generation.html", {"input_option": "write"})
 
 
+def generate_new_file_id():
+    current_uuid = uuid4()
+    cache.set("generated_presentation_id", str(current_uuid))
+    return current_uuid
+
+
+def presentation_generation_task(request, input_text):
+
+    if "generated_presentation_filename" in request.session:
+        request.session['generated_presentation_filename'] = None
+
+    fs = FileSystemStorage()
+    new_id = generate_new_file_id()
+    filename = f'generated_presentation_{new_id}.pptx'  # Choose a unique filename if necessary
+    if fs.exists(filename):
+        fs.delete(filename)
+    presentation = generate_presentation(input_text)
+    with fs.open(filename, 'wb') as pptx_file:
+        presentation.save(pptx_file)
+    request.session['generated_presentation_filename'] = filename
+
+
 @authenticated_user
 def generate_presentation_view(request):
 
@@ -368,12 +397,10 @@ def generate_presentation_view(request):
         if input_option == "write":
             input_text = request.POST.get("input_text")
             if input_text:
-                presentation = generate_presentation(input_text)
-                response = HttpResponse(
-                    content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
-                response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
-                presentation.save(response)
-                return response
+                thread = Thread(target=presentation_generation_task, args=(request, input_text))
+                thread.start()
+
+                return JsonResponse({'status': 'success', 'message': 'Presentation generated'})
             else:
                 messages.error(request, "Please enter text for the presentation")
                 return render(request, "presentation_generation.html")
@@ -391,25 +418,35 @@ def generate_presentation_view(request):
 
                         document_text = "\n".join(full_text)
                         if document_text:
-                            presentation = generate_presentation("I want a presentation based on the following content:\n" + str(document_text))
-                            response = HttpResponse(
-                                content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
-                            response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
-                            presentation.save(response)
-                            return response
+                            # presentation = generate_presentation()
+                            # response = HttpResponse(
+                            #     content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
+                            # response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
+                            # presentation.save(response)
+                            # return response
+                            input_text = "I want a presentation based on the following content:\n" + str(document_text)
+                            thread = Thread(target=presentation_generation_task, args=(request, input_text))
+                            thread.start()
+
+                            return JsonResponse({'status': 'success', 'message': 'Presentation generated'})
                         else:
                             messages.error(request, "You uploaded an empty .docx file.")
 
                     elif file_extension == ".txt":
                         txt_text = uploaded_file.read().decode('utf-8')
                         if txt_text:
-                            presentation = generate_presentation(
-                                "I want a presentation based on the following content:\n" + str(txt_text))
-                            response = HttpResponse(
-                                content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
-                            response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
-                            presentation.save(response)
-                            return response
+                            # presentation = generate_presentation(
+                            #     "I want a presentation based on the following content:\n" + str(txt_text))
+                            # response = HttpResponse(
+                            #     content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
+                            # response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
+                            # presentation.save(response)
+                            # return response
+                            input_text = "I want a presentation based on the following content:\n" + str(txt_text)
+                            thread = Thread(target=presentation_generation_task, args=(request, input_text))
+                            thread.start()
+
+                            return JsonResponse({'status': 'success', 'message': 'Presentation generated'})
                         else:
                             messages.error(request,
                                             "You uploaded an empty .txt file.")
@@ -424,13 +461,18 @@ def generate_presentation_view(request):
                             pdf_text += page.extract_text()
 
                         if pdf_text:
-                            presentation = generate_presentation(
-                                "I want a presentation based on the following content:\n" + str(pdf_text))
-                            response = HttpResponse(
-                                content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
-                            response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
-                            presentation.save(response)
-                            return response
+                            # presentation = generate_presentation(
+                            #     "I want a presentation based on the following content:\n" + str(pdf_text))
+                            # response = HttpResponse(
+                            #     content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
+                            # response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
+                            # presentation.save(response)
+                            # return response
+                            input_text = "I want a presentation based on the following content:\n" + str(pdf_text)
+                            thread = Thread(target=presentation_generation_task, args=(request, input_text))
+                            thread.start()
+
+                            return JsonResponse({'status': 'success', 'message': 'Presentation generated'})
                         else:
                             messages.error(request,
                                             "You uploaded an empty .pdf file.")
@@ -756,3 +798,37 @@ def generate_adapted_content_view(request):
                 messages.error(request, "Please upload a file")
 
     return render(request, "adapted_content_generation.html")
+
+
+def loading_page_view(request):
+    return render(request, "loading_page.html", {})
+
+
+def presentation_download(request):
+
+    presentation_id = cache.get("generated_presentation_id", "000")
+    filename = f'generated_presentation_{presentation_id}.pptx'
+    if filename:
+        fs = FileSystemStorage()
+        if fs.exists(filename):
+            response = FileResponse(fs.open(filename, 'rb'), content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
+            response['Content-Disposition'] = f'attachment; filename="{filename}"'
+            fs.delete(filename)
+            cache.clear()
+
+            return response
+
+    messages.error(request, "No presentation was generated or the session has expired.")
+    return render(request, "presentation_generation.html")
+
+
+def presentation_status(request):
+
+    presentation_id = cache.get("generated_presentation_id", "000")
+    filename = f'generated_presentation_{presentation_id}.pptx'
+    fs = FileSystemStorage()
+
+    if fs.exists(filename):
+        return JsonResponse({'status': 'ready'})
+    else:
+        return JsonResponse({'status': 'pending'})

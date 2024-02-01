@@ -3,7 +3,7 @@
 <div class="col-md-6 offset-md-2">
     <h1>Create a Presentation</h1>
 
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" id="presentationForm">
         {% csrf_token %}
         <div class="form-check">
             <input type="radio" class="form-check-input" id="uploadFileRadio" name="input_option" value="upload">
@@ -126,6 +126,40 @@
         background-position: -100% 0;
     }
 </style>
+
+<script>
+document.getElementById('presentationForm').onsubmit = function(event) {
+    event.preventDefault(); // Stop the form from causing a page refresh
+    var formData = new FormData(this);
+
+    // Start AJAX request to initiate the generation process
+    fetch("{% url 'generate_presentation' %}", {
+        method: 'POST',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest', // Important for Django to recognize the AJAX request
+            'X-CSRFToken': formData.get('csrfmiddlewaretoken') // Include CSRF token
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            // Redirect to the loading page only after the server indicates success
+            window.location.href = "{% url 'loading_page' %}";
+        } else {
+            // Handle error without redirecting
+            alert("Error generating presentation");
+        }
+    })
+    .catch(error => {
+        // Handle network errors or other issues with the fetch call
+        console.error('Error:', error);
+        alert("An error occurred while generating the presentation.");
+    });
+};
+
+</script>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
