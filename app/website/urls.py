@@ -32,5 +32,8 @@ urlpatterns = [
     path('chat/<str:username>/', chat, name='chat'),
     path('send_message/<str:username>/', send_message, name='send_message'),
     path('faq', views.faq, name='faq'),
-    path('contact_us', views.contact_us, name='contact_us'),   
+    path('contact_us', views.contact_us, name='contact_us'),
+    path("loading_page", views.loading_page_view, name="loading_page"),
+    path('download_presentation/', views.presentation_download, name='presentation_download'),
+    path('presentation_status/', views.presentation_status, name='presentation_status'),
 ]
