@@ -109,11 +109,13 @@
 - Jan.15, 2024 - Jan.21, 2024
 
 ### Goals Recap
-- My goals for this week was to work on the homepage for the website
+- My goals for this week was to work on the homepage for the website.
 
 ### Tasks on board
-- The current task that I worked on was implementing the homepage (associated task on Kanban Board: Homepage - quote changer animation)
+- The current task that I worked on was implementing the homepage (associated task on Kanban Board: Homepage - quote changer animation).
 
 ### Completed vs InProgress
 -   I worked on implementing the homepage and merging contact and about page in the main homepage, including working on frontend and backend to send forms in php. I am still debugging the page to fix issues with loading images on error.
 
+### Context
+-  This week I felt more on track as I eased my way into the term and I feel more productive than I did before. Our team has a solid plan that we are currently implementing
