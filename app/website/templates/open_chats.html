@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,10 +10,28 @@
 </head>
 <body>
     <h2>Open Chats</h2>
-    <ul>
+
         {% for chat in chats %}
-            <li>{{ chat.sender.username }} and {{ chat.receiver.username }}</li>
+            <div class="card mb-3" style="max-width: 54" >
+                {% if chat.receiver.id == chat.sender.id %}
+            <a class="nav-link" href="/chat/{{ chat.receiver.username }}"><h3>{{ chat.receiver.username }}</h3>
+             {% else %}
+             {% if chat.sender.id == user.id %}
+             <a class="nav-link" href="/chat/{{ chat.receiver.username }}"><h3>{{ chat.receiver.username }}</h3>
+                {% else %}
+                <a class="nav-link" href="/chat/{{ chat.sender.username }}"><h3>{{ chat.sender.username }}</h3>
+                {% endif %}
+                {% endif %}
+                {% if chat.sender.id == user.id %}
+            <p>You: {{ chat.content }}</p></a>
+            {% else %}
+            <p>{{chat.sender.username}} : {{ chat.content }}</p></a>
+            {% endif %}
+            </div>
+
         {% endfor %}
-    </ul>
+   
 </body>
 </html>
+
+{% endblock %}
