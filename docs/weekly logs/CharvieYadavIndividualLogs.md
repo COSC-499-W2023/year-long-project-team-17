@@ -1,5 +1,22 @@
 # Charvie Yadav (89136931) Individual Logs
 
+## Week 1 Term 2
+
+### Work period
+- Jan.8, 2024 - Jan.14, 2024
+
+### Goals Recap
+- My goals for this week was to settle into the new term and plan out with my team what was expected and decide on how to go ahead with our project. I also set personal goals for myself i.e. allocating number of hours per week that I will work on the capstone.
+
+### Tasks on board
+- The tasks I will work on is planning out the homepage design (associated task on Kanban Board: Homepage - quote changer animation), and finish making the website responsive for different devices (associated task on Kanban Board: Make website responsive).
+
+### Completed vs InProgress
+- I am currently working on making the website fully responsive. The tasks I will work on next is planning out the homepage design (associated task on Kanban Board: Homepage - quote changer animation).
+
+### Context
+-  Overall it was a productive week and I learned new planning and management tools in class.
+
 ## Week9 (Oct.30, 2023 - Nov. 5, 2023)
 
 ### Goals Recap
@@ -84,3 +101,21 @@
 
 ### Peer eval
 ![Screenshot](images/Week4CharviePeerEval.png)
+
+
+## Week 2 Term 2
+
+### Work period
+- Jan.15, 2024 - Jan.21, 2024
+
+### Goals Recap
+- My goals for this week was to work on the homepage for the website.
+
+### Tasks on board
+- The current task that I worked on was implementing the homepage (associated task on Kanban Board: Homepage - quote changer animation).
+
+### Completed vs InProgress
+-   I worked on implementing the homepage and merging contact and about page in the main homepage, including working on frontend and backend to send forms in php. I am still debugging the page to fix issues with loading images on error.
+
+### Context
+-  This week I felt more on track as I eased my way into the term and I feel more productive than I did before. Our team has a solid plan that we are currently implementing
