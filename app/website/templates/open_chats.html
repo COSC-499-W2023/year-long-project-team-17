@@ -4,13 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Open Chats</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1c1b1b; 
+            color: #eee; 
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #444; 
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); 
+            text-align: center;
+        }
+        h2 {
+            color: #eee; 
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #555;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); 
+            transition: transform 0.3s ease-in-out;
+        }
+        li:hover {
+            transform: translateY(-5px);
+        }
+        li:last-child {
+            margin-bottom: 0;
+        }
+        .username {
+            font-weight: bold;
+            color: #eee; 
+        }
+    </style>
 </head>
 <body>
-    <h2>Open Chats</h2>
-    <ul>
-        {% for chat in chats %}
-            <li>{{ chat.sender.username }} and {{ chat.receiver.username }}</li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h2>Open Chats</h2>
+        <ul>
+            {% for chat in chats %}
+                <li><span class="username">{{ chat.sender.username }}</span> and <span class="username">{{ chat.receiver.username }}</span></li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
