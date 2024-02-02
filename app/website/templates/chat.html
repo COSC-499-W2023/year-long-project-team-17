@@ -1,21 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Chat with {{ receiver.username }}</title>
     <style>
+        body {
+            justify-content: center;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to left, rgba(15, 60, 99, 0.249), rgba(0, 0, 255, 0.098), rgba(103, 7, 81, 0.116));
+            margin: 0;
+            padding: 0;
+        }
         #chat-messages {
             overflow-y: auto;
             border: 1px solid #ccc;
             padding: 10px;
-            background: linear-gradient(to left, rgba(15, 60, 99, 0.249),rgba(0, 0, 255, 0.098), rgba(103, 7, 81, 0.116));
+            background: #fff;
+            max-height: 400px;
         }
         #title {
             color: #111B47;
-            font-family: 'Roboto', sans-serif;
         }
         .sender-message {
             color: #111B47;
@@ -23,36 +30,40 @@
         .receiver-message {
             color: green;
         }
-        .title-container{
+        .title-container {
             background-color: #B6BFE2;
             padding: 14px;
-            border-top: 80px;
-            border-color: #111B47;
         }
-        .main-container{
-            width:50%;
+        .main-container {
+            width: 50%;
             border-top: 4px solid #111B47;
         }
-        .main2{
+        .main2 {
             height: 500px;
-        }
-        body {
-            justify-content: center;
-            align-items: center;
         }
         #message-form {
             display: flex;
             align-items: center;
+            margin-top: 20px;
         }
-        #btn{
+        #message-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+            margin-right: 10px;
+        }
+        #btn {
             padding: 13px;
             width: 11.5%;
             height: 100%;
             border: none;
             background-color: #111B47;
             color: white;
+            cursor: pointer;
+            border-radius: 5px;
         }
-        
     </style>
 </head>
 
@@ -74,16 +85,14 @@
         
             <form method="post" action="{% url 'send_message' username=receiver.username %}" id="message-form">
                 {% csrf_token %}
-                <textarea id="message-input" name="content" required rows="2" cols="47" placeholder="Type message"></textarea>
+                <textarea id="message-input" name="content" required rows="2" placeholder="Type message"></textarea>
                 <button type="send" id="btn">Send</button>
-    
             </form>
         </div>
-        
-        <br>
+    </div>
     
-        <script>
-            window.onload = function () {
+    <script>
+        window.onload = function () {
             const chatMessages = document.getElementById("chat-messages");
             const messageForm = document.getElementById("message-form");
             const roomName = "{{ receiver.username }}";
@@ -104,14 +113,7 @@
                 }
             });
         };
-            
-        </script>
-
-    </div>
-    
+    </script>
 </body>
 </html>
-
-
-
 {% endblock %}
