@@ -251,3 +251,24 @@ URLs.
 - #88 update testing on views and URLs -> harshg03 is complete
 - #87 testing for contact and faq page -> harshg03 is complete
 
+## Week 4 Term 2
+
+### Work period
+- Jan.29, 2024 - Feb.04, 2024
+
+### Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek17.png)
+
+### Weekly goal recap
+
+- My goal this week was to help create the tasks for the heuristic evaluation and help prepare our prototype for peer testing #1.
+
+### Tasks on board
+
+- I did not have any of my own tasks this week to work on, but I did help create the tasks for the heuristic evaluation in peer testing #1. I do plan on meeting
+with my group soon and going over our notes on peer testing #1 to decide what needs to be added or fixed in our prototype.
+
+### Completed vs in progress
+
+- I did not have any of my own tasks this week to work on, but I did help create the tasks for the heuristic evaluation in peer testing #1. I do plan on meeting
+with my group soon and going over our notes on peer testing #1 to decide what needs to be added or fixed in our prototype.
