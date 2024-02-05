@@ -119,3 +119,42 @@
 
 ### Context
 -  This week I felt more on track as I eased my way into the term and I feel more productive than I did before. Our team has a solid plan that we are currently implementing
+
+
+## Week 3 Term 2
+
+### Work period
+- Jan.22, 2024 - Jan.28, 2024
+
+### Goals Recap
+- My goals for this week was to finish implementing the homepage, debug and start working on the design of the chat functionality.
+
+### Tasks on board
+- The current task that I worked on was debug my previous code (associated task on Kanban Board: Remove raw edit password in edit profile).
+
+### Completed vs InProgress
+-  The completed task is the homepage, which was a large PR. The inprogress tasks are removing raw edit password in edit profile and still trying to debug other parts of frontend i.e contact page, homepage etc. 
+
+### Context
+
+-  This week really helped me get back on track with development and visualizing the work I need to do in the upcoming week such as the chat functionality design.
+
+### Peer eval
+![Screenshot](images/CharvieT2W3.png)
+
+## Week 4 Term 2
+
+### Work period
+- Jan.29, 2024 - Feb.04, 2024
+
+### Goals Recap
+- My goals for this week was to finish debugging my code for other parts of the frontend and prepare for peer testing. After peer testing was completed, I have also been working on the chat functionality design.
+
+### Tasks on board
+- The current task that I am working on is chat functionality design (associated task on Kanban Board: chat functionality design)
+
+### Completed vs InProgress
+-  The completed task is chat functionality although I'm still waiting on PR approval, which was a large PR. I also finished removing raw edit password in edit profile and debugging other parts of frontend i.e contact page, homepage etc. I will continue develop frontend of upcoming features.
+
+### Peer eval
+![Screenshot](images/CharvieT2W3.png)

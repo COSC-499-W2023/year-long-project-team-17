@@ -204,7 +204,9 @@ account recovery and rate limiting feature. I also helped our group finish the d
 
 - #66 Help/Faq page -> harshg03 is in progress
 
+### Branch worked on
 
+- I worked on the faq branch: https://github.com/COSC-499-W2023/year-long-project-team-17/tree/faq. The latest and only commit I have is in week 3 "Finished faq and contact page and added testing" as I didn't know at the time about creating draft PR's and adding your work to them.
 
 ## Week 2 Term 2
 
@@ -226,6 +228,10 @@ account recovery and rate limiting feature. I also helped our group finish the d
 ### Completed vs in progress
 
 - #66 Help/Faq page -> harshg03 is in progress
+
+### Branch worked on
+
+- I worked on the faq branch: https://github.com/COSC-499-W2023/year-long-project-team-17/tree/faq. The latest and only commit I have is in week 3 "Finished faq and contact page and added testing" as I didn't know at the time about creating draft PR's and adding your work to them.
 
 
 ## Week 3 Term 2
@@ -251,3 +257,24 @@ URLs.
 - #88 update testing on views and URLs -> harshg03 is complete
 - #87 testing for contact and faq page -> harshg03 is complete
 
+## Week 4 Term 2
+
+### Work period
+- Jan.29, 2024 - Feb.04, 2024
+
+### Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek17.png)
+
+### Weekly goal recap
+
+- My goal this week was to help create the tasks for the heuristic evaluation and help prepare our prototype for peer testing #1.
+
+### Tasks on board
+
+- I did not have any of my own tasks this week to work on, but I did help create the tasks for the heuristic evaluation in peer testing #1. I do plan on meeting
+with my group soon and going over our notes on peer testing #1 to decide what needs to be added or fixed in our prototype.
+
+### Completed vs in progress
+
+- I did not have any of my own tasks this week to work on, but I did help create the tasks for the heuristic evaluation in peer testing #1. I do plan on meeting
+with my group soon and going over our notes on peer testing #1 to decide what needs to be added or fixed in our prototype.
