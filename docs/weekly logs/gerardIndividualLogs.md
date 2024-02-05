@@ -230,7 +230,7 @@ This week I did not have any advancement in features as I was focused on the liv
 
 ![Screenshot](images/T2Week3GerardPeerEval.png)
 
-## Week3 (Jan 29, 2023 - Feb 04, 2023)
+## Week4 (Jan 29, 2023 - Feb 04, 2023)
 ### Goals Recap
 - My goal this week was to work on the open chats function to show the user the chats they have open. Another goal which I was unable to complete was the create a new chat with a different user
 
