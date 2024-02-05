@@ -204,7 +204,9 @@ account recovery and rate limiting feature. I also helped our group finish the d
 
 - #66 Help/Faq page -> harshg03 is in progress
 
+### Branch worked on
 
+- I worked on the faq branch: https://github.com/COSC-499-W2023/year-long-project-team-17/tree/faq. The latest and only commit I have is in week 3 "Finished faq and contact page and added testing" as I didn't know at the time about creating draft PR's and adding your work to them.
 
 ## Week 2 Term 2
 
@@ -226,6 +228,10 @@ account recovery and rate limiting feature. I also helped our group finish the d
 ### Completed vs in progress
 
 - #66 Help/Faq page -> harshg03 is in progress
+
+### Branch worked on
+
+- I worked on the faq branch: https://github.com/COSC-499-W2023/year-long-project-team-17/tree/faq. The latest and only commit I have is in week 3 "Finished faq and contact page and added testing" as I didn't know at the time about creating draft PR's and adding your work to them.
 
 
 ## Week 3 Term 2
