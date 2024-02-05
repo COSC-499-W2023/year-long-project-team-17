@@ -6,14 +6,14 @@
     <title>Edu Prompt</title>
     <link href="https://bootswatch.com/5/morph/bootstrap.min.css" rel="stylesheet">
   </head>
-  <body> 
+  <body>
     {% include 'navbar.html' %}
     <div class="container">
     </br>
         {% if messages %}
 
           {% for message in messages %}
-          
+
           {% if message.tags == 'info' %}
           <!-- For info messages -->
           <div class="alert alert-warning alert-dismissible fade show" role="alert">
