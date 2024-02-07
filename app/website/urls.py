@@ -35,5 +35,6 @@ urlpatterns = [
     path('contact_us', views.contact_us, name='contact_us'),
     path("loading_page", views.loading_page_view, name="loading_page"),
     path('download_presentation/', views.presentation_download, name='presentation_download'),
+    path('open_chats', views.open_chats, name='open_chats'), 
     path('presentation_status/', views.presentation_status, name='presentation_status'),
 ]
