@@ -35,11 +35,8 @@
             padding: 14px;
         }
         .main-container {
-            width: 50%;
+            width: 60%;
             border-top: 4px solid #111B47;
-        }
-        .main2 {
-            height: 500px;
         }
         #message-form {
             display: flex;
@@ -47,12 +44,11 @@
             margin-top: 20px;
         }
         #message-input {
-            flex: 1;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            resize: none;
             margin-right: 10px;
+            width: 445px;
         }
         #btn {
             padding: 13px;
@@ -69,8 +65,8 @@
 
 <body>
     <div class="main">
-        <div class="main2">
-            <div class="main-container">
+        <div class="col-md-10 offset-md-3">
+            <div class="col-md-5 main-container">
                 <div class="title-container">
                     <h2 id="title">Chat with {{ receiver.username }} 💬</h2>
                 </div>
