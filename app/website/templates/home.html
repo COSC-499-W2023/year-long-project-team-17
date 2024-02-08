@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
@@ -54,6 +55,16 @@
 .yellow-header {
     color: #ffd700; /* Yellow color for contrast */
     font-weight: bold;
+}
+
+.founders-container {
+    display: flex; /* Use flexbox for alignment */
+}
+
+.founders-container img {
+    width: 200px; /* Set the width of each image */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px; /* Add spacing between images */
 }
 
 
@@ -177,7 +188,7 @@
 
 <div class="container col-md-7 offset-md-0">
     {% load static %}
-    <img onload="loaded(this, 'success')" onerror="myFunction()" src="{% static '/year-long-project-team-17/app/website/images/Techguy.png' %}" alt="Tech">
+    <img onload="loaded(this, 'success')" onerror="myFunction()" src="{% static 'Techguy.png' %}" alt="Tech">
 
 <p id="demo"></p>
 
@@ -194,12 +205,15 @@ function myFunction() {
 <div class="team-details container col-md-6 offset-md-3 text-center">
     <div class="container ">
         <h1 >Meet the Team</h1>
-    </div>
+    </div >
     {% load static %}
-    <img src="{% static 'year-long-project-team-17\app\website\templates\images\Founder1.jpeg' %}" alt="Gerard">
-    <img src="{% static 'year-long-project-team-17\app\website\templates\images\Founder2.jpg' %}" alt="Charvie">
-    <img src="{% static 'year-long-project-team-17\app\website\templates\images\Founder3.jpg' %}" alt="Harsh">
-    <img src="{% static 'year-long-project-team-17\app\website\templates\images\Founder4.jpg' %}" alt="Davit">
+    <div class="founders-container">
+        <img src="{% static 'Founder1.jpeg' %}" alt="Gerard">
+        <img src="{% static 'Founder2.jpg' %}" alt="Charvie">
+        <img src="{% static 'Founder3.jpg' %}" alt="Harsh">
+        <img src="{% static 'Founder4.jpg' %}" alt="Davit">
+    </div>
+
 </div>
 
 <br>
@@ -225,12 +239,12 @@ function myFunction() {
             <h2 class="container  light-blue-header">Detect Plagiarism</h2>
             <p class="container">Utilizing advanced algorithms and text-matching techniques, our plagiarism detector helps teachers identify intellectual property theft. By efficiently scanning and comparing texts, the plagiarism detection tool plays a crucial role in upholding academic integrity in schools and universities and maintaining ethical standards.</p>
             <br>
-            <button href="C:/Users/yadav/latestcode/year-long-project-team-17/app/website/templates/plagiarism_detection.html" type="button" class="btn btn-danger col-md-0 offset-md-0 custom-button" >Try It</button>
+            <a href="{% url 'detect_plagiarism' %}" class="btn btn-danger col-md-0 offset-md-0 custom-button" >Try It</a>
         </div>
 
         <div class="col-md-5 offset-md-0">
             {% load static %}
-            <img src="{% static '/year-long-project-team-17/app/website/templates/images/detect_plagiarism.png' %}" alt="plagiarism" class="img-fluid">
+            <img src="{% static 'detect_plagiarism.png' %}" alt="plagiarism" class="img-fluid">
         </div>
     </div>
 </section>
@@ -244,12 +258,12 @@ function myFunction() {
             <h2 class="container  light-blue-header">Generate Presentation</h2>
             <p>The AI presentation generator is a tool designed to automate the process of creating compelling and coherent presentations. Leveraging natural language processing (NLP) and machine learning, the generator analyzes user prompts to generate relevant content, structure, and visuals for a presentation. This technology not only streamlines the creation process but also ensures consistency and professionalism in the output, saving time for users while maintaining the effectiveness of the presented information.</p>
             <br>
-            <button type="button" class="btn btn-danger col-md-0 offset-md-5 custom-button">Try It</button>
+            <a href="{% url 'generate_presentation' %}" class="btn btn-danger col-md-0 offset-md-5 custom-button">Try It</a>
         </div>
 
         <div class="col-md-5 offset-md-0 text-md-end">
             {% load static %}
-            <img src="{% static '/year-long-project-team-17/app/website/templates/images/generate_presentation.png' %}" alt="presentation" class="img-fluid">
+            <img src="{% static 'generate_presentation.png' %}" alt="presentation" class="img-fluid">
         </div>
     </div>
 </div>
@@ -258,15 +272,15 @@ function myFunction() {
 <div class="container info-box">
     <div class="row">
         <div class="col-md-7 offset-md-0">
-            <h2 class="container  light-blue-header">Generate Content</h2>
+            <h2 class="container  light-blue-header">Generate Exercises</h2>
             <p>The AI exercise generator is a tool similar to the presentation generator as it automates the process of creating problem-solving content for students. It leverages NLP and machine learning to create a variety of content based on user inputs.</p>
             <br>
-            <button type="button" class="btn btn-danger col-md-0 offset-md-0 custom-button">Try It</button>
+            <a href="{% url 'generate_exercise' %}" class="btn btn-danger col-md-0 offset-md-0 custom-button">Try It</a>
         </div>
 
         <div class="col-md-5 offset-md-0">
             {% load static %}
-            <img src="{% static '/year-long-project-team-17/app/website/templates/images/generate_content.png' %}" alt="content" class="img-fluid">
+            <img src="{% static 'generate_content.png' %}" alt="content" class="img-fluid">
         </div>
     </div>
 </div>
@@ -279,12 +293,12 @@ function myFunction() {
             <h2 class="container  light-blue-header">Generate Summary</h2>
             <p>The summary generator is a software tool embedded in our website that is designed to condense lengthy pieces of text or content into concise and coherent summaries. The user inputs chunks of texts into the textbook. Using NLP and ML algorithms, the generator analyzes the input texts, identifies key themes and extracts important information. This technology is useful for students and teachers to summarize articles, research papers, facilitating efficient information consumption and comprehension.</p>
             <br>
-            <button type="button" class="btn btn-danger col-md-0 offset-md-5 custom-button">Try It</button>
+            <a href="{% url 'generate_summary' %}" class="btn btn-danger col-md-0 offset-md-5 custom-button">Try It</a>
         </div>
 
         <div class="col-md-5 offset-md-0 text-md-end">
             {% load static %}
-            <img src="{% static '/year-long-project-team-17/app/website/templates/images/generate_summary.png' %}" alt="summary" class="img-fluid">
+            <img src="{% static 'generate_summary.png' %}" alt="summary" class="img-fluid">
         </div>
     </div>
 </div>
@@ -298,12 +312,12 @@ function myFunction() {
             <h2 class="container  light-blue-header">Virtual Assistant</h2>
             <p>The virtual assistant feature is designed to provide support to users through NLP and machine learning capabilities. Virtual assistant is always there to help you and answer any questions you have regarding our website. It does this by comprehending and responding to typed commands. It plays a pivotal role in enhancing user convenience, efficiency, and accessibility across diverse technological ecosystems.</p>
             <br>
-            <button type="button" class="btn btn-danger col-md-0 offset-md-0 custom-button">Try It</button>
+            <a href="{% url 'chatbot' %}" class="btn btn-danger col-md-0 offset-md-0 custom-button">Try It</a>
         </div>
 
         <div class="col-md-5 offset-md-0">
             {% load static %}
-            <img src="{% static '/year-long-project-team-17/app/website/templates/images/virtual_assistant.png' %}" alt="assistant" class="img-fluid">
+            <img src="{% static 'virtual_assistant.png' %}" alt="assistant" class="img-fluid">
         </div>
     </div>
 </div>
@@ -313,7 +327,7 @@ function myFunction() {
 
 <div class="container">
     <div>
-        <h2 class="col-md-6 offset-md-3 text-center">Testimonies</h2>
+        <h2 class="col-md-6 offset-md-3 text-center readable-header">Testimonies</h2>
     </div>
     <br>
     <div class="row">
@@ -366,7 +380,7 @@ function myFunction() {
 
     <div class="row">
         <div class="col-md-9 mb-md-0 mb-5">
-            <h3 class="h1-responsive font-weight-bold text-md-right my-4">Contact us</h3>
+            <h3 class="h1-responsive font-weight-bold text-md-right my-4 readable-header">Contact us</h3>
             <p class="text-right w-responsive mx-auto mb-5">Do you have any questions? Our team will come back to you within
                 a matter of hours to help you.</p>
 
@@ -422,7 +436,7 @@ function myFunction() {
 
         <div class="col-md-3">
             {% load static %}
-            <img src="{% static '/year-long-project-team-17/app/website/templates/images/Contact-card.png' %}" alt="Contact" style="width: 100%; max-width: 200px; margin-left: auto;">
+            <img src="{% static 'Contact-card.png' %}" alt="Contact" style="width: 100%; max-width: 200px; margin-left: auto;">
         </div>
     </div>
 
