@@ -831,7 +831,7 @@ def presentation_download(request):
         if fs.exists(filename):
             response = FileResponse(fs.open(filename, 'rb'), content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
             response['Content-Disposition'] = f'attachment; filename="{filename}"'
-            fs.delete(filename)
+            #fs.delete(filename)
             cache.clear()
 
             return response
