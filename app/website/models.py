@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.core.validators import MaxValueValidator, MinValueValidator 
 
 # Create your models here.
 
@@ -26,3 +27,13 @@ class Message(models.Model):
     receiver = models.ForeignKey(User, related_name='receiver', on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+
+
+class Presentations(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    presentation = models.JSONField()
+    main_title = models.TextField() #first slide title
+    titles = models.TextField() #Titles of other slides added together 
+    date_created = models.DateTimeField(auto_now_add=True)
+    #0 meaning presentation is not shared, 1 presentation is shared. defaults to 0
+    is_shared = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(1)]) 
