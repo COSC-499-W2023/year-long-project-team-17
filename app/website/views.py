@@ -11,7 +11,7 @@ from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from .forms import SignUpForm, EditProfileForm, ProfilePageForm
-from .models import Profile, Message
+from .models import Profile, Message, Presentations
 from util.generate_summary import generate_summary
 from util.generate_presentation import generate_presentation
 from util.detect_plagiarism import detect_plagiarism
@@ -160,7 +160,16 @@ def contact_us(request):
     else:
         return render(request, 'contact_us.html')
 
-
+@login_required
+def get_presentations(request):
+    results = Presentations.objects.filter(user_id = request.user).values('main_title','titles','date_created', 'is_shared').order_by('date_created')
+    for item in results.values():
+        print(item['main_title'])
+        print(item['titles'])
+        print(item['date_created'])
+        print(item['is_shared'])
+    return render(request, 'get_presentations.html')
+    
 
 
 @ratelimit(key='post:username', rate='5/5m',
@@ -383,7 +392,16 @@ def presentation_generation_task(request, input_text):
     filename = f'generated_presentation_{new_id}.pptx'  # Choose a unique filename if necessary
     if fs.exists(filename):
         fs.delete(filename)
-    presentation = generate_presentation(input_text)
+    #presentation = generate_presentation(input_text)
+    values = generate_presentation(input_text)
+    presentation = values['presentation']
+    pres_info = values['pres_info']
+    pres = Presentations.objects.create(
+        user = request.user,
+        presentation = pres_info['presentation_json'],
+        main_title = pres_info['main_title'],
+        titles = pres_info['titles']
+    )
     with fs.open(filename, 'wb') as pptx_file:
         presentation.save(pptx_file)
     request.session['generated_presentation_filename'] = filename
@@ -813,7 +831,7 @@ def presentation_download(request):
         if fs.exists(filename):
             response = FileResponse(fs.open(filename, 'rb'), content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
             response['Content-Disposition'] = f'attachment; filename="{filename}"'
-            fs.delete(filename)
+            #fs.delete(filename)
             cache.clear()
 
             return response
