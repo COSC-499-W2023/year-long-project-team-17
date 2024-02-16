@@ -291,8 +291,8 @@ def generate_summary_view(request):
                                 {'summary': summary,
                                 "input_option": input_option})
             else:
-                messages.error(request, "Please enter a text")
-                return render(request, "summary_generation.html")
+                messages.error(request, "Please enter a text that you want to summarize")
+                return render(request, "summary_generation.html", {"input_option": "write"})
         elif input_option == "upload":
             uploaded_file = request.FILES.get("file")
 
@@ -315,7 +315,7 @@ def generate_summary_view(request):
                                             "input_option": input_option})
                         else:
                             messages.error(request,
-                                            "You uploaded an empty .docx file.")
+                                            "You uploaded an empty .docx file.", {"input_option": "upload"})
 
                     elif file_extension == ".pptx":
                         presentation = Presentation(uploaded_file)
@@ -336,7 +336,7 @@ def generate_summary_view(request):
                                             "input_option": input_option})
                         else:
                             messages.error(request,
-                                            "You uploaded an empty .pptx file.")
+                                            "You uploaded an empty .pptx file.", {"input_option": "upload"})
 
                     elif file_extension == ".txt":
                         txt_text = uploaded_file.read().decode('utf-8')
@@ -347,7 +347,7 @@ def generate_summary_view(request):
                                             "input_option": input_option})
                         else:
                             messages.error(request,
-                                            "You uploaded an empty .txt file.")
+                                            "You uploaded an empty .txt file.", {"input_option": "upload"})
 
                     elif file_extension == ".pdf":
                         pdf_content = uploaded_file
@@ -365,14 +365,14 @@ def generate_summary_view(request):
                                             "input_option": input_option})
                         else:
                             messages.error(request,
-                                            "You uploaded an empty .pdf file.")
+                                            "You uploaded an empty .pdf file.", {"input_option": "upload"})
                 else:
                     messages.error(request,
-                                    "The Uploaded file must have one of the following extensions: .docs, .pptx, .txt, .pdf")
+                                    "The Uploaded file must have one of the following extensions: .docs, .pptx, .txt, .pdf", {"input_option": "upload"})
 
             else:
                 messages.error(request, "Please upload a file")
-
+                render(request, "summary_generation.html", {"input_option": "upload"})
     return render(request, "summary_generation.html", {"input_option": "write"})
 
 
@@ -421,7 +421,7 @@ def generate_presentation_view(request):
                 return JsonResponse({'status': 'success', 'message': 'Presentation generated'})
             else:
                 messages.error(request, "Please enter text for the presentation")
-                return render(request, "presentation_generation.html")
+                return render(request, "presentation_generation.html", {"input_option": "write"})
         elif input_option == "upload":
             uploaded_file = request.FILES.get("file")
             if uploaded_file:
@@ -448,7 +448,7 @@ def generate_presentation_view(request):
 
                             return JsonResponse({'status': 'success', 'message': 'Presentation generated'})
                         else:
-                            messages.error(request, "You uploaded an empty .docx file.")
+                            messages.error(request, "You uploaded an empty .docx file.", {"input_option": "upload"})
 
                     elif file_extension == ".txt":
                         txt_text = uploaded_file.read().decode('utf-8')
@@ -467,7 +467,7 @@ def generate_presentation_view(request):
                             return JsonResponse({'status': 'success', 'message': 'Presentation generated'})
                         else:
                             messages.error(request,
-                                            "You uploaded an empty .txt file.")
+                                            "You uploaded an empty .txt file.", {"input_option": "upload"})
 
                     elif file_extension == ".pdf":
                         pdf_content = uploaded_file
@@ -493,13 +493,13 @@ def generate_presentation_view(request):
                             return JsonResponse({'status': 'success', 'message': 'Presentation generated'})
                         else:
                             messages.error(request,
-                                            "You uploaded an empty .pdf file.")
+                                            "You uploaded an empty .pdf file.", {"input_option": "upload"})
                 else:
                     messages.error(request,
-                                    "The Uploaded file must have one of the following extensions: .docs, .pptx, .txt, .pdf")
+                                    "The Uploaded file must have one of the following extensions: .docs, .pptx, .txt, .pdf", {"input_option": "upload"})
 
             else:
-                messages.error(request, "Please upload a file")
+                messages.error(request, "Please upload a file", {"input_option": "upload"})
 
             # if input_text:
             #     presentation = generate_presentation(input_text)  # Modify this line to generate the presentation
@@ -513,7 +513,7 @@ def generate_presentation_view(request):
             # else:
             #     messages.error(request, "Please enter text for the presentation")
             #     return render(request, "presentation_generation.html")
-    return render(request, "presentation_generation.html")
+    return render(request, "presentation_generation.html", {"input_option": "write"})
     
 
 @authenticated_user
@@ -607,7 +607,7 @@ def generate_exercise_view(request):
                                     "input_option": input_option})
                 else:
                     messages.error(request, "Please describe what type of exercises do you want.")
-                    return render(request, "exercise_generation.html")
+                    return render(request, "exercise_generation.html", {"input_option": "write"})
             elif input_option == "upload":
                 uploaded_file = request.FILES.get("file")
                 if uploaded_file:
@@ -615,7 +615,7 @@ def generate_exercise_view(request):
                     if file_extension not in [".docx", ".pdf"]:
                         messages.error(request,
                                         "The uploaded file must have one of the following extensions: .docx, .pdf")
-                        return render(request, "exercise_generation.html")
+                        return render(request, "exercise_generation.html", {"input_option": "upload"})
                     elif file_extension == ".docx":
                             doc = docx.Document(uploaded_file)
                             full_text = []
@@ -651,8 +651,8 @@ def generate_exercise_view(request):
                 else:
                     messages.error(request,
                                     "Please upload a file before Pressing the button. The uploaded file must have one of the following extensions: .docx, .pdf")
-                    return render(request, "exercise_generation.html")
-        return render(request, "exercise_generation.html")
+                    return render(request, "exercise_generation.html", {"input_option": "upload"})
+        return render(request, "exercise_generation.html", {"input_option": "write"})
     
 @authenticated_user
 def chatbot_view(request):
