@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block content %}
+{% load bootstrap_icons %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+
+
+<div class="col-md-6 offset-md-3">
+    
+        <div class="d-flex prof-card p-4 bg-dark mb-5">
+          <div class="d-flex flex-column pr-3">
+            <img class="rounded-circle profile-image" src="{{ user.profile.profile_pic.url }}">
+            <a class="btn custom-button d-grid gap-2 col-10 text-white shadow-none border border-2 border-primary border-opacity-50 rounded-0"  href="{% url 'edit_profile' %}" role="button">Edit profile</a>
+          </div>  
+            <div class="flex-fill pr-4">
+                <h2 class="profile-heading text-white">{{ user.username }}</h2>
+                {% if user.profile.bio|length == 0 %}
+                <p class="profile-bio text-white">{{ user.first_name }}'s bio</p>
+                {% else %}
+                <p class="profile-bio text-white">{{ user.profile.bio }}</p>
+                {% endif %}
+            </div> 
+            
+        </div>
+          
+    {% for value in results.values %}
+    <div class="card text-center text-white bg-dark border-primary border-1 border-opacity-25 mb-4">
+        <div class="card-header border-2 border-primary border-opacity-25 d-flex dropend">
+          {% if value.is_shared == 0 %}
+          <button type="button" class="btn btn-sm shadow-none bg-transparent text-white" data-bs-toggle="tooltip" data-bs-title="Click to make your presentation public" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip"><i>{% bs_icon 'lock' %}</i></button>
+          {% else %}
+          <button type="button" class="btn btn-sm shadow-none bg-transparent text-white" data-bs-toggle="tooltip" data-bs-title="Click to make your presentation private" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip"><i>{% bs_icon 'unlock' %}</i></button>
+          {% endif %}
+          <p class="mt-3 flex-grow-1 fs-5">Generated Presentation</p> 
+          <button type="button" class="btn btn-sm shadow-none bg-transparent text-white" data-bs-toggle="dropdown"  aria-expanded="false"><i>{% bs_icon 'three-dots' %}</i></button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Download PowerPoint <i>{% bs_icon 'filetype-pptx' %}</i></a></li>
+            <li><a class="dropdown-item" href="#">Download PDF <i>{% bs_icon 'filetype-pdf' %}</i></a></li>
+            <li><a class="dropdown-item" href="#">Delete <i>{% bs_icon 'trash' %}</i></a></li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ value.main_title }}</h5>
+          <p class="card-text">{{ value.titles }}</p>
+        </div>
+        <div class="card-footer cfooter border-2 border-primary border-opacity-25 text-muted">
+         <p><span data-bs-toggle="tooltip" data-bs-title="{{ value.date_created }} UTC" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip">Generated {{ formated_date.pop }} ago</span></p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <style>
+body, html {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #1e1e2f;
+    }
+.container {
+    margin-top: 4em;
+    }
+  .prof-card {
+    border: 1.25px solid hsl(216, 63%, 23%);
+    border-radius: 10px;
+    box-shadow: 0 2px 7px rgba(155, 153, 153, 0.3);
+  }
+
+.custom-button {
+  background: linear-gradient(to right, #1901a0 0%, #2600fb 100%);
+  background-size: 200% 100%;
+  transition: background-position 0.3s ease;
+  padding: 4px 4px;
+}
+
+.custom-button:hover,
+.custom-button:focus {
+   background-position: -100% 0;
+  }
+  
+.dropdown-menu  {
+  --bs-dropdown-bg: var(--bs-dark);
+  --bs-dropdown-link-color: var(--bs-white);
+  --bs-dropdown-border-color: var(--bs-white);
+  --bs-dropdown-border-radius: 0.5em;
+  border: 1px solid;
+}
+
+.custom-tooltip {
+  --bs-tooltip-bg: var(--bs-dark);
+  --bs-tooltip-color: var(--bs-white);
+}
+
+
+.profile-heading {
+  font-size: 2.5em;
+  margin-top: 0.5em;
+}
+
+.profile-bio {
+  font-size: 0.9em;
+  margin-top: 1em;
+}
+
+.profile-image {
+  height: 125px;
+  width: 125px;
+  margin-top: 1em;
+  margin-right: 1.5em;
+  margin-bottom: 2em;
+}
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+  });
+</script>
+{% endblock content %}

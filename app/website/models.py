@@ -2,13 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator 
+from django.utils import timezone
 
 # Create your models here.
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    bio = models.TextField()
-    profile_pic = models.ImageField(null=True, blank=True, upload_to="images/profile/")
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(null=True, blank=True)
+    profile_pic = models.ImageField(default='default.jpg', upload_to='profile_pictures')
     website_url = models.CharField(max_length=255, null=True, blank=True)
     facebook_url = models.CharField(max_length=255, null=True, blank=True)
     twitter_url = models.CharField(max_length=255, null=True, blank=True)
@@ -16,7 +17,8 @@ class Profile(models.Model):
     pinterest_url = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return str(self.user)
+        #return str(self.user)
+        return f'{self.user.username} Profile'
 
     def get_absolute_url(self):
         return reverse('home')
@@ -34,6 +36,6 @@ class Presentations(models.Model):
     presentation = models.JSONField()
     main_title = models.TextField() #first slide title
     titles = models.TextField() #Titles of other slides added together 
-    date_created = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateTimeField(default=timezone.now)
     #0 meaning presentation is not shared, 1 presentation is shared. defaults to 0
     is_shared = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(1)]) 
