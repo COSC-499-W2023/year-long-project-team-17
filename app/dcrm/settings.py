@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "widget_tweaks",
     'django_extensions',
     #"django_ratelimit",
+    'django_bootstrap_icons',
 ]
 
 MIDDLEWARE = [
@@ -137,6 +138,12 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "static/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+# Cache configuration for bootstrap icons
+BS_ICONS_CACHE = os.path.join(STATIC_ROOT, 'icon_cache')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

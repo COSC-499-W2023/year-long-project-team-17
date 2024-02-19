@@ -42,6 +42,8 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from util import config
+from datetime import datetime, timezone
+import math
 # Create your views here.
 # logging.info("----"*100)
 #
@@ -169,7 +171,39 @@ def get_presentations(request):
         print(item['date_created'])
         print(item['is_shared'])
     return render(request, 'get_presentations.html')
-    
+
+@authenticated_user
+def Profile(request, username):
+
+    #Users viewing their own profile page
+    if request.user.username == username:
+        results = Presentations.objects.filter(user_id = request.user.id).values('main_title','titles','date_created', 'is_shared').order_by('-date_created')
+        context = {}
+        formated_date = []
+        for value in results.values():
+            time = datetime.now(timezone.utc) - value['date_created']
+            time = format_timespan(math.floor(time.total_seconds()), max_units=2)
+            formated_date.append(time)
+            #print(time)
+        context['results'] = results
+        formated_date.reverse()
+        context['formated_date'] = formated_date
+        return render(request, 'profile.html', context)
+    else:
+        #Users viewing a users profile
+        context = {}
+        user_obj = User.objects.get(username = username)
+        results = Presentations.objects.filter(user_id = user_obj.pk).values('main_title','titles','date_created', 'is_shared').order_by('-date_created')
+        formated_date = []
+        for value in results.values():
+            time = datetime.now(timezone.utc) - value['date_created']
+            time = format_timespan(math.floor(time.total_seconds()), max_units = 2)
+            formated_date.append(time)
+        context['results'] = results
+        context['user_obj'] = user_obj
+        formated_date.reverse()
+        context['formated_date'] = formated_date
+        return render(request, 'profile_different_user.html', context)
 
 
 @ratelimit(key='post:username', rate='5/5m',
