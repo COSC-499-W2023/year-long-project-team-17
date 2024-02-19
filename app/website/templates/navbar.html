@@ -48,6 +48,17 @@
               <a class="nav-link" href="{% url 'faq' %}">FAQ</a>
             </li>
 
+          <!-- Theme toggle switch -->
+<li class="nav-item">
+  <label class="switch">
+    <input type="checkbox" id="theme-toggle">
+    <span class="slider round"></span>
+  </label>
+</li>
+
+
+
+
 
         {% else %}
 
@@ -71,3 +82,168 @@
     </div>
   </div>
 </nav>
+
+<script type="text/javascript">
+  // This script toggles the dark and light mode and remembers the choice in localStorage
+  const themeToggleSwitch = document.getElementById('theme-toggle');
+  const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+  if (currentTheme === 'light') {
+    themeToggleSwitch.checked = true;
+  } else {
+    themeToggleSwitch.checked = false;
+  }
+
+  themeToggleSwitch.addEventListener('change', function () {
+    // Toggles the theme and updates localStorage
+    if (themeToggleSwitch.checked) {
+      document.body.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.body.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+
+  // Apply the current theme from local storage on page load
+  document.addEventListener('DOMContentLoaded', (event) => {
+    document.body.setAttribute('data-theme', currentTheme || 'dark');
+  });
+</script>
+
+
+<style>
+
+  body[data-theme='light'] {
+    background-color: #fbfbfb; /* Soft light gray background */
+    color: #575757; /* Comfortable dark gray text for readability */
+  }
+
+  /* Navbar changes for light theme */
+  body[data-theme='light'] .navbar {
+    background: linear-gradient(to right, #dae2f8, #d6a4a4); /* Light gradient background for the navbar */
+  }
+
+  body[data-theme='light'] .navbar-brand,
+  body[data-theme='light'] .nav-link {
+    color: #575757; /* Comfortable dark gray text color for light backgrounds */
+  }
+
+  /* Style the toggle switch */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-left: 10px; /* To align with other navbar items */
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+
+  /* Additional styles for buttons and form elements in light mode */
+body[data-theme='light'] {
+    background-color: #f5f7fa; /* Soft gray background */
+    color: #2f2f2f; /* Dark gray text for better readability */
+}
+
+body[data-theme='light'] .navbar {
+    background-color: #ffffff; /* Pure white for navbar */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow under navbar */
+}
+
+body[data-theme='light'] .navbar-brand {
+    color: #2f2f2f; /* Dark text color for brand */
+}
+
+body[data-theme='light'] .nav-link {
+    color: #4a4a4a; /* Slightly lighter for links to not be too harsh */
+    transition: color 0.3s; /* Smooth transition for color */
+}
+
+body[data-theme='light'] .nav-link:hover,
+body[data-theme='light'] .nav-link:focus {
+    color: #7c7c7c; /* Change link color on hover/focus */
+}
+
+body[data-theme='light'] form {
+    background-color: #ffffff; /* White background for form */
+    color: #2f2f2f; /* Dark text for readability */
+    border: 1px solid #e6e9ec; /* Light border for the form */
+}
+
+body[data-theme='light'] .form-check-label {
+    color: #2f2f2f; /* Dark form labels for better contrast */
+}
+
+body[data-theme='light'] .custom-radio .checkmark {
+    background-color: #e6e9ec; /* Lighter taken from the form border color */
+}
+
+body[data-theme='light'] .custom-radio input:checked ~ .checkmark {
+    background-color: #4a90e2; /* Bright blue color for checked state */
+}
+
+body[data-theme='light'] .btn-outline-primary,
+body[data-theme='light'] .btn {
+    background-color: #4a90e2; /* Matched the checked state blue */
+    color: #ffffff; /* White text on buttons */
+    border: 1px solid #4a90e2; /* Blue border to match */
+}
+
+body[data-theme='light'] .btn-outline-primary:hover,
+body[data-theme='light'] .btn:hover,
+body[data-theme='light'] .btn-outline-primary:focus,
+body[data-theme='light'] .btn:focus {
+    background-color: #357abd; /* A shade darker for hover state */
+    border-color: #357abd; /* Match the button background */
+}
+
+body[data-theme='light'] textarea,
+body[data-theme='light'] input[type="file"] {
+    background-color: #ffffff; /* White backgrounds for text inputs */
+    color: #2f2f2f; /* Dark text for readability */
+    /* Other styles (border, focus) remain the same as dark theme */
+}
+
+
+</style>
