@@ -39,9 +39,9 @@ charviey -> Charvie Yadav
 
 ## In progress tasks
 
-- #115 Profile/list user's own presentations -> harshg03 in progress
-- #116 change password -> harshg03 in progress
-- #117 edit profile testing -> harshg03 in progress
+- #115 Profile/list user's own presentations -> harshg03 
+- #116 change password -> harshg03
+- #117 edit profile testing -> harshg03 
 
 ## Burnup chart
 
