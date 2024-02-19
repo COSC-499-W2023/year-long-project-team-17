@@ -8,7 +8,7 @@ Meeting
 
 Coding
 
-review
+Review
 
 ## Team members
 
@@ -22,7 +22,7 @@ charviey -> Charvie Yadav
 
 ## Milestone goals recap
 
-- Our team's goal this week was to continue working on our features for the peer testing #2 milestone.           
+- Our team's goal this week was to continue working on our features for the peer testing milestone #2.           
 
 ## Associated board tasks
 
