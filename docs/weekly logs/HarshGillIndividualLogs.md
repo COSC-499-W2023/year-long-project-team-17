@@ -278,3 +278,28 @@ with my group soon and going over our notes on peer testing #1 to decide what ne
 
 - I did not have any of my own tasks this week to work on, but I did help create the tasks for the heuristic evaluation in peer testing #1. I do plan on meeting
 with my group soon and going over our notes on peer testing #1 to decide what needs to be added or fixed in our prototype.
+
+
+## Week 6 Term 2
+
+### Work period
+- Feb.12, 2024 - Feb.18, 2024
+
+### Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek19.png)
+
+### Weekly goal recap
+
+- My goal this week was to start work on creating a profile page and listing the user's presentations on the profile page.
+
+### Tasks on board
+
+![Screenshot](images/ProjectBoardScreenshotHarshWeek19.png)
+
+### Completed vs in progress
+
+- #111 Presentation Storage -> harshg03 is completed
+- #115 Profile/list user's own presentations -> harshg03 in progress
+- #116 change password -> harshg03 in progress
+- #117 edit profile testing -> harshg03 in progress
+
