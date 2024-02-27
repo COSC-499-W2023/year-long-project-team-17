@@ -14,12 +14,16 @@
             margin: 0;
             padding: 0;
         }
+        .fontAwesome {
+            font-family: 'Helvetica', FontAwesome, sans-serif;
+        }
         #chat-messages {
             overflow-y: auto;
             border: 1px solid #ccc;
             padding: 10px;
             background: #fff;
-            max-height: 400px;
+            height: 300px;
+
         }
         #title {
             color: #111B47;
@@ -60,6 +64,43 @@
             cursor: pointer;
             border-radius: 5px;
         }
+        .table{
+            position: relative;
+            left:-320px;
+            right:0px;
+            top:-470px;
+            
+        }
+        .data{
+            width:300px;
+            height:60px;
+            background-color: white;
+            padding: 10px;
+            color: #acacac;
+        }
+        .row-data{
+            border: 1px solid rgb(203, 202, 202);
+        }
+        .table-2{
+            position: relative;
+            left:580px;
+            bottom:965px;
+            
+        }
+        .data-2{
+            width:300px;
+            height:60px;
+            background-color: white;
+            padding: 10px;
+        }
+        .data-2-2{
+            width:300px;
+            height:410px;
+            background-color: white;
+        }
+        .row-data-2{
+            border: 1px solid rgb(203, 202, 202);
+        }
     </style>
 </head>
 
@@ -84,8 +125,81 @@
                 <textarea id="message-input" name="content" required rows="2" placeholder="Type message"></textarea>
                 <button type="send" id="btn">Send</button>
             </form>
+            <div class="table">
+                <table>
+                    <tr class="row-data">
+                        <td class="data">
+                            Name 1
+                        </td>
+                    </tr>
+                    <tr class="row-data">
+                        <td class="data">
+                            Name 2
+                        </td>
+                    </tr>
+                    <tr class="row-data">
+                        <td class="data">
+                            Name 3
+                        </td>
+                    </tr>
+                    <tr class="row-data">
+                        <td class="data">
+                            Name 4
+                        </td>
+                    </tr>
+                    <tr class="row-data">
+                        <td class="data">
+                            Name 5
+                        </td>
+                    </tr>
+                    <tr class="row-data">
+                        <td class="data">
+                            Name 6
+                        </td>
+                    </tr>
+                    <tr class="row-data">
+                        <td class="data">
+                            Name 7
+                        </td>
+                    </tr>
+                    <tr class="row-data">
+                        <td class="data">
+                            Name 8
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="table-2">
+                <table>
+                    <tr class="row-data-2">
+                        <td class="data-2">
+                            Search in Channel
+                        </td>
+                    </tr>
+                    <tr class="row-data-2">
+                        <td class="data-2">
+                            <div class="search-container">
+                                <form action="/action_page.php">
+                                  <i class="fa fa-search" aria-hidden="true"></i>
+                                  <input type="text" placeholder="Search.." name="search" >
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row-data-2">
+                        <td class="data-2-2">
+                            
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
         </div>
     </div>
+
+
     
     <script>
         window.onload = function () {
