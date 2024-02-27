@@ -1,4 +1,6 @@
 <!doctype html>
+{% load static %}
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -6,17 +8,17 @@
     <title>Edu Prompt</title>
     <link href="https://bootswatch.com/5/morph/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="icon" type="image/png" sizes="32x32" href="/year-long-project-team-17/app/website/favicon_io/favicon-32x32.png">
-    <link rel="manifest" href="/year-long-project-team-17/app/website/favicon_io/site.webmanifest">
+    <link rel="icon" href="{% static 'favicon.png' %}">
+   
   </head>
-  <body> 
+  <body>
     {% include 'navbar.html' %}
     <div class="container">
     </br>
         {% if messages %}
 
           {% for message in messages %}
-          
+
           {% if message.tags == 'info' %}
           <!-- For info messages -->
           <div class="alert alert-warning alert-dismissible fade show" role="alert">

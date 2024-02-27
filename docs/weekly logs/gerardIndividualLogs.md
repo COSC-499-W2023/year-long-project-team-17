@@ -185,8 +185,66 @@ This week I did not have any advancement in features as I was focused on the liv
 
 ### Context
 - I did not work on the project over the break, and this initial week has was used to get up to date with the team and back into rythm.
+- Branch Link https://github.com/COSC-499-W2023/year-long-project-team-17/tree/directMessaging
 
 ### Peer eval
 
 
 ![Screenshot](images/T2Week1GerardPeerEval.png)
+
+## Week2 (Jan 15, 2023 - Jan 21, 2023)
+### Goals Recap
+- This week my goal was to focus on the front end of the chat website. I have not completed it
+
+### Tasks on board
+- Live chatting is still my task on the board, this is still my task, as now I have worked on the front end
+
+### Completed vs InProgress
+- Live chatting is InProgress
+
+### Context
+- I tried to work on the front end, but decided to work on the backend to improve the functionality of the live chatting, but yet none of the options worked as expected
+- Branch Link https://github.com/COSC-499-W2023/year-long-project-team-17/tree/liveChatTry2
+
+### Peer eval
+
+
+![Screenshot](images/T2Week2GerardPeerEval.png)
+
+## Week3 (Jan 22, 2023 - Jan 28, 2023)
+### Goals Recap
+- My goal this week was to create the front end of the chat feature. I completed it
+
+### Tasks on board
+- Live chatting is still my task on the board, this is because there are still things to be done in this task
+
+### Completed vs InProgress
+- Live chatting is InProgress
+
+### Context
+- Completed the backend for the chating rooms, completed simple front end for chatting rooms, now working on completing front and backend for the current open chats for each user.
+- Branch Link https://github.com/COSC-499-W2023/year-long-project-team-17/tree/liveChatTry2
+
+### Peer eval
+
+
+![Screenshot](images/T2Week3GerardPeerEval.png)
+
+## Week4 (Jan 29, 2023 - Feb 04, 2023)
+### Goals Recap
+- My goal this week was to work on the open chats function to show the user the chats they have open. Another goal which I was unable to complete was the create a new chat with a different user
+
+### Tasks on board
+- Live chatting is still my task on the board, this is because there are still things to be done in this task
+
+### Completed vs InProgress
+- Live chatting is InProgress
+
+### Context
+- Completed backend for chat function along with opened chats function. Still trying to figure out a better way to improve live chatting
+- Branch Link https://github.com/COSC-499-W2023/year-long-project-team-17/tree/liveChatTry2
+
+### Peer eval
+
+
+![Screenshot](images/T2Week4GerardPeerEval.png)

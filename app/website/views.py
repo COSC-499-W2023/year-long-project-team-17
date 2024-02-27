@@ -6,12 +6,24 @@ from django.contrib.auth.models import Group, User
 from django.urls import reverse_lazy
 from django.views import generic
 from .decorators import *
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
 from .forms import SignUpForm, EditProfileForm, ProfilePageForm
-from .models import Profile, Message
+from .models import Profile, Message, Presentations
 from util.generate_summary import generate_summary
 from util.generate_presentation import generate_presentation
 from util.detect_plagiarism import detect_plagiarism
 from util.generate_exercises import generate_exercises_from_prompt, generate_similar_exercises
+from util.adapt_content import generate_adapted_content
+from django.http import FileResponse
+from django.core.cache import cache
+from django.http import JsonResponse
+from django.core.files.storage import FileSystemStorage
+from threading import Thread
+from uuid import uuid4
+
 import os
 import docx
 from pptx import Presentation
@@ -188,7 +200,16 @@ def contact_us(request):
     else:
         return render(request, 'contact_us.html')
 
-
+@login_required
+def get_presentations(request):
+    results = Presentations.objects.filter(user_id = request.user).values('main_title','titles','date_created', 'is_shared').order_by('date_created')
+    for item in results.values():
+        print(item['main_title'])
+        print(item['titles'])
+        print(item['date_created'])
+        print(item['is_shared'])
+    return render(request, 'get_presentations.html')
+    
 
 
 @ratelimit(key='post:username', rate='5/5m',
@@ -310,8 +331,8 @@ def generate_summary_view(request):
                                 {'summary': summary,
                                 "input_option": input_option})
             else:
-                messages.error(request, "Please enter a text")
-                return render(request, "summary_generation.html")
+                messages.error(request, "Please enter a text that you want to summarize")
+                return render(request, "summary_generation.html", {"input_option": "write"})
         elif input_option == "upload":
             uploaded_file = request.FILES.get("file")
 
@@ -330,11 +351,11 @@ def generate_summary_view(request):
                         if document_text:
                             summary = generate_summary(document_text)
                             return render(request, "summary_generation.html",
-                                            {"summary": summary["choices"][0]["message"]["content"],
+                                            {"summary": summary,
                                             "input_option": input_option})
                         else:
                             messages.error(request,
-                                            "You uploaded an empty .docx file.")
+                                            "You uploaded an empty .docx file.", {"input_option": "upload"})
 
                     elif file_extension == ".pptx":
                         presentation = Presentation(uploaded_file)
@@ -351,22 +372,22 @@ def generate_summary_view(request):
                         if presentation_text:
                             summary = generate_summary(presentation_text)
                             return render(request, "summary_generation.html",
-                                            {"summary": summary["choices"][0]["message"]["content"],
+                                            {"summary": summary,
                                             "input_option": input_option})
                         else:
                             messages.error(request,
-                                            "You uploaded an empty .pptx file.")
+                                            "You uploaded an empty .pptx file.", {"input_option": "upload"})
 
                     elif file_extension == ".txt":
                         txt_text = uploaded_file.read().decode('utf-8')
                         if txt_text:
                             summary = generate_summary(txt_text)
                             return render(request, "summary_generation.html",
-                                            {"summary": summary["choices"][0]["message"]["content"],
+                                            {"summary": summary,
                                             "input_option": input_option})
                         else:
                             messages.error(request,
-                                            "You uploaded an empty .txt file.")
+                                            "You uploaded an empty .txt file.", {"input_option": "upload"})
 
                     elif file_extension == ".pdf":
                         pdf_content = uploaded_file
@@ -380,19 +401,50 @@ def generate_summary_view(request):
                         if pdf_text:
                             summary = generate_summary(pdf_text)
                             return render(request, "summary_generation.html",
-                                            {"summary": summary["choices"][0]["message"]["content"],
+                                            {"summary": summary,
                                             "input_option": input_option})
                         else:
                             messages.error(request,
-                                            "You uploaded an empty .pdf file.")
+                                            "You uploaded an empty .pdf file.", {"input_option": "upload"})
                 else:
                     messages.error(request,
-                                    "The Uploaded file must have one of the following extensions: .docs, .pptx, .txt, .pdf")
+                                    "The Uploaded file must have one of the following extensions: .docs, .pptx, .txt, .pdf", {"input_option": "upload"})
 
             else:
                 messages.error(request, "Please upload a file")
-
+                render(request, "summary_generation.html", {"input_option": "upload"})
     return render(request, "summary_generation.html", {"input_option": "write"})
+
+
+def generate_new_file_id():
+    current_uuid = uuid4()
+    cache.set("generated_presentation_id", str(current_uuid))
+    return current_uuid
+
+
+def presentation_generation_task(request, input_text):
+
+    if "generated_presentation_filename" in request.session:
+        request.session['generated_presentation_filename'] = None
+
+    fs = FileSystemStorage()
+    new_id = generate_new_file_id()
+    filename = f'generated_presentation_{new_id}.pptx'  # Choose a unique filename if necessary
+    if fs.exists(filename):
+        fs.delete(filename)
+    #presentation = generate_presentation(input_text)
+    values = generate_presentation(input_text)
+    presentation = values['presentation']
+    pres_info = values['pres_info']
+    pres = Presentations.objects.create(
+        user = request.user,
+        presentation = pres_info['presentation_json'],
+        main_title = pres_info['main_title'],
+        titles = pres_info['titles']
+    )
+    with fs.open(filename, 'wb') as pptx_file:
+        presentation.save(pptx_file)
+    request.session['generated_presentation_filename'] = filename
 
 
 @authenticated_user
@@ -403,15 +455,13 @@ def generate_presentation_view(request):
         if input_option == "write":
             input_text = request.POST.get("input_text")
             if input_text:
-                presentation = generate_presentation(input_text)
-                response = HttpResponse(
-                    content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
-                response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
-                presentation.save(response)
-                return response
+                thread = Thread(target=presentation_generation_task, args=(request, input_text))
+                thread.start()
+
+                return JsonResponse({'status': 'success', 'message': 'Presentation generated'})
             else:
                 messages.error(request, "Please enter text for the presentation")
-                return render(request, "presentation_generation.html")
+                return render(request, "presentation_generation.html", {"input_option": "write"})
         elif input_option == "upload":
             uploaded_file = request.FILES.get("file")
             if uploaded_file:
@@ -426,28 +476,38 @@ def generate_presentation_view(request):
 
                         document_text = "\n".join(full_text)
                         if document_text:
-                            presentation = generate_presentation("I want a presentation based on the following content:\n" + str(document_text))
-                            response = HttpResponse(
-                                content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
-                            response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
-                            presentation.save(response)
-                            return response
+                            # presentation = generate_presentation()
+                            # response = HttpResponse(
+                            #     content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
+                            # response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
+                            # presentation.save(response)
+                            # return response
+                            input_text = "I want a presentation based on the following content:\n" + str(document_text)
+                            thread = Thread(target=presentation_generation_task, args=(request, input_text))
+                            thread.start()
+
+                            return JsonResponse({'status': 'success', 'message': 'Presentation generated'})
                         else:
-                            messages.error(request, "You uploaded an empty .docx file.")
+                            messages.error(request, "You uploaded an empty .docx file.", {"input_option": "upload"})
 
                     elif file_extension == ".txt":
                         txt_text = uploaded_file.read().decode('utf-8')
                         if txt_text:
-                            presentation = generate_presentation(
-                                "I want a presentation based on the following content:\n" + str(txt_text))
-                            response = HttpResponse(
-                                content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
-                            response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
-                            presentation.save(response)
-                            return response
+                            # presentation = generate_presentation(
+                            #     "I want a presentation based on the following content:\n" + str(txt_text))
+                            # response = HttpResponse(
+                            #     content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
+                            # response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
+                            # presentation.save(response)
+                            # return response
+                            input_text = "I want a presentation based on the following content:\n" + str(txt_text)
+                            thread = Thread(target=presentation_generation_task, args=(request, input_text))
+                            thread.start()
+
+                            return JsonResponse({'status': 'success', 'message': 'Presentation generated'})
                         else:
                             messages.error(request,
-                                            "You uploaded an empty .txt file.")
+                                            "You uploaded an empty .txt file.", {"input_option": "upload"})
 
                     elif file_extension == ".pdf":
                         pdf_content = uploaded_file
@@ -459,22 +519,27 @@ def generate_presentation_view(request):
                             pdf_text += page.extract_text()
 
                         if pdf_text:
-                            presentation = generate_presentation(
-                                "I want a presentation based on the following content:\n" + str(pdf_text))
-                            response = HttpResponse(
-                                content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
-                            response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
-                            presentation.save(response)
-                            return response
+                            # presentation = generate_presentation(
+                            #     "I want a presentation based on the following content:\n" + str(pdf_text))
+                            # response = HttpResponse(
+                            #     content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
+                            # response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
+                            # presentation.save(response)
+                            # return response
+                            input_text = "I want a presentation based on the following content:\n" + str(pdf_text)
+                            thread = Thread(target=presentation_generation_task, args=(request, input_text))
+                            thread.start()
+
+                            return JsonResponse({'status': 'success', 'message': 'Presentation generated'})
                         else:
                             messages.error(request,
-                                            "You uploaded an empty .pdf file.")
+                                            "You uploaded an empty .pdf file.", {"input_option": "upload"})
                 else:
                     messages.error(request,
-                                    "The Uploaded file must have one of the following extensions: .docs, .pptx, .txt, .pdf")
+                                    "The Uploaded file must have one of the following extensions: .docs, .pptx, .txt, .pdf", {"input_option": "upload"})
 
             else:
-                messages.error(request, "Please upload a file")
+                messages.error(request, "Please upload a file", {"input_option": "upload"})
 
             # if input_text:
             #     presentation = generate_presentation(input_text)  # Modify this line to generate the presentation
@@ -488,7 +553,7 @@ def generate_presentation_view(request):
             # else:
             #     messages.error(request, "Please enter text for the presentation")
             #     return render(request, "presentation_generation.html")
-    return render(request, "presentation_generation.html")
+    return render(request, "presentation_generation.html", {"input_option": "write"})
     
 
 @authenticated_user
@@ -582,7 +647,7 @@ def generate_exercise_view(request):
                                     "input_option": input_option})
                 else:
                     messages.error(request, "Please describe what type of exercises do you want.")
-                    return render(request, "exercise_generation.html")
+                    return render(request, "exercise_generation.html", {"input_option": "write"})
             elif input_option == "upload":
                 uploaded_file = request.FILES.get("file")
                 if uploaded_file:
@@ -590,7 +655,7 @@ def generate_exercise_view(request):
                     if file_extension not in [".docx", ".pdf"]:
                         messages.error(request,
                                         "The uploaded file must have one of the following extensions: .docx, .pdf")
-                        return render(request, "exercise_generation.html")
+                        return render(request, "exercise_generation.html", {"input_option": "upload"})
                     elif file_extension == ".docx":
                             doc = docx.Document(uploaded_file)
                             full_text = []
@@ -626,8 +691,8 @@ def generate_exercise_view(request):
                 else:
                     messages.error(request,
                                     "Please upload a file before Pressing the button. The uploaded file must have one of the following extensions: .docx, .pdf")
-                    return render(request, "exercise_generation.html")
-        return render(request, "exercise_generation.html")
+                    return render(request, "exercise_generation.html", {"input_option": "upload"})
+        return render(request, "exercise_generation.html", {"input_option": "write"})
     
 @authenticated_user
 def chatbot_view(request):
@@ -670,3 +735,158 @@ def get_chatbot_response(chat_history: str, request: str):
         logging.info(response.choices[0].message.content)
         logging.info("something went wrong with generating exercises based on the provided prompt.")
         logging.error(e)
+
+
+@authenticated_user
+def generate_adapted_content_view(request):
+    if request.method == "POST":
+        input_option = request.POST.get("input_option")
+        if input_option == "write":
+            input_text = request.POST.get("input_text")
+            input_user_group = request.POST.get("input_user_group")
+            if input_text:
+                adapted_content = generate_adapted_content(input_text, input_user_group)
+
+                return render(request, 'adapted_content_generation.html',
+                                          {'adapted_content': adapted_content,
+                                           "input_option": input_option})
+            else:
+                messages.error(request, "Please enter text that needs to be adapted for the target user group")
+                return render(request, "adapted_content_generation.html")
+        elif input_option == "upload":
+            uploaded_file = request.FILES.get("file")
+            input_user_group = request.POST.get("input_user_group")
+            if uploaded_file:
+                file_extension = os.path.splitext(uploaded_file.name)[1].lower()
+
+                if file_extension in [".docx", ".pdf", ".pptx"]:
+                    if file_extension == ".docx":
+                        doc = docx.Document(uploaded_file)
+                        full_text = []
+                        for paragraph in doc.paragraphs:
+                            full_text.append(paragraph.text)
+
+                        document_text = "\n".join(full_text)
+                        if document_text:
+                            adapted_content = generate_adapted_content(document_text, input_user_group)
+
+                            document = docx.Document()
+
+                            document.add_heading(f"Document for: {input_user_group}", level=1)
+                            document.add_paragraph(str(adapted_content))
+
+                            response = HttpResponse(
+                                content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+                            response['Content-Disposition'] = 'attachment; filename="generated_document.docx"'
+
+                            document.save(response)
+                            return response
+                        else:
+                            messages.error(request, "You uploaded an empty .docx file.")
+
+                    elif file_extension == ".pdf":
+                        pdf_content = uploaded_file
+                        pdf_file = PyPDF2.PdfReader(pdf_content)
+                        pdf_text = ""
+
+                        for page_num in range(len(pdf_file.pages)):
+                            page = pdf_file.pages[page_num]
+                            pdf_text += page.extract_text()
+
+                        if pdf_text:
+                            adapted_content = generate_adapted_content(pdf_text, input_user_group)
+
+                            response = HttpResponse(content_type='application/pdf')
+                            response['Content-Disposition'] = 'attachment; filename="generated_document.pdf"'
+
+                            pdf_buffer = response
+
+                            styles = getSampleStyleSheet()
+
+                            story = []
+
+                            title = f"Document for: {input_user_group}"
+                            story.append(Paragraph(title, styles['Title']))
+
+                            story.append(Spacer(1, 12))
+
+                            content_paragraphs = adapted_content.split('\n')
+                            for paragraph in content_paragraphs:
+                                story.append(Paragraph(paragraph, styles['Normal']))
+
+                            doc = SimpleDocTemplate(pdf_buffer, pagesize=letter)
+                            doc.build(story)
+                            return response
+                        else:
+                            messages.error(request,
+                                            "You uploaded an empty .pdf file.")
+
+                    elif file_extension == ".pptx":
+                        presentation = Presentation(uploaded_file)
+
+                        slide_text = []
+
+                        for slide in presentation.slides:
+                            slide_text.append("")
+                            for shape in slide.shapes:
+                                if hasattr(shape, "text"):
+                                    slide_text.append(shape.text)
+
+                        presentation_text = "\n".join(slide_text)
+                        if presentation_text:
+                            uploaded_content_summary = generate_summary(presentation_text)
+                            adapted_content = generate_adapted_content(uploaded_content_summary, input_user_group)
+
+                            presentation = generate_presentation(
+                                f"Generate a presentation using the following content. The content is designed for: {input_user_group}. Do not forget to use images when appropriate to make the presentation more entertaining. Your images must be illustrative for the user group. The content is the following:\n" + str(adapted_content))
+                            response = HttpResponse(
+                                content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
+                            response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
+                            presentation.save(response)
+
+                            return response
+                        else:
+                            messages.error(request,
+                                            "You uploaded an empty .pptx file.")
+                else:
+                    messages.error(request,
+                                    "The Uploaded file must have one of the following extensions: .docs, .pptx, .txt, .pdf")
+
+            else:
+                messages.error(request, "Please upload a file")
+
+    return render(request, "adapted_content_generation.html")
+
+
+def loading_page_view(request):
+    return render(request, "loading_page.html", {})
+
+
+def presentation_download(request):
+
+    presentation_id = cache.get("generated_presentation_id", "000")
+    filename = f'generated_presentation_{presentation_id}.pptx'
+    if filename:
+        fs = FileSystemStorage()
+        if fs.exists(filename):
+            response = FileResponse(fs.open(filename, 'rb'), content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
+            response['Content-Disposition'] = f'attachment; filename="{filename}"'
+            #fs.delete(filename)
+            cache.clear()
+
+            return response
+
+    messages.error(request, "No presentation was generated or the session has expired.")
+    return render(request, "presentation_generation.html")
+
+
+def presentation_status(request):
+
+    presentation_id = cache.get("generated_presentation_id", "000")
+    filename = f'generated_presentation_{presentation_id}.pptx'
+    fs = FileSystemStorage()
+
+    if fs.exists(filename):
+        return JsonResponse({'status': 'ready'})
+    else:
+        return JsonResponse({'status': 'pending'})

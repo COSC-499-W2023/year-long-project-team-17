@@ -193,6 +193,7 @@
 ### Tasks on board
 - The current task that I worked on was implementing helper icons (associated task on Kanban Board: Helpers for different functionalities). The other task is the adapted content generation (associated task on Kanban Board: adaptive educational materials)
 
+Github commit for helper icons - https://github.com/COSC-499-W2023/year-long-project-team-17/commit/d2b5b7635748b3ac34d8aeae30ed1fc6c25d2264
 ### Completed vs InProgress
 -  I worked on and successfully implemented the helper icons for different functionalities (associated task on Kanban Board: Helpers for different functionalities). Currently, I am working on implementing the adaptive content generation functionality (Associated task on Kanban Board: adaptive educational materials).
 
@@ -202,3 +203,68 @@
 
 ### Peer eval
 ![Screenshot](images/Term2Week1DavitPeerEval.png)
+
+## Week 2 Term 2
+
+### Work period
+- Jan.15, 2024 - Jan.21, 2024
+
+### Goals Recap
+- My goals for this week was to implement adapted content generation
+
+### Tasks on board
+- The current task that I worked on was implementing the adapted content generation (associated task on Kanban Board: adaptive educational materials)
+-github commit for adapted content generation - https://github.com/COSC-499-W2023/year-long-project-team-17/commit/11d2547668d700b9c104123290b7d4f22c25ddc0
+### Completed vs InProgress
+-  I worked on and successfully implemented  the adaptive content generation functionality (Associated task on Kanban Board: adaptive educational materials). Currently, I am working on implementing loading page for presentation generation
+
+### Context
+
+-  It was a productive week as I was able to implement one of the tasks and get started with another one.
+
+### Peer eval
+![Screenshot](images/Term2Week2DavitPeerEval.png)
+
+
+## Week 3 Term 2
+
+### Work period
+- Jan.22, 2024 - Jan.28, 2024
+
+### Goals Recap
+- My goals for this week was to start working on the loading page implementation
+
+### Tasks on board
+- The current task that I worked on was implementing the loading page (associated task on Kanban Board: Loading page)
+
+### Completed vs InProgress
+-  I worked on the loading page implementation (Associated task on Kanban Board: Loading Page). Currently, I continue to work on that as I have not finished it. Also, I have resolved merge conflicts with helper_icons branch and adaptive_content_generation branch. I also modified the button styles on the home page to be consistent with the rest of the pages.
+
+### Context
+
+-  It was a productive week as I was able to resolve all of the merge conflicts that we had and also get started with the loading page which is really essential for the overall user experience.
+
+### Peer eval
+![Screenshot](images/Term2Week3DavitPeerEval.png)
+
+
+## Week 4 Term 2
+
+### Work period
+- Jan.29, 2024 - Feb.04, 2024
+
+### Goals Recap
+- My goals for this week was to finalize implementing loading page and get ready for the peer testing
+
+### Tasks on board
+- The current task that I worked on was implementing the loading page (associated task on Kanban Board: Loading page)
+
+### Completed vs InProgress
+-  I worked on the loading page implementation and finalized it(Associated task on Kanban Board: Loading Page). Currently, I am working on updating the frontend of our pages to make them more visually appealing and eye-catching for the user (Associated Task on Kanban Board: Update Frontend)
+
+### Context
+
+-  It was a productive week as I was able to resolve implement the loading page. Moreover, we got a useful feedback from our peers, which will help us to further improve our website.
+
+### Peer eval
+![Screenshot](images/Term2Week4DavitPeerEval.png)

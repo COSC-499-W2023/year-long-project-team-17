@@ -1,0 +1,343 @@
+{% extends "base.html" %}
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+<div class="col-md-8 offset-md-2">
+    <h1>Generate Adapted Content</h1>
+
+    <form method="POST" enctype="multipart/form-data" id="generateContentForm">
+        {% csrf_token %}
+               <div class="custom-radio">
+            <input type="radio" class="form-check-input" id="uploadFileRadio" name="input_option" value="upload">
+            <label class="form-check-label" for="uploadFileRadio">Upload File</label>
+            <span class="checkmark"></span>
+        </div>
+        <div class="custom-radio">
+            <input type="radio" class="form-check-input" id="writeTextRadio" name="input_option" value="write" checked>
+            <label class="form-check-label" for="writeTextRadio">Write Text</label>
+            <span class="checkmark"></span>
+        </div>
+
+        <br>
+        <div id="userGroupTextField" style="margin-top: 10px;">
+            <label for="input_user_group"  class="label-with-tooltip">Enter User Group
+                <span class="question-mark-user-group" onclick="showInstructionsUserGroup()">?</span></label>
+            <div class="cloud-tooltip-3" id="userGroupTextInstructions">
+                <p>Please write the user group to which the content has to be adapted. For example, "second grade students"</p>
+            </div>
+            <br>
+            <textarea id="input_user_group" name="input_user_group" rows="1" style="margin-top: 10px;"></textarea>
+        </div>
+        <br>
+        <div id="uploadFileField" style="margin-top: 10px; display: none;">
+            <label for="file"  class="label-with-tooltip">Upload File: <span class="question-mark-upload" onclick="showInstructionsUploadFile()">?</span> </label>
+            <div class="cloud-tooltip-2" id="textInstructionsUploadFile">
+                <p>Please upload a file below. The contents of those files will be adapted to the target user group. You will get the response in the same file format as you uploaded. The allowable file formats are .docx, .pptx and .pdf.</p>
+            </div>
+            <br>
+            <input type="file" id="file" name="file">
+        </div>
+        <div id="writeTextField" style="margin-top: 10px;">
+            <label for="input_text" class="label-with-tooltip">Enter Content to Adapt <span class="question-mark" onclick="showInstructions()">?</span></label>
+            <div class="cloud-tooltip" id="textInstructions">
+                <p>Please write below the content that has to be adapted for the target user group.</p>
+            </div>
+            <textarea id="input_text" name="input_text" rows="10" ></textarea>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-outline-primary" name="generate_presentation" style="margin-top: 20px;">Generate Adapted Content</button>
+    </form>
+
+    {% if adapted_content %}
+    <div id="adaptedContentResult" style="margin-top: 20px;">
+        <br/>
+        <label for="adapted_content">Adapted Content:</label>
+        <textarea id="adapted_content" readonly rows="20">{{ adapted_content }}</textarea>
+
+        <script>
+            // Scroll to the generated summary textarea
+            document.getElementById('adapted_content').scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+        </script>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    body, html {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #1e1e2f;
+        color: #fff;
+    }
+    h1 {
+        color: #fff;
+        text-align: center;
+        margin-bottom: 40px;
+        font-weight: 700;
+    }
+    form {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+    .label-with-tooltip {
+        position: relative;
+        display: inline-block;
+    }
+
+    .question-mark {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #3498db; /* You can change the color as needed */
+        color: #fff; /* Text color inside the circle */
+        text-align: center;
+        line-height: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-left: 5px; /* Adjust as needed for spacing */
+    }
+
+    .question-mark-upload {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #3498db; /* You can change the color as needed */
+        color: #fff; /* Text color inside the circle */
+        text-align: center;
+        line-height: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-left: 5px; /* Adjust as needed for spacing */
+    }
+
+    .question-mark-user-group {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #3498db; /* You can change the color as needed */
+        color: #fff; /* Text color inside the circle */
+        text-align: center;
+        line-height: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-left: 5px; /* Adjust as needed for spacing */
+    }
+
+
+    .cloud-tooltip {
+        position: absolute;
+        background-color: #1e1e2f;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: none;
+        z-index: 1;
+        transform: translate(69%, -100%);
+
+        max-width: 300px;
+    }
+
+    .btn-outline-primary {
+        /* Your existing button styles... */
+        background: linear-gradient(to right, #3498db 0%, #800080 100%);
+        background-size: 200% 100%;
+        transition: background-position 0.4s ease;
+    }
+
+    .btn-outline-primary:hover,
+    .btn-outline-primary:focus {
+        background-position: -100% 0;
+    }
+    .cloud-tooltip-2 {
+        position: absolute;
+        background-color: #1e1e2f;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: none;
+        z-index: 1;
+        transform: translate(40%, -100%);
+
+        max-width: 300px;
+    }
+
+    .cloud-tooltip-3 {
+        position: absolute;
+        background-color: #1e1e2f;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: none;
+        z-index: 1;
+        transform: translate(54%, -100%);
+
+        max-width: 300px;
+    }
+
+    .question-mark:hover {
+        background-color: #800080; /* Change the color on hover to desired color */
+    }
+
+    .question-mark-upload:hover {
+        background-color: #800080; /* Change the color on hover to desired color */
+    }
+
+    .question-mark-user-group:hover {
+        background-color: #800080; /* Change the color on hover to desired color */
+    }
+
+    .question-mark:hover + .cloud-tooltip {
+        display: block;
+    }
+
+    .label-with-tooltip {
+        position: relative;
+        display: inline-block;
+    }
+
+    textarea {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 10px;
+        font-size: 15px;
+    }
+    textarea:focus {
+        outline: none;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    .custom-radio {
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 18px;
+        user-select: none;
+        display: block;
+        color: #fff;
+    }
+    .custom-radio input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #3e3e57;
+        border-radius: 50%;
+    }
+    .custom-radio input:checked ~ .checkmark {
+        background-color: #2196F3;
+        transition: background-color 0.2s ease;
+    }
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+    .custom-radio input:checked ~ .checkmark:after {
+        display: block;
+    }
+    .checkmark:after {
+        top: 9px;
+        left: 9px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: white;
+    }
+    .btn {
+        transition: all 0.4s;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        background: linear-gradient(to right, #3498db 0%, #800080 100%);
+        background-size: 200% 100%;
+    }
+    .btn:hover {
+        background-position: -100% 0;
+        transform: translateY(-3px);
+    }
+    .btn:active {
+        transform: translateY(2px);
+    }
+
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const uploadFileRadio = document.getElementById('uploadFileRadio');
+        const writeTextRadio = document.getElementById('writeTextRadio');
+        const uploadFileField = document.getElementById('uploadFileField');
+        const writeTextField = document.getElementById('writeTextField');
+        const generatedSummary = document.getElementById('generated_summary');
+        const generatedSummaryLabel = document.querySelector('label[for="generated_summary"]');
+        const textInstructions = document.getElementById('textInstructions');
+        const questionMark = document.querySelector('.question-mark');
+
+        function showInstructions() {
+            textInstructions.style.display = 'block';
+        }
+
+        questionMark.addEventListener('mouseenter', showInstructions);
+        questionMark.addEventListener('mouseleave', function () {
+            textInstructions.style.display = 'none';
+        });
+
+        const textInstructionsUploadFile = document.getElementById('textInstructionsUploadFile');
+
+        function showInstructionsUploadFile() {
+            textInstructionsUploadFile.style.display = 'block';
+        }
+
+        const questionMarkUpload = document.querySelector('.question-mark-upload');
+        questionMarkUpload.addEventListener('mouseenter', showInstructionsUploadFile);
+        questionMarkUpload.addEventListener('mouseleave', function () {
+            textInstructionsUploadFile.style.display = 'none';
+        });
+
+        const textInstructionsUserGroup = document.getElementById('userGroupTextInstructions');
+
+        function showInstructionsUserGroup() {
+            textInstructionsUserGroup.style.display = 'block';
+        }
+
+        const questionMarkUserGroup = document.querySelector('.question-mark-user-group');
+        questionMarkUserGroup.addEventListener('mouseenter', showInstructionsUserGroup);
+        questionMarkUserGroup.addEventListener('mouseleave', function () {
+            textInstructionsUserGroup.style.display = 'none';
+        });
+
+        uploadFileRadio.addEventListener('change', function () {
+            if (uploadFileRadio.checked) {
+                uploadFileField.style.display = 'block';
+                writeTextField.style.display = 'none';
+                generatedSummary.style.display = 'none';
+                generatedSummaryLabel.style.display = 'none';  // Hide the label
+            }
+        });
+
+        writeTextRadio.addEventListener('change', function () {
+            if (writeTextRadio.checked) {
+
+                uploadFileField.style.display = 'none';
+                writeTextField.style.display = 'block';
+                generatedSummary.style.display = 'none';
+                generatedSummaryLabel.style.display = 'none';  // Hide the label
+            }
+        });
+    });
+</script>
+{% endblock %}
