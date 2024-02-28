@@ -23,7 +23,6 @@
             padding: 10px;
             background: #fff;
             height: 300px;
-
         }
         #title {
             color: #111B47;
@@ -39,7 +38,6 @@
             padding: 14px;
         }
         .main-container {
-            width: 60%;
             border-top: 4px solid #111B47;
         }
         #message-form {
@@ -65,11 +63,7 @@
             border-radius: 5px;
         }
         .table{
-            position: relative;
-            left:-320px;
-            right:0px;
-            top:-470px;
-            
+            float: right;
         }
         .data{
             width:300px;
@@ -82,10 +76,7 @@
             border: 1px solid rgb(203, 202, 202);
         }
         .table-2{
-            position: relative;
-            left:580px;
-            bottom:965px;
-            
+            float: left;           
         }
         .data-2{
             width:300px;
@@ -101,15 +92,34 @@
         .row-data-2{
             border: 1px solid rgb(203, 202, 202);
         }
+
+        .column {
+            padding: 10px;
+        }
+
+        .column.side {
+            width: 25%;
+        }
+
+        .column.middle {
+            width: 50%;
+        }
+
+        .row::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
     </style>
 </head>
 
 <body>
-    <div class="main">
-        <div class="col-md-10 offset-md-3">
-            <div class="col-md-5 main-container">
+    <div class="row">
+        <div class="column middle">
+            <div class="main-container">
                 <div class="title-container">
-                    <h2 id="title">Chat with {{ receiver.username }} 💬</h2>
+                    <h2 id="title">Chat with {{ receiver.username }} <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                    </h2>
                 </div>
                 <div id="chat-messages">
                     {% for message in messages %}
@@ -119,58 +129,57 @@
                     {% endfor %}
                 </div>
             </div>
-        
+
             <form method="post" action="{% url 'send_message' username=receiver.username %}" id="message-form">
                 {% csrf_token %}
                 <textarea id="message-input" name="content" required rows="2" placeholder="Type message"></textarea>
                 <button type="send" id="btn">Send</button>
-            </form>
+            </form>    
+        
+        </div>
+
+        <div class="column side">
             <div class="table">
                 <table>
                     <tr class="row-data">
                         <td class="data">
-                            Name 1
+                            <i class="fa fa-user-circle" aria-hidden="true"></i> Name 1
                         </td>
                     </tr>
                     <tr class="row-data">
-                        <td class="data">
-                            Name 2
+                        <td class="data"><i class="fa fa-user-circle" aria-hidden="true"></i> Name 2
                         </td>
                     </tr>
                     <tr class="row-data">
-                        <td class="data">
-                            Name 3
+                        <td class="data"><i class="fa fa-user-circle" aria-hidden="true"></i> Name 3
                         </td>
                     </tr>
                     <tr class="row-data">
-                        <td class="data">
-                            Name 4
+                        <td class="data"><i class="fa fa-user-circle" aria-hidden="true"></i> Name 4
                         </td>
                     </tr>
                     <tr class="row-data">
-                        <td class="data">
-                            Name 5
+                        <td class="data"><i class="fa fa-user-circle" aria-hidden="true"></i> Name 5
                         </td>
                     </tr>
                     <tr class="row-data">
-                        <td class="data">
-                            Name 6
+                        <td class="data"><i class="fa fa-user-circle" aria-hidden="true"></i> Name 6
                         </td>
                     </tr>
                     <tr class="row-data">
-                        <td class="data">
-                            Name 7
+                        <td class="data"><i class="fa fa-user-circle" aria-hidden="true"></i> Name 7
                         </td>
                     </tr>
                     <tr class="row-data">
-                        <td class="data">
-                            Name 8
+                        <td class="data"><i class="fa fa-user-circle" aria-hidden="true"></i> Name 8
                         </td>
                     </tr>
                 </table>
 
             </div>
-
+        </div>
+        
+        <div class="column side">
             <div class="table-2">
                 <table>
                     <tr class="row-data-2">
@@ -194,13 +203,10 @@
                         </td>
                     </tr>
                 </table>
-
             </div>
         </div>
     </div>
 
-
-    
     <script>
         window.onload = function () {
             const chatMessages = document.getElementById("chat-messages");
