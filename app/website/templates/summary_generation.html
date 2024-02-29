@@ -1,58 +1,105 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="col-md-6 offset-md-2">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+<div class="col-md-8 offset-md-2">
     <h1>Summary Generation</h1>
 
-    <form method="POST" enctype="multipart/form-data">
+ <form method="POST" enctype="multipart/form-data" id="summaryForm">
         {% csrf_token %}
-        <div class="form-check">
-             {% if input_option == 'upload' %}
-    <input type="radio" class="form-check-input" id="uploadFileRadio" name="input_option" value="upload" checked>
-{% else %}
-    <input type="radio" class="form-check-input" id="uploadFileRadio" name="input_option" value="upload">
-{% endif %}
+        <div class="custom-radio">
+            {% if input_option == 'upload' %}
+                <input type="radio" class="form-check-input" id="uploadFileRadio" name="input_option" value="upload" checked>
+            {% else %}
+                <input type="radio" class="form-check-input" id="uploadFileRadio" name="input_option" value="upload">
+            {% endif %}
             <label class="form-check-label" for="uploadFileRadio">Upload File</label>
+            <span class="checkmark"></span>
         </div>
-        <div class="form-check">
+        <div class="custom-radio">
             {% if input_option == 'write' %}
-    <input type="radio" class="form-check-input" id="writeTextRadio" name="input_option" value="write" checked>
-{% else %}
-    <input type="radio" class="form-check-input" id="writeTextRadio" name="input_option" value="write">
-{% endif %}
+                <input type="radio" class="form-check-input" id="writeTextRadio" name="input_option" value="write" checked>
+            {% else %}
+                <input type="radio" class="form-check-input" id="writeTextRadio" name="input_option" value="write">
+            {% endif %}
             <label class="form-check-label" for="writeTextRadio">Write Text</label>
+            <span class="checkmark"></span>
         </div>
         <div id="uploadFileField" style="{% if input_option == 'upload' %}display: block;{% else %}display: none;{% endif %}">
             <br>
-            <label for="file">Upload File:<span class="question-mark-upload" onclick="showInstructionsUploadFile()">?</span></label>
+            <label for="file" class="label-with-tooltip">Upload File:
+                <span class="question-mark-upload" onclick="showInstructionsUploadFile()">?</span></label>
             <div class="cloud-tooltip-2" id="textInstructionsUploadFile">
                 <p>Please upload a file below. Summary will be generated based on the contents of that file. The allowable file formats are .docx, .txt, .pptx and .pdf.</p>
             </div>
             <br>
             <input type="file" id="file" name="file">
         </div>
-        <br>
-        <div id="writeTextField" style= "{% if input_option == 'write' %}display: block;{% else %}display: none;{% endif %}">
-            <label for="input_text">Enter Text:<span class="question-mark" onclick="showInstructions()">?</span></label>
+        <div id="writeTextField" style="{% if input_option == 'write' %}display: block;{% else %}display: none;{% endif %}">
+            <br>
+            <label for="input_text" class="label-with-tooltip">Enter Text:
+                <span class="question-mark" onclick="showInstructions()">?</span></label>
             <div class="cloud-tooltip" id="textInstructions">
                 <p>Please write below the text that you would like us to summarize.</p>
             </div>
-            <textarea id="input_text" name="input_text" rows="20" cols="100" style="border-radius: 6px; padding: 10px;"></textarea>
+            <textarea id="input_text" name="input_text" rows="15" cols="100"></textarea>
         </div>
         <br>
         <button type="submit" class="btn btn-outline-primary" name="generate_summary">Generate Summary</button>
     </form>
 
+
     {% if summary %}
-    <div>
+    <div id="summaryResult">
         <br/>
         <label for="generated_summary">Generated Summary:</label>
-        <textarea id="generated_summary" readonly rows="20" cols="100">{{ summary }}</textarea>
+        <textarea id="generated_summary" readonly rows="15" cols="100">{{ summary }}</textarea>
+        <script>
+            // Scroll to the generated summary textarea
+            document.getElementById('generated_summary').scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+        </script>
     </div>
-s
     {% endif %}
+
 </div>
 
 <style>
+body, html {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #1e1e2f;
+        color: white;
+    }
+    .container {
+        margin-top: 50px;
+    }
+    h1 {
+        color: #fff;
+        text-align: center;
+        margin-bottom: 50px;
+        font-weight: 700;
+    }
+    form {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+    .form-check-label {
+        color: #fff;
+    }
+    .btn {
+        transition: all 0.4s;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .btn:hover {
+        transform: translateY(-3px);
+    }
+    .btn:active {
+        transform: translateY(2px);
+    }
     .question-mark {
         display: inline-block;
         width: 20px;
@@ -82,28 +129,28 @@ s
 
 .cloud-tooltip {
     position: absolute;
-    background-color: #fff;
+    background-color: #1e1e2f;
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: none;
     z-index: 1;
-    transform: translate(36%, -100%);
+    transform: translate(39%, -100%);
 
     max-width: 300px;
 }
 
 .cloud-tooltip-2 {
     position: absolute;
-    background-color: #fff;
+    background-color: #1e1e2f;
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: none;
     z-index: 1;
-    transform: translate(40%, -100%);
+    transform: translate(42%, -100%);
 
     max-width: 300px;
 }
@@ -135,7 +182,107 @@ s
    .btn-outline-primary:focus {
         background-position: -100% 0;
     }
+
+    textarea {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 10px;
+        font-size: 15px;
+    }
+    textarea:focus {
+        outline: none;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    input[type="file"] {
+        color: #fff;
+    }
+
+    /* Your custom radio buttons and other styles */
+    .custom-radio {
+        position: relative;
+        padding-left: 30px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 18px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        display: block;
+        color: #fff;
+    }
+
+    /* Hide the browser's default radio button */
+    .custom-radio input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    /* Create a custom radio button */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #3e3e57;
+        border-radius: 50%;
+    }
+
+    /* When the radio button is checked, add a blue background */
+    .custom-radio input:checked ~ .checkmark {
+        background-color: #2196F3;
+        transition: background-color 0.2s ease;
+    }
+
+    /* Create the indicator (the dot/circle - hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the indicator (dot/circle) when checked */
+    .custom-radio input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Style the indicator (dot/circle) */
+    .custom-radio .checkmark:after {
+        top: 9px;
+        left: 9px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: white;
+    }
+
+    .star {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            box-shadow: 0px 0px 10px white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite alternate ease-in-out;
+            will-change: transform;
+        }
+        /* Star animation*/
+        @keyframes twinkle {
+            0% { transform: scale(0.5); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
 </style>
+
+<!--<body>-->
+<!--<div id="starfield"></div>-->
+<!--</body>-->
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -191,5 +338,20 @@ s
             }
         });
     });
+
+    function createStars() {
+
+            const starfield = document.getElementById('starfield');
+            for (let i = 0; i < 100; i++) {
+                let star = document.createElement('div');
+                star.classList.add('star');
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                starfield.appendChild(star);
+            }
+        }
+        createStars();
 </script>
 {% endblock %}

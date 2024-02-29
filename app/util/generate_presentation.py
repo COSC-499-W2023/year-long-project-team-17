@@ -126,12 +126,29 @@ def process_and_store_presentation_json(result: dict):
         logging.info(e)
         logging.error(e)
 
+def get_presentation_info(result: dict):
+    pres_info = {}
+    pres_info['main_title'] = ""
+    pres_info['titles'] = ""
+    for i,value in enumerate(result.values()):
+        #Stores the title in the first slide
+        if i == 0:
+            pres_info['main_title'] = value['title']
+        #stores the titles in the remaining slides 
+        elif value['title'].lower() != "conclusion" and value['title'].lower() != "references" and value['title'].lower() != "thank you":
+            pres_info['titles'] += value['title'] + " "
+    return pres_info
 
 def generate_presentation(description: str):
     try:
         presentation_json = get_presentation_json(description)
+        pres_info = get_presentation_info(presentation_json)
         presentation_object = process_and_store_presentation_json(presentation_json)
-        return presentation_object
+        pres_info['presentation_json'] = presentation_json
+        values = {}
+        values['presentation'] = presentation_object
+        values['pres_info'] = pres_info
+        return values
     except Exception as e:
         logging.info("Something went wrong with generating presentation.")
         logging.info(e)

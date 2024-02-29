@@ -1,57 +1,90 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="col-md-6 offset-md-2">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+<div class="col-md-8 offset-md-2">
     <h1>Generate Adapted Content</h1>
 
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" id="generateContentForm">
         {% csrf_token %}
-        <div class="form-check">
+               <div class="custom-radio">
             <input type="radio" class="form-check-input" id="uploadFileRadio" name="input_option" value="upload">
             <label class="form-check-label" for="uploadFileRadio">Upload File</label>
+            <span class="checkmark"></span>
         </div>
-        <div class="form-check">
+        <div class="custom-radio">
             <input type="radio" class="form-check-input" id="writeTextRadio" name="input_option" value="write" checked>
             <label class="form-check-label" for="writeTextRadio">Write Text</label>
+            <span class="checkmark"></span>
         </div>
+
         <br>
-        <div id="userGroupTextField">
-            <label for="input_user_group">Enter User Group <span class="question-mark-user-group" onclick="showInstructionsUserGroup()">?</span></label>
+        <div id="userGroupTextField" style="margin-top: 10px;">
+            <label for="input_user_group"  class="label-with-tooltip">Enter User Group
+                <span class="question-mark-user-group" onclick="showInstructionsUserGroup()">?</span></label>
             <div class="cloud-tooltip-3" id="userGroupTextInstructions">
                 <p>Please write the user group to which the content has to be adapted. For example, "second grade students"</p>
             </div>
             <br>
-            <textarea id="input_user_group" name="input_user_group" rows="1" cols="40" style="border-radius: 6px; padding: 10px;"></textarea>
+            <textarea id="input_user_group" name="input_user_group" rows="1" style="margin-top: 10px;"></textarea>
         </div>
         <br>
-        <div id="uploadFileField" style="display: none;">
-            <label for="file">Upload File: <span class="question-mark-upload" onclick="showInstructionsUploadFile()">?</span> </label>
+        <div id="uploadFileField" style="margin-top: 10px; display: none;">
+            <label for="file"  class="label-with-tooltip">Upload File: <span class="question-mark-upload" onclick="showInstructionsUploadFile()">?</span> </label>
             <div class="cloud-tooltip-2" id="textInstructionsUploadFile">
                 <p>Please upload a file below. The contents of those files will be adapted to the target user group. You will get the response in the same file format as you uploaded. The allowable file formats are .docx, .pptx and .pdf.</p>
             </div>
             <br>
             <input type="file" id="file" name="file">
         </div>
-        <div id="writeTextField">
-            <label for="input_text">Enter Content to Adapt <span class="question-mark" onclick="showInstructions()">?</span></label>
+        <div id="writeTextField" style="margin-top: 10px;">
+            <label for="input_text" class="label-with-tooltip">Enter Content to Adapt <span class="question-mark" onclick="showInstructions()">?</span></label>
             <div class="cloud-tooltip" id="textInstructions">
                 <p>Please write below the content that has to be adapted for the target user group.</p>
             </div>
-            <textarea id="input_text" name="input_text" rows="20" cols="100" style="border-radius: 6px; padding: 10px;"></textarea>
+            <textarea id="input_text" name="input_text" rows="10" ></textarea>
         </div>
         <br>
-        <button type="submit" class="btn btn-outline-primary" name="generate_presentation">Generate Adapted Content</button>
+        <button type="submit" class="btn btn-outline-primary" name="generate_presentation" style="margin-top: 20px;">Generate Adapted Content</button>
     </form>
 
     {% if adapted_content %}
-    <div>
+    <div id="adaptedContentResult" style="margin-top: 20px;">
         <br/>
         <label for="adapted_content">Adapted Content:</label>
-        <textarea id="adapted_content" readonly rows="20" cols="100">{{ adapted_content }}</textarea>
+        <textarea id="adapted_content" readonly rows="20">{{ adapted_content }}</textarea>
+
+        <script>
+            // Scroll to the generated summary textarea
+            document.getElementById('adapted_content').scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+        </script>
     </div>
     {% endif %}
 </div>
 
 <style>
+    body, html {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #1e1e2f;
+        color: #fff;
+    }
+    h1 {
+        color: #fff;
+        text-align: center;
+        margin-bottom: 40px;
+        font-weight: 700;
+    }
+    form {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+    .label-with-tooltip {
+        position: relative;
+        display: inline-block;
+    }
+
     .question-mark {
         display: inline-block;
         width: 20px;
@@ -94,7 +127,7 @@
 
     .cloud-tooltip {
         position: absolute;
-        background-color: #fff;
+        background-color: #1e1e2f;
         border: 1px solid #ccc;
         padding: 10px;
         border-radius: 8px;
@@ -119,7 +152,7 @@
     }
     .cloud-tooltip-2 {
         position: absolute;
-        background-color: #fff;
+        background-color: #1e1e2f;
         border: 1px solid #ccc;
         padding: 10px;
         border-radius: 8px;
@@ -133,7 +166,7 @@
 
     .cloud-tooltip-3 {
         position: absolute;
-        background-color: #fff;
+        background-color: #1e1e2f;
         border: 1px solid #ccc;
         padding: 10px;
         border-radius: 8px;
@@ -165,6 +198,82 @@
         position: relative;
         display: inline-block;
     }
+
+    textarea {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 10px;
+        font-size: 15px;
+    }
+    textarea:focus {
+        outline: none;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    .custom-radio {
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 18px;
+        user-select: none;
+        display: block;
+        color: #fff;
+    }
+    .custom-radio input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #3e3e57;
+        border-radius: 50%;
+    }
+    .custom-radio input:checked ~ .checkmark {
+        background-color: #2196F3;
+        transition: background-color 0.2s ease;
+    }
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+    .custom-radio input:checked ~ .checkmark:after {
+        display: block;
+    }
+    .checkmark:after {
+        top: 9px;
+        left: 9px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: white;
+    }
+    .btn {
+        transition: all 0.4s;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        background: linear-gradient(to right, #3498db 0%, #800080 100%);
+        background-size: 200% 100%;
+    }
+    .btn:hover {
+        background-position: -100% 0;
+        transform: translateY(-3px);
+    }
+    .btn:active {
+        transform: translateY(2px);
+    }
+
 </style>
 
 <script>
