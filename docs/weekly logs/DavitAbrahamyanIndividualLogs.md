@@ -290,3 +290,25 @@ Github commit for helper icons - https://github.com/COSC-499-W2023/year-long-pro
 
 ### Peer eval
 ![Screenshot](images/Term2Week5DavitPeerEval.png)
+
+## Week 6 Term 2
+
+### Work period
+- Feb.12, 2024 - Feb.18, 2024
+
+### Goals Recap
+- My goals for this week was to start working on light-dark mode implementation
+
+### Tasks on board
+- The current task that I worked on was implementing dark-light mode design for the website (associated task on Kanban Board: light-dark mode implementation)
+
+### Completed vs InProgress
+-  I worked on the initial stages of the light-dark mode implementation and will continue working on that in the upcoming weeks (Associated task on Kanban Board: light-dark mode implementation).
+
+### Context
+
+-  It was a productive week as I was able to implement a toggle switch which enables us to switch between light and dark modes and stores that state between different pages. The upcoming step would just be to improve the design for the light mode
+
+
+### Peer eval
+![Screenshot](images/Term2Week6DavitPeerEval.png)
