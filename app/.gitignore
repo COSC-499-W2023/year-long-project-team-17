@@ -54,6 +54,7 @@ cover/
 #pycache
 */__pycache__/*
 
+
 # Translations
 *.mo
 *.pot
