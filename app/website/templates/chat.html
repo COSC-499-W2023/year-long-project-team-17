@@ -13,6 +13,7 @@
             background: linear-gradient(to left, rgba(15, 60, 99, 0.249), rgba(0, 0, 255, 0.098), rgba(103, 7, 81, 0.116));
             margin: 0;
             padding: 0;
+            border-radius: 10px;
         }
         .fontAwesome {
             font-family: 'Helvetica', FontAwesome, sans-serif;
@@ -23,6 +24,7 @@
             padding: 10px;
             background: #fff;
             height: 300px;
+            border-radius: 10px;
         }
         #title {
             color: #111B47;
@@ -35,10 +37,11 @@
         }
         .title-container {
             background-color: #B6BFE2;
-            padding: 14px;
+            padding: 18px;
+            border-radius: 10px;
         }
         .main-container {
-            border-top: 4px solid #111B47;
+            border-radius: 10px;
         }
         #message-form {
             display: flex;
@@ -51,10 +54,11 @@
             border-radius: 5px;
             margin-right: 10px;
             width: 445px;
+            border-radius: 10px;
         }
         #btn {
             padding: 13px;
-            width: 11.5%;
+            width: 13%;
             height: 100%;
             border: none;
             background-color: #111B47;
@@ -64,6 +68,8 @@
         }
         .table{
             float: right;
+            border-radius: 15px;
+            overflow: hidden;
         }
         .data{
             width:300px;
@@ -76,7 +82,9 @@
             border: 1px solid rgb(203, 202, 202);
         }
         .table-2{
-            float: left;           
+            float: left;   
+            border-radius: 15px;
+            overflow: hidden;        
         }
         .data-2{
             width:300px;
@@ -92,7 +100,9 @@
         .row-data-2{
             border: 1px solid rgb(203, 202, 202);
         }
-
+        .data-head{
+            padding: 18px;
+        }
         .column {
             padding: 10px;
         }
@@ -121,6 +131,7 @@
                     <h2 id="title">Chat with {{ receiver.username }} <i class="fa fa-commenting-o" aria-hidden="true"></i>
                     </h2>
                 </div>
+                <br>
                 <div id="chat-messages">
                     {% for message in messages %}
                         <div class="{% if message.sender == request.user %}sender-message{% else %}receiver-message{% endif %}">
@@ -141,6 +152,11 @@
         <div class="column side">
             <div class="table">
                 <table>
+                    <tr class="row-data">
+                        <td class="data-head">
+                            <h3><b> Open Chats</b> </h3>
+                        </td>
+                    </tr>
                     <tr class="row-data">
                         <td class="data">
                             <i class="fa fa-user-circle" aria-hidden="true"></i> Name 1
