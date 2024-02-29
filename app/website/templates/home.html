@@ -62,8 +62,6 @@
 }
 
 .founders-container img {
-    width: 200px; /* Set the width of each image */
-    height: auto; /* Maintain aspect ratio */
     margin-right: 10px; /* Add spacing between images */
 }
 
@@ -111,19 +109,21 @@
     .custom-button:focus {
         background-position: -100% 0;
     }
-
+    .tech-guy{
+        float:right;
+        right:0;
+        top:250px;
+    }
     </style>
 
 </head>
 <body>
 
 <br>
-<br>
 
     <div class="container col-md-5 offset-md-3.5">
         <h1 class="animated-text ">   Welcome to EduPrompt</h1>
     </div>
-    <br>
     <br>
     <br>
     <div class="container2">
@@ -186,32 +186,18 @@
 <br>
 
 
-<div class="container col-md-7 offset-md-0">
-    {% load static %}
-    <img onload="loaded(this, 'success')" onerror="myFunction()" src="{% static 'Techguy.png' %}" alt="Tech">
-
-<p id="demo"></p>
-
-<script>
-function myFunction() {
-    document.querySelector('img').onerror = function() {
-    console.error('Error loading image:', this.src);
-  };
-}
-</script>
-
-</div>
 
 <div class="team-details container col-md-6 offset-md-3 text-center">
     <div class="container ">
         <h1 >Meet the Team</h1>
+        <br>
     </div >
     {% load static %}
     <div class="founders-container">
-        <img src="{% static 'Founder1.jpeg' %}" alt="Gerard">
-        <img src="{% static 'Founder2.jpg' %}" alt="Charvie">
-        <img src="{% static 'Founder3.jpg' %}" alt="Harsh">
-        <img src="{% static 'Founder4.jpg' %}" alt="Davit">
+        <img src="{% static 'Founder1.jpeg' %}" alt="Gerard" width="250" height="150">
+        <img src="{% static 'Founder2.jpg' %}" alt="Charvie" width="250" height="150">
+        <img src="{% static 'Founder3.jpg' %}" alt="Harsh" width="250" height="150">
+        <img src="{% static 'Founder4.jpg' %}" alt="Davit" width="250" height="150">
     </div>
 
 </div>
@@ -225,8 +211,7 @@ function myFunction() {
 <div class="container3">
 
     <div>
-        <h2 class="col-md-6 offset-md-3 text-center readable-header">Technologies we're excited about</h2>
-        <h4 class="col-md-6 offset-md-3 text-center readable-header">Opportunities to access deep technical content</h4>
+        <h1 class="col-md-6 offset-md-3 text-center readable-header">Technologies we're excited about</h1>
     </div>
 
 </div>
@@ -323,11 +308,10 @@ function myFunction() {
 </div>
 
 <br>
-<br>
 
 <div class="container">
     <div>
-        <h2 class="col-md-6 offset-md-3 text-center readable-header">Testimonies</h2>
+        <h1 class="col-md-6 offset-md-3 text-center readable-header">Testimonies</h1>
     </div>
     <br>
     <div class="row">
@@ -336,7 +320,7 @@ function myFunction() {
           <div class="card-header" style="background-color: #8A7511">Kushal, Student</div>
           <div class="card-body" style="background-color: #B58900;">
             <h4 class="card-title">Testimony 1</h4>
-            <p class="card-text">“Accessing this website was a game-changer for me! The engaging messaging feature and supportive community helped me excel in my studies. The hands-on exercises and presentation generation prepared me for actual problems in the classroom.”</p>
+            <p class="card-text">“Accessing this website was a game-changer for me! The engaging messaging feature and supportive community helped me excel in my studies. The hands-on exercises and presentation generation prepared me for actual problems.”</p>
           </div>
         </div>
       </div>
@@ -346,7 +330,7 @@ function myFunction() {
           <div class="card-header" style="background-color: #647D81;">Tarra, Student</div>
           <div class="card-body" style="background-color: #839496;">
             <h4 class="card-title">Testimony 2</h4>
-            <p class="card-text">“I can't express how grateful I am for the virtual assistant and resources provided by this program. The learning platform is not only dynamic but also fosters creativity. The networking opportunities opened doors to amazing connections. Highly recommended”</p>
+            <p class="card-text">“I can't express how grateful I am for the virtual assistant and resources provided by this program. The learning platform is not only dynamic but also fosters creativity. The networking opportunities opened doors to amazing connections.”</p>
           </div>
         </div>
       </div>
@@ -436,7 +420,7 @@ function myFunction() {
 
         <div class="col-md-3">
             {% load static %}
-            <img src="{% static 'Contact-card.png' %}" alt="Contact" style="width: 100%; max-width: 200px; margin-left: auto;">
+            <img src="{% static 'Contact-card.png' %}" alt="Contact" style="width: 100%; max-width: 250px; margin-left: auto;  margin-top: 100px;">
         </div>
     </div>
 
