@@ -278,3 +278,25 @@ with my group soon and going over our notes on peer testing #1 to decide what ne
 
 - I did not have any of my own tasks this week to work on, but I did help create the tasks for the heuristic evaluation in peer testing #1. I do plan on meeting
 with my group soon and going over our notes on peer testing #1 to decide what needs to be added or fixed in our prototype.
+
+
+
+## Week 5 Term 2
+
+### Work period
+- Feb.05, 2024 - Feb.11, 2024
+
+### Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek18.png)
+
+### Weekly goal recap
+
+- My goal this week was to work on storing the presentations that get generated for users.
+
+### Tasks on board
+
+![Screenshot](images/ProjectBoardScreenshotHarshWeek18.png)
+
+### Completed vs in progress
+
+- #111 Presentation Storage -> harshg03 in review
