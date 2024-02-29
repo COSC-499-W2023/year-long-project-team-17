@@ -270,6 +270,27 @@ Github commit for helper icons - https://github.com/COSC-499-W2023/year-long-pro
 ![Screenshot](images/Term2Week4DavitPeerEval.png)
 
 
+## Week 5 Term 2
+
+### Work period
+- Feb.05, 2024 - Feb.11, 2024
+
+### Goals Recap
+- My goals for this week was start working on updating the frontend of our website as well as resolving some bugs
+
+### Tasks on board
+- The current task that I worked on was Updating frontend (associated task on Kanban Board: Update frontend) as well as fixing the broken image issue (associated task on Kanban Board: Resolve broken image issue)
+
+### Completed vs InProgress
+-  I worked on the updating the frontend and updated the design of most of the pages (except the login page as well as the virtual assistant page) as well as successfully resolved the broken image issue (github branch name: updated_frontend).
+
+### Context
+
+-  It was a productive week as I was able to update the UI of the most of the pages as well as resolve the broken image issue.
+
+### Peer eval
+![Screenshot](images/Term2Week5DavitPeerEval.png)
+
 ## Week 6 Term 2
 
 ### Work period

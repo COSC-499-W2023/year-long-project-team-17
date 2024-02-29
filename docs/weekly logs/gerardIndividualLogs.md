@@ -248,3 +248,23 @@ This week I did not have any advancement in features as I was focused on the liv
 
 
 ![Screenshot](images/T2Week4GerardPeerEval.png)
+
+
+## Week4 (Feb 05, 2023 - Feb 11, 2023)
+### Goals Recap
+- My goal this week was to review code from my peers, along with fixing merge conflicts found in the repo
+
+### Tasks on board
+- Live chatting is still my task on the board, this is because there are still things to be done in this task
+
+### Completed vs InProgress
+- Live chatting is InProgress
+
+### Context
+- Had a lot of trouble with merge conflicts that I am still trying to solve.
+- Branch Link https://github.com/COSC-499-W2023/year-long-project-team-17/tree/liveChatting
+
+### Peer eval
+
+
+![Screenshot](images/T2Week5GerardPeerEval.png)
