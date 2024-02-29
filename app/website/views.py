@@ -732,6 +732,33 @@ def get_chatbot_response(chat_history: str, request: str):
         logging.error(e)
 
 
+def generate_adapted_content_file_id():
+    current_uuid = uuid4()
+    cache.set("adapted_content_id", str(current_uuid))
+    return current_uuid
+
+
+def adapted_content_generation_task(request, input_text, input_user_group, input_option):
+
+    if "adapted_content_filename" in request.session:
+        request.session['adapted_content_filename'] = None
+
+    fs = FileSystemStorage()
+    new_id = generate_adapted_content_file_id()
+    filename = f'adapted_content_{new_id}.docx'  # Choose a unique filename if necessary
+    if fs.exists(filename):
+        fs.delete(filename)
+
+    adapted_content = generate_adapted_content(input_text, input_user_group)
+    adapted_content_doc = Document()
+
+    adapted_content_doc.add_paragraph(adapted_content)
+    with fs.open(filename, 'wb') as docx_file:
+        adapted_content_doc.save(docx_file)
+    request.session['adapted_content_filename'] = filename
+    cache.set("adapted_content_input_option", input_option)
+    # request.session['input_option'] = input_option
+
 @authenticated_user
 def generate_adapted_content_view(request):
     if request.method == "POST":
@@ -740,11 +767,16 @@ def generate_adapted_content_view(request):
             input_text = request.POST.get("input_text")
             input_user_group = request.POST.get("input_user_group")
             if input_text:
-                adapted_content = generate_adapted_content(input_text, input_user_group)
+                thread = Thread(target=adapted_content_generation_task, args=(request, input_text, input_user_group, input_option))
+                thread.start()
 
-                return render(request, 'adapted_content_generation.html',
-                                          {'adapted_content': adapted_content,
-                                           "input_option": input_option})
+                return JsonResponse({'status': 'success', 'message': 'Adapted Content generated'})
+
+                # adapted_content = generate_adapted_content(input_text, input_user_group)
+                #
+                # return render(request, 'adapted_content_generation.html',
+                #                           {'adapted_content': adapted_content,
+                #                            "input_option": input_option})
             else:
                 messages.error(request, "Please enter text that needs to be adapted for the target user group")
                 return render(request, "adapted_content_generation.html")
@@ -834,6 +866,7 @@ def generate_adapted_content_view(request):
 
                             presentation = generate_presentation(
                                 f"Generate a presentation using the following content. The content is designed for: {input_user_group}. Do not forget to use images when appropriate to make the presentation more entertaining. Your images must be illustrative for the user group. The content is the following:\n" + str(adapted_content))
+                            presentation = presentation.get("presentation")
                             response = HttpResponse(
                                 content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
                             response['Content-Disposition'] = 'attachment; filename="generated_presentation.pptx"'
@@ -923,3 +956,41 @@ def get_exercise_view(request):
                     {'generated_exercises': generated_exercises[0],
                     "input_option": input_option})
 
+
+def adapted_content_status(request):
+    adapted_content_id = cache.get("adapted_content_id", "000")
+    print(adapted_content_id)
+    print("*"*100)
+    filename = f'adapted_content_{adapted_content_id}.docx'
+    fs = FileSystemStorage()
+
+    if fs.exists(filename):
+        return JsonResponse({'status': 'ready'})
+    else:
+        return JsonResponse({'status': 'pending'})
+
+
+def adapted_content_loading_page_view(request):
+    return render(request, "adapted_content_loading_page.html", {})
+
+
+def get_adapted_content_view(request):
+    adapted_content_id = cache.get("adapted_content_id", "000")
+    filename = f'adapted_content_{adapted_content_id}.docx'
+    # input_option = request.session.get('input_option')
+    input_option = cache.get("adapted_content_input_option", "invalid")
+
+    adapted_content = ""
+    fs = FileSystemStorage()
+    if fs.exists(filename):
+        with fs.open(filename, 'rb') as docx_file:
+            doc = Document(docx_file)
+            adapted_content = []
+
+            for paragraph in doc.paragraphs:
+                adapted_content.append(paragraph.text)
+    fs.delete(filename)
+
+    return render(request, 'adapted_content_generation.html',
+                              {'adapted_content': adapted_content[0],
+                               "input_option": input_option})

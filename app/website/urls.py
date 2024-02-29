@@ -39,5 +39,8 @@ urlpatterns = [
     path('get_presentations', views.get_presentations, name='get_presentations'),
     path('exercise_status/', views.exercise_status, name="exercise_status"),
     path('exercise_loading_page', views.exercise_loading_page_view, name="exercise_loading_page"),
-    path('get_exercise', views.get_exercise_view, name="get_exercise")
+    path('get_exercise', views.get_exercise_view, name="get_exercise"),
+    path('adapted_content_status/', views.adapted_content_status, name="adapted_content_status"),
+    path('adapted_content_loading_page', views.adapted_content_loading_page_view, name="adapted_content_loading_page"),
+    path('get_adapted_content', views.get_adapted_content_view, name="get_adapted_content")
 ]
