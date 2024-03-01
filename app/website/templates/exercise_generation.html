@@ -5,7 +5,7 @@
 <div class="col-md-8 offset-md-2">
     <h1>Exercise Generation Page</h1>
 
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" id="exerciseForm">
         {% csrf_token %}
         <div class="custom-radio">
             {% if input_option == 'upload' %}
@@ -56,7 +56,7 @@
     <div>
         <br/>
         <label for="generated_exercises">Generated Exercises:</label>
-        <textarea id="generated_exercises" readonly rows="20" cols="100">{{ generated_exercises }}</textarea>
+        <textarea id="generated_exercises" readonly rows="20" cols="100">{{ generated_exercises}}</textarea>
         <script>
             // Scroll to the generated summary textarea
             document.getElementById('generated_exercises').scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
@@ -290,6 +290,39 @@ body, html {
 <!--<body>-->
 <!--<div id="starfield"></div>-->
 <!--</body>-->
+
+<script>
+document.getElementById('exerciseForm').onsubmit = function(event) {
+    event.preventDefault(); // Stop the form from causing a page refresh
+    var formData = new FormData(this);
+
+    // Start AJAX request to initiate the generation process
+    fetch("{% url 'generate_exercise' %}", {
+        method: 'POST',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest', // Important for Django to recognize the AJAX request
+            'X-CSRFToken': formData.get('csrfmiddlewaretoken') // Include CSRF token
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            // Redirect to the loading page only after the server indicates success
+            window.location.href = "{% url 'exercise_loading_page' %}";
+        } else {
+            // Handle error without redirecting
+            alert("Error generating exercises");
+        }
+    })
+    .catch(error => {
+        // Handle network errors or other issues with the fetch call
+        console.error('Error:', error);
+        alert("An error occurred while generating exercises.");
+    });
+};
+
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

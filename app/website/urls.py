@@ -23,7 +23,7 @@ urlpatterns = [
     path('edit_profile/', UserEditView.as_view(), name='edit_profile'),
     path('edit_profile_page/', EditProfilePageView.as_view(), name='edit_profile_page'),
     path('create_profile_page/', CreateProfilePageView.as_view(), name='create_profile_page'),
-    path("chatbot/", views.chatbot_view, name="chatbot"),
+    path("chatbot", views.chatbot_view, name="chatbot"),
     path('reset_password/', ratelimit(key='ip', method='POST', rate = '8/5h', group='b')(auth_views.PasswordResetView.as_view(template_name = "password_reset.html", 
     email_template_name = "password_reset_email.html", subject_template_name = "password_reset_subject.txt")), name = 'password_reset'),
     path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name = "password_reset_sent.html"), name = 'password_reset_done'),
@@ -37,5 +37,8 @@ urlpatterns = [
     path('download_presentation/', views.presentation_download, name='presentation_download'),
     path('open_chats', views.open_chats, name='open_chats'), 
     path('presentation_status/', views.presentation_status, name='presentation_status'),
-    path('get_presentations', views.get_presentations, name='get_presentations'),     
+    path('get_presentations', views.get_presentations, name='get_presentations'),
+    path('exercise_status/', views.exercise_status, name="exercise_status"),
+    path('exercise_loading_page', views.exercise_loading_page_view, name="exercise_loading_page"),
+    path('get_exercise', views.get_exercise_view, name="get_exercise")
 ]
