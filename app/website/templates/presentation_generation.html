@@ -31,7 +31,7 @@
             <div class="cloud-tooltip" id="textInstructions">
                 <p>Please write below what you would like your presentation to be about. For example, you can write "I want a presentation on multivariable calculus"</p>
             </div>
-            <textarea id="input_text" name="input_text" rows="15" cols="100" style="border-radius: 6px; padding: 10px;"></textarea>
+            <textarea class="textarea" id="input_text" name="input_text" rows="15" cols="100" style="border-radius: 6px; padding: 10px;"></textarea>
         </div>
         <br>
         <button type="submit" class="btn btn-outline-primary" name="generate_presentation">Generate Presentation</button>
@@ -299,19 +299,48 @@ document.getElementById('presentationForm').onsubmit = function(event) {
     });
 };
 
-function createStars() {
-            const starfield = document.getElementById('starfield');
-            for (let i = 0; i < 100; i++) {
-                let star = document.createElement('div');
-                star.classList.add('star');
-                star.style.top = `${Math.random() * 100}%`;
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.animationDelay = `${Math.random() * 3}s`;
-                star.style.animationDuration = `${Math.random() * 3 + 2}s`;
-                starfield.appendChild(star);
-            }
+function stars(starfield){
+
+    for (let i = 0; i < 100; i++) {
+            let star = document.createElement('div');
+            star.classList.add('star');
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 3}s`;
+            star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            starfield.appendChild(star);
         }
-        createStars();
+}
+
+function createStars(flag) {
+    const starfield = document.getElementById('starfield');
+
+    // Remove all existing stars from the starfield
+    
+   
+    if (flag == false){
+    
+    stars(starfield.innerHTML = '');
+    }
+
+    else{
+
+        stars(starfield);
+    }
+}
+
+
+themeToggleSwitch.addEventListener('change', function () {
+    // Toggles the theme and updates localStorage
+    if (!themeToggleSwitch.checked) {
+      createStars(true);
+    } 
+    else{
+
+        createStars(false);
+    }
+  });
+
 
 </script>
 
