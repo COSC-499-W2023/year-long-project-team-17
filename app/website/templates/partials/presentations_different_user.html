@@ -1,0 +1,17 @@
+{% load bootstrap_icons %}
+<div class="card text-center text-white bg-dark border-primary border-1 border-opacity-25 mb-4">
+    <div class="card-header border-2 border-primary border-opacity-25 d-flex dropend">
+      <p class="mt-3 flex-grow-1 fs-5">Generated Presentation</p> 
+      <button type="button" class="btn btn-sm shadow-none bg-transparent text-white" data-bs-toggle="dropdown"  aria-expanded="false"><i>{% bs_icon 'three-dots' %}</i></button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{% url 'download_presentation_pptx' value.id %}">Download PowerPoint <i>{% bs_icon 'filetype-pptx' %}</i></a></li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{ value.main_title }}</h5>
+      <p class="card-text">Details regarding each slide: {{ value.titles }}</p>
+    </div>
+    <div class="card-footer cfooter border-2 border-primary border-opacity-25 text-muted">
+        <p aria-label="Presentation was created on {{ value.date_created }} UTC time" title="{{ value.date_created }} UTC">Generated {{ page_date_obj.object_list.popleft }} ago</p>
+    </div>
+</div>

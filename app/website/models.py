@@ -33,9 +33,9 @@ class Message(models.Model):
 
 class Presentations(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    presentation = models.JSONField()
     main_title = models.TextField() #first slide title
     titles = models.TextField() #Titles of other slides added together 
     date_created = models.DateTimeField(default=timezone.now)
     #0 meaning presentation is not shared, 1 presentation is shared. defaults to 0
-    is_shared = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(1)]) 
+    is_shared = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(1)])
+    presentation = models.CharField(max_length=210) 

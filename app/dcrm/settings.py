@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django_extensions',
     #"django_ratelimit",
     'django_bootstrap_icons',
+    'django_htmx',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_ratelimit.middleware.RatelimitMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 ROOT_URLCONF = 'dcrm.urls'

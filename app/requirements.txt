@@ -11,6 +11,7 @@ coverage==7.3.2
 Django==4.2.6
 django-bootstrap-icons==0.8.7
 django-extensions==3.2.3
+django-htmx==1.17.3
 django-ratelimit==4.1.0
 django-widget-tweaks==1.5.0
 frozenlist==1.4.0

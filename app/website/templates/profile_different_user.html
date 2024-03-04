@@ -5,96 +5,90 @@
 
 
 <div class="col-md-6 offset-md-3">
-    
-        <div class="d-flex prof-card p-4 bg-dark mb-5">
-          <div class="d-flex flex-column pr-3">
-            <img class="rounded-circle profile-image" src="{{ user_obj.profile.profile_pic.url }}">
-          </div>
-            <div class="flex-fill pr-4">
-                <h2 class="profile-heading text-white">{{ user_obj.username }}</h2>
-                {% if user_obj.profile.bio|length == 0 %}
-                <p class="profile-bio text-white">{{ user_obj.first_name }}'s bio</p>
-                {% else %}
-                <p class="profile-bio text-white">{{ user_obj.profile.bio }}</p>
-                {% endif %}
-            </div> 
-        </div>
-    
-    {% for value in results.values %}
-    {% if value.is_shared == 1 %}
-    <div class="card text-center text-white bg-dark border-primary border-1 border-opacity-25 mb-4">
-        <div class="card-header border-2 border-primary border-opacity-25 d-flex dropend">
-          <p class="mt-3 flex-grow-1 fs-5">Generated Presentation</p> 
-          <button type="button" class="btn btn-sm shadow-none bg-transparent text-white" data-bs-toggle="dropdown" aria-expanded="false"><i>{% bs_icon 'three-dots' %}</i></button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Download PowerPoint <i>{% bs_icon 'filetype-pptx' %}</i></a></li>
-            <li><a class="dropdown-item" href="#">Download PDF <i>{% bs_icon 'file-pdf' %}</i></a></li>
-            <li><a class="dropdown-item" href="#">Delete <i>{% bs_icon 'trash' %}</i></a></li>
-          </ul>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">{{ value.main_title }}</h5>
-          <p class="card-text">{{ value.titles }}</p>
-        </div>
-        <div class="card-footer cfooter border-2 border-primary border-opacity-25 text-muted">
-         <p data-bs-toggle="tooltip" data-bs-title="{{ value.date_created }} UTC" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip">Generated {{ formated_date.pop }} ago</p>
-        </div>
+  <div class="d-flex prof-card p-4 bg-dark mb-5">
+    <div class="d-flex flex-column pr-3">
+      <img class="rounded-circle profile-image" src="{{ user_obj.profile.profile_pic.url }}">
     </div>
-    {% endif %}  
-    {% endfor %}
+      <div class="flex-fill pr-4">
+        <h2 class="profile-heading text-white">{{ user_obj.username }}</h2>
+          {% if user_obj.profile.bio|length == 0 %}
+        <p class="profile-bio text-white">{{ user_obj.first_name }}'s bio</p>
+          {% else %}
+        <p class="profile-bio text-white">{{ user_obj.profile.bio }}</p>
+          {% endif %}
+      </div> 
+  </div>
 </div>
-<style>
 
+<div class="col-md-6 offset-md-3">
+    {% for value in page_results_obj.object_list.values %}
+    {% include 'partials/presentations_different_user.html' %}
+    {% endfor %}
+</div>  
+{% if page_results_obj.has_next %}
+<div hx-get="{% url 'profile' user_obj.username %}?page_results={{ page_results_obj.next_page_number }}&page_date={{ page_date_obj.next_page_number }}"
+    hx-trigger="revealed"
+    hx-target="this"
+    hx-swap="outerHTML settle:0.5s" class="col-md-6 offset-md-3 lazy-loaded">
+    <div class="d-flex justify-content-center" style="display:none;">
+      <div class="spinner-border text-light" id="spinner-display" role="status">
+        <span class="sr-only"></span>
+      </div>
+    </div>
+</div>
+      
+{% endif %}
+
+<style>
 body, html {
     font-family: 'Montserrat', sans-serif;
     background-color: #1e1e2f;
-    }
+}
 .container {
     margin-top: 4em;
-    }
-  .prof-card {
+}
+
+.prof-card {
     border: 1.25px solid hsl(216, 63%, 23%);
     border-radius: 10px;
     box-shadow: 0 2px 7px rgba(155, 153, 153, 0.3);
-  }
-
-  .dropdown-menu  {
-  --bs-dropdown-bg: var(--bs-dark);
-  --bs-dropdown-link-color: var(--bs-white);
-  --bs-dropdown-border-color: var(--bs-white);
-  --bs-dropdown-border-radius: 0.5em;
-  border: 1px solid;
 }
-
-.custom-tooltip {
-  --bs-tooltip-bg: var(--bs-dark);
-  --bs-tooltip-color: var(--bs-white);
+          
+.dropdown-menu  {
+    --bs-dropdown-bg: var(--bs-dark);
+    --bs-dropdown-link-color: var(--bs-white);
+    --bs-dropdown-border-color: var(--bs-white);
+    --bs-dropdown-border-radius: 0.5em;
+    border: 1px solid;
 }
-
-
+    
 .profile-heading {
-  font-size: 2.5em;
-  margin-top: 0.5em;
+    font-size: 2.5em;
+    margin-top: 0.5em;
 }
-
+    
 .profile-bio {
-  font-size: 0.9em;
-  margin-top: 1em;
+    font-size: 0.9em;
+    margin-top: 1em;
 }
-
+    
 .profile-image {
-  height: 125px;
-  width: 125px;
-  margin-top: 1em;
-  margin-right: 1.5em;
-  margin-bottom: 2em;
+    height: 125px;
+    width: 125px;
+    margin-top: 1em;
+    margin-right: 1.5em;
+    margin-bottom: 2em;
 }
+    
+.lazy-loaded.htmx-added {
+    opacity: 0;
+}
+    
+.lazy-loaded {
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+}
+    
 </style>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    });
-</script>
-
 {% endblock content %}
+    

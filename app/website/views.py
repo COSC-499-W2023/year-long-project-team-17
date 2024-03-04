@@ -29,7 +29,7 @@ import docx
 from pptx import Presentation
 import PyPDF2
 import logging
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 import openai
 from openai import OpenAI
 from django.contrib.auth.decorators import login_required
@@ -44,6 +44,10 @@ from django.core.validators import validate_email
 from util import config
 from datetime import datetime, timezone
 import math
+from django.shortcuts import get_object_or_404
+from django.core.paginator import Paginator
+from collections import deque 
+from django_htmx.http import HttpResponseClientRefresh
 # Create your views here.
 # logging.info("----"*100)
 #
@@ -162,16 +166,6 @@ def contact_us(request):
     else:
         return render(request, 'contact_us.html')
 
-@login_required
-def get_presentations(request):
-    results = Presentations.objects.filter(user_id = request.user).values('main_title','titles','date_created', 'is_shared').order_by('date_created')
-    for item in results.values():
-        print(item['main_title'])
-        print(item['titles'])
-        print(item['date_created'])
-        print(item['is_shared'])
-    return render(request, 'get_presentations.html')
-
 @authenticated_user
 def Profile(request, username):
 
@@ -184,27 +178,127 @@ def Profile(request, username):
             time = datetime.now(timezone.utc) - value['date_created']
             time = format_timespan(math.floor(time.total_seconds()), max_units=2)
             formated_date.append(time)
-            #print(time)
-        context['results'] = results
-        formated_date.reverse()
-        context['formated_date'] = formated_date
+
+        page_results_number = int(request.GET.get('page_results', 1))
+        paginator_results = Paginator(results, 2)
+        page_results_obj = paginator_results.get_page(page_results_number)
+        
+        page_date_number = int(request.GET.get('page_date', 1))
+        paginator_date = Paginator(formated_date, 2)
+        page_date_obj = paginator_date.get_page(page_date_number)
+        
+        context['page_results_obj'] = page_results_obj
+        page_date_obj.object_list = deque(page_date_obj.object_list)
+        context['page_date_obj'] = page_date_obj
+        
+        if request.htmx:
+            return render(request, 'partials/profile_list.html', context)
+
         return render(request, 'profile.html', context)
     else:
         #Users viewing a users profile
         context = {}
-        user_obj = User.objects.get(username = username)
-        results = Presentations.objects.filter(user_id = user_obj.pk).values('main_title','titles','date_created', 'is_shared').order_by('-date_created')
+        #if username does not exist raise 404 not found http exception
+        user_obj = get_object_or_404(User, username = username)
+        #Get presentation that are public
+        results = Presentations.objects.filter(user_id = user_obj.pk, is_shared = 1).values('main_title','titles','date_created').order_by('-date_created')
         formated_date = []
         for value in results.values():
             time = datetime.now(timezone.utc) - value['date_created']
             time = format_timespan(math.floor(time.total_seconds()), max_units = 2)
             formated_date.append(time)
-        context['results'] = results
+        
+        
+
+        page_results_number = int(request.GET.get('page_results', 1))
+        paginator_results = Paginator(results, 2)
+        page_results_obj = paginator_results.get_page(page_results_number)
+
+        page_date_number = int(request.GET.get('page_date', 1))
+        paginator_date = Paginator(formated_date, 2)
+        page_date_obj = paginator_date.get_page(page_date_number)
+        
         context['user_obj'] = user_obj
-        formated_date.reverse()
-        context['formated_date'] = formated_date
+        context['page_results_obj'] = page_results_obj
+        page_date_obj.object_list = deque(page_date_obj.object_list)
+        context['page_date_obj'] = page_date_obj
+        if request.htmx:
+            return render(request, 'partials/profile_different_user_list.html', context)
+
         return render(request, 'profile_different_user.html', context)
 
+@authenticated_user
+def download_presentation_pptx(request, pres_id):
+    #raises 404 http exception if presentation object does not exist
+    pres = get_object_or_404(Presentations, pk=pres_id)
+    if(pres.is_shared == 1 or pres.user_id == request.user.id):
+        filename = pres.presentation
+        base_dir = str(settings.BASE_DIR)
+        file_path = base_dir + "/media/presentations/" + filename
+        try:
+            pres = Presentation(file_path)
+            response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
+            response['Content-Disposition'] = f'attachment; filename="{filename}"'
+            pres.save(response)
+            return response
+        except:
+            raise Http404("File not found.")
+    else:
+        messages.error(request, "Sorry this presentation has been set to private and can no longer be downloaded.")
+        return redirect("home")
+    
+@authenticated_user
+def change_post_visibility(request, pres_id, is_shared):
+    if request.method == 'POST' and request.htmx:
+            if is_shared == 0:
+                #raises 404 http exception if presentation object does not exist
+                pres = get_object_or_404(Presentations, pk=pres_id)
+                #only update if presentation belongs to user making request
+                if request.user.id == pres.user_id:    
+                    pres.is_shared = 1
+                    pres.save(update_fields=["is_shared"])
+                    #print("CHANGED TO 1")
+                    return render(request, 'partials/post_visibility.html', {'value': pres})
+                else:
+                    messages.error(request, "You do not have the authorization to make changes to that post.")
+                    return redirect("home")
+                    
+            elif is_shared == 1:
+                #raises 404 http exception if presentation object does not exist
+                pres = get_object_or_404(Presentations, pk=pres_id)
+                #only update if presentation belongs to user making request
+                if request.user.id == pres.user_id:    
+                    pres.is_shared = 0
+                    pres.save(update_fields=["is_shared"])
+                    #print("CHANGED TO 0")
+                    return render(request, 'partials/post_visibility.html', {'value': pres})
+                else:    
+                    messages.error(request, "You do not have the authorization to make changes to that post.")
+                    return redirect("home")
+            else:
+                return HttpResponseClientRefresh()
+    else:
+        messages.error(request, "You do not have the authorization to make changes to that post.")
+        return redirect("home")
+    
+@authenticated_user
+def delete_presentation(request, pres_id):
+    if request.htmx:
+        #raises 404 http exception if presentation object does not exist
+        pres = get_object_or_404(Presentations, pk=pres_id)
+        #only delete if presentation belongs to user making request
+        if request.user.id == pres.user_id:    
+            pres.delete()
+            messages.success(request, "Your presentation has been deleted.")
+            return HttpResponseClientRefresh()
+        else:
+            messages.error(request, "You do not have the authorization to make changes to that post.")
+            return redirect("home")      
+    else:
+        messages.error(request, "You do not have the authorization to make changes to that post.")
+        return redirect("home")
+    
 
 @ratelimit(key='post:username', rate='5/5m',
            method=['POST'], group='a')
@@ -421,7 +515,7 @@ def presentation_generation_task(request, input_text):
     if "generated_presentation_filename" in request.session:
         request.session['generated_presentation_filename'] = None
 
-    fs = FileSystemStorage()
+    fs = FileSystemStorage(location="media/presentations/")
     new_id = generate_new_file_id()
     filename = f'generated_presentation_{new_id}.pptx'  # Choose a unique filename if necessary
     if fs.exists(filename):
@@ -432,9 +526,9 @@ def presentation_generation_task(request, input_text):
     pres_info = values['pres_info']
     pres = Presentations.objects.create(
         user = request.user,
-        presentation = pres_info['presentation_json'],
         main_title = pres_info['main_title'],
-        titles = pres_info['titles']
+        titles = pres_info['titles'],
+        presentation = filename
     )
     with fs.open(filename, 'wb') as pptx_file:
         presentation.save(pptx_file)
@@ -861,7 +955,7 @@ def presentation_download(request):
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pptx'
     if filename:
-        fs = FileSystemStorage()
+        fs = FileSystemStorage(location="media/presentations/")
         if fs.exists(filename):
             response = FileResponse(fs.open(filename, 'rb'), content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
             response['Content-Disposition'] = f'attachment; filename="{filename}"'
@@ -878,7 +972,7 @@ def presentation_status(request):
 
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pptx'
-    fs = FileSystemStorage()
+    fs = FileSystemStorage(location="media/presentations/")
 
     if fs.exists(filename):
         return JsonResponse({'status': 'ready'})

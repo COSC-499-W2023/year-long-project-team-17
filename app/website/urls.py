@@ -35,7 +35,9 @@ urlpatterns = [
     path('contact_us', views.contact_us, name='contact_us'),
     path("loading_page", views.loading_page_view, name="loading_page"),
     path('download_presentation/', views.presentation_download, name='presentation_download'),
-    path('presentation_status/', views.presentation_status, name='presentation_status'),
-    path('get_presentations', views.get_presentations, name='get_presentations'),
+    path('presentation_status/', views.presentation_status, name='presentation_status'), 
     path('profile/<str:username>/', views.Profile, name='profile'),        
+    path('download_presentation_pptx/<int:pres_id>/', views.download_presentation_pptx, name='download_presentation_pptx'),
+    path('change_post_visibility/<int:pres_id>/<int:is_shared>/', views.change_post_visibility, name='change_post_visibility'),
+    path('delete_presentation/<int:pres_id>/', views.delete_presentation, name="delete_presentation"),       
 ]

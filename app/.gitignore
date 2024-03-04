@@ -54,6 +54,12 @@ cover/
 #pycache
 */__pycache__/*
 
+#media
+media/presentations/*
+media/profile_pictures/*
+!media/presentations/README.md
+!media/profile_pictures/README.md
+
 # Translations
 *.mo
 *.pot
