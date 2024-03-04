@@ -375,11 +375,54 @@ def generate_summary_view(request):
                 render(request, "summary_generation.html", {"input_option": "upload"})
     return render(request, "summary_generation.html", {"input_option": "write"})
 
+from reportlab.pdfgen import canvas
+
+def pptx_to_pdf(pptx_file, pdf_file):
+    # Load the PowerPoint presentation
+    prs = Presentation(pptx_file)
+
+    # Create a canvas with PDF size
+    c = canvas.Canvas(pdf_file, pagesize=letter)
+
+    # Set up dimensions
+    width, height = letter
+    slide_width = width - 72  # 1 inch margin on each side
+    slide_height = height - 72
+
+    # Go through each slide in the presentation
+    for slide in prs.slides:
+        # Start a new page for each slide
+        c.showPage()
+
+        # Draw the slide onto the canvas
+        slide.shapes._spTree.draw(c, 0, 0, slide_width, slide_height)
+
+    # Save the PDF
+    c.save()
 
 def generate_new_file_id():
     current_uuid = uuid4()
     cache.set("generated_presentation_id", str(current_uuid))
     return current_uuid
+
+import subprocess
+def convert_pptx_to_pdf(input_path, output_path=None):
+    # Ensure that the path to soffice is correct or adapt it
+    # it might be different depending on how LibreOffice is installed
+    libreoffice_path = "/Applications/LibreOffice.app/Contents/MacOS/soffice"
+
+    if output_path is None:
+        output_path = os.getcwd()
+        print(output_path)
+
+    command = [libreoffice_path, '--convert-to', 'pdf', '--outdir', output_path, input_path]
+
+    try:
+        subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        print(f"Conversion successful: '{input_path}' to PDF.")
+    except Exception as e:
+        print(f"Error converting file: {e}")
+
 
 
 def presentation_generation_task(request, input_text):
@@ -405,6 +448,16 @@ def presentation_generation_task(request, input_text):
     with fs.open(filename, 'wb') as pptx_file:
         presentation.save(pptx_file)
     request.session['generated_presentation_filename'] = filename
+    pdf_filename = f'generated_presentation_{new_id}.pdf'
+    if fs.exists(filename):
+        pptx_file_path = fs.path(filename)
+        pdf_file_path = fs.path(pdf_filename)
+        # Popen(['unoconv', '-f', 'pdf', '-o', pdf_file_path, ppt_file_path]) #`sudo apt-get install -y unoconv
+        # while not os.path.exists(pdf_file_path):
+        #     time.sleep(1)
+        # pptx_to_pdf(pptx_file_path, pdf_file_path)
+
+        convert_pptx_to_pdf(pptx_file_path)
 
 
 @authenticated_user
@@ -850,3 +903,22 @@ def presentation_status(request):
         return JsonResponse({'status': 'ready'})
     else:
         return JsonResponse({'status': 'pending'})
+
+from django.templatetags.static import static
+
+def presentation_preview(request):
+    presentation_id = cache.get("generated_presentation_id", "000")
+    filename = f'generated_presentation_{presentation_id}.pdf'  # Assuming conversion to PDF is done.
+    fs = FileSystemStorage()
+
+    if fs.exists(filename):
+
+        # pdf_url = fs.url(filename)
+        pdf_url = '/' + fs.base_url.lstrip('/') + filename
+        print(settings.BASE_DIR)
+        print(pdf_url)
+
+        return render(request, "presentation_preview.html", {"presentation_pdf_url": pdf_url})
+    else:
+        messages.error(request, "No presentation was ready for preview.")
+        return redirect('generate_presentation')

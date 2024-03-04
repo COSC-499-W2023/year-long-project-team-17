@@ -3,6 +3,8 @@ from django.urls import path
 from .views import UserEditView, EditProfilePageView, CreateProfilePageView, AboutUsView, chat, send_message
 from django.contrib.auth import views as auth_views
 from django_ratelimit.decorators import ratelimit
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -36,5 +38,7 @@ urlpatterns = [
     path("loading_page", views.loading_page_view, name="loading_page"),
     path('download_presentation/', views.presentation_download, name='presentation_download'),
     path('presentation_status/', views.presentation_status, name='presentation_status'),
-    path('get_presentations', views.get_presentations, name='get_presentations'),     
+    path('get_presentations', views.get_presentations, name='get_presentations'),
+    path('presentation_preview/', views.presentation_preview, name='presentation_preview'),
+
 ]
