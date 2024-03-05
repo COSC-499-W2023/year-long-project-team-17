@@ -59,7 +59,14 @@
             opacity: 1;
             transform: translateY(0);
         }
-
+        .card.text-white.bg-primary.mb-3{
+            transition: transform .2s;
+        }
+        .card.text-white.bg-primary.mb-3:hover {
+            -ms-transform: scale(1.1);
+            -webkit-transform: scale(1.1); 
+            transform: scale(1.1); 
+        }
         @keyframes slide-right {
         to {
             transform:translateX(0);
