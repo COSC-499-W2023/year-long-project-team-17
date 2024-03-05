@@ -248,3 +248,63 @@ This week I did not have any advancement in features as I was focused on the liv
 
 
 ![Screenshot](images/T2Week4GerardPeerEval.png)
+
+
+## Week5 (Feb 05, 2023 - Feb 11, 2023)
+### Goals Recap
+- My goal this week was to review code from my peers, along with fixing merge conflicts found in the repo
+
+### Tasks on board
+- Live chatting is still my task on the board, this is because there are still things to be done in this task
+
+### Completed vs InProgress
+- Live chatting is InProgress
+
+### Context
+- Had a lot of trouble with merge conflicts that I am still trying to solve.
+- Branch Link https://github.com/COSC-499-W2023/year-long-project-team-17/tree/liveChatting
+
+### Peer eval
+
+
+![Screenshot](images/T2Week5GerardPeerEval.png)
+
+## Week6 (Feb 12, 2023 - Feb 18, 2023)
+### Goals Recap
+- My goal this week was to start working on the forum page
+
+### Tasks on board
+- Live chatting is still a task on board as I plan on comming back to it, but for now I will focus on getting the forum
+
+### Completed vs InProgress
+- Live chatting is InProgress
+-  Forum Page is InProgress
+
+### Context
+- Still had some trouble with merge conflicts due to team communication and use of  git commands
+- Branch Link https://github.com/COSC-499-W2023/year-long-project-team-17/tree/liveChatting
+
+### Peer eval
+
+
+![Screenshot](images/T2Week6GerardPeerEval.png)
+
+## Week8 (Feb 26, 2023 - Mar 03, 2023)
+### Goals Recap
+- This week the goal was to catch up with the work done over the break. Especially getting rid of the PR that were pending
+
+### Tasks on board
+- Live chatting (Improve implementation)
+- Forum Page
+
+### Completed vs InProgress
+- Live chatting is InProgress
+-  Forum Page is InProgress
+
+### Context
+- Cleaning PRs was a lot of work because of some merge conflicts that could have been avoided by improving the .gitignore but everything was solved
+
+### Peer eval
+
+
+![Screenshot](images/T2Week8GerardPeerEval.png)

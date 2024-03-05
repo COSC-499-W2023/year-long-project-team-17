@@ -40,4 +40,6 @@ urlpatterns = [
     path('download_presentation_pptx/<int:pres_id>/', views.download_presentation_pptx, name='download_presentation_pptx'),
     path('change_post_visibility/<int:pres_id>/<int:is_shared>/', views.change_post_visibility, name='change_post_visibility'),
     path('delete_presentation/<int:pres_id>/', views.delete_presentation, name="delete_presentation"),       
+    path('open_chats', views.open_chats, name='open_chats'), 
+    path('get_presentations', views.get_presentations, name='get_presentations'),     
 ]
