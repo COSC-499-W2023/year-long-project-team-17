@@ -885,6 +885,7 @@ def presentation_download(request):
             response = FileResponse(fs.open(filename, 'rb'), content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
             response['Content-Disposition'] = f'attachment; filename="{filename}"'
             #fs.delete(filename)
+            fs.delete(filename)
             cache.clear()
 
             return response
@@ -906,6 +907,7 @@ def presentation_status(request):
 
 from django.templatetags.static import static
 
+
 def presentation_preview(request):
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pdf'  # Assuming conversion to PDF is done.
@@ -915,10 +917,33 @@ def presentation_preview(request):
 
         # pdf_url = fs.url(filename)
         pdf_url = '/' + fs.base_url.lstrip('/') + filename
-        print(settings.BASE_DIR)
-        print(pdf_url)
+
 
         return render(request, "presentation_preview.html", {"presentation_pdf_url": pdf_url})
     else:
         messages.error(request, "No presentation was ready for preview.")
+        return redirect('generate_presentation')
+
+
+
+from django.http import HttpResponse
+from django.conf import settings
+import os
+
+
+def view_pdf(request):
+    # Path to the PDF file
+    # pdf_path = 'my_presentation.pdf'
+    presentation_id = cache.get("generated_presentation_id", "000")
+    pdf_path = f'generated_presentation_{presentation_id}.pdf'
+    fs = FileSystemStorage()
+    if fs.exists(pdf_path):
+        with open(pdf_path, 'rb') as f:
+            pdf_data = f.read()
+
+    # Return the PDF content as the HTTP response
+        fs.delete(pdf_path)
+        return HttpResponse(pdf_data, content_type='application/pdf')
+    else:
+        messages.error(request, "Something went wrong while generating your presentation, please try again.")
         return redirect('generate_presentation')

@@ -40,5 +40,6 @@ urlpatterns = [
     path('presentation_status/', views.presentation_status, name='presentation_status'),
     path('get_presentations', views.get_presentations, name='get_presentations'),
     path('presentation_preview/', views.presentation_preview, name='presentation_preview'),
+    path('view-pdf/', views.view_pdf, name='view_pdf'),
 
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
