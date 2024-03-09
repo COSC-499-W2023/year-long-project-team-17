@@ -322,3 +322,29 @@ with my group soon and going over our notes on peer testing #1 to decide what ne
 - #115 Profile/list user's own presentations -> harshg03 in progress
 - #116 change password -> harshg03 in progress
 - #117 edit profile testing -> harshg03 in progress
+
+## Week 8 Term 2
+
+### Work period
+- Feb.26, 2024 - March.3, 2024
+
+### Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek20.png)
+
+### Weekly goal recap
+
+- My goal this week was to finish my features for the upcoming peer testing #2 milestone.
+
+### Tasks on board
+
+![Screenshot](images/ProjectBoardScreenshotHarshWeek20.png)
+
+### Completed vs in progress
+
+- #115 Profile/list user's own presentations -> harshg03 in review
+- #116 change password -> harshg03  in progress
+- #117 edit profile testing -> harshg03 in progress
+- #118 Custom 404 page for wrong user navigation -> harshg03 in progress
+- #132 Change presentation storage -> harshg03 in review
+
+

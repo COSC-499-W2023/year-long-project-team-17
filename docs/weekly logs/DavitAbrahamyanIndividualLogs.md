@@ -312,3 +312,24 @@ Github commit for helper icons - https://github.com/COSC-499-W2023/year-long-pro
 
 ### Peer eval
 ![Screenshot](images/Term2Week6DavitPeerEval.png)
+
+## Week8 
+
+### Work period
+- Feb 26, 2023 - Mar 03, 2023
+### Goals Recap
+- My goals for this week was to work on light-dark mode implementation, as well as create a loading page for exercise and adapted content generation
+
+### Tasks on board
+- The current task that I worked on was implementing dark-light mode design for the website (associated task on Kanban Board: light-dark mode implementation), and decided with Charvie that she will do a part of it, as well as worked exercise and adapted content generation loading page (associated task on Kanban Board: Exercise generation loading page and Adapted content generation loading page)
+
+### Completed vs InProgress
+-  I worked on and successfully completed exercise generation loading page and adapted content generation loading page (Associated task on Kanban Board: Exercise generation loading page and Adapted content generation loading page).
+
+### Context
+
+-  It was a productive week as I was able to implement loading pages that I intended which add better user experience. In the next week, I will work on presentation preview page 
+
+
+### Peer eval
+![Screenshot](images/Term2Week8DavitPeerEval.png)
