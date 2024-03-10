@@ -37,6 +37,8 @@ from django.db import models
 from django_ratelimit.decorators import ratelimit
 from django_ratelimit.core import get_usage, is_ratelimited
 from humanfriendly import format_timespan
+from django.db import connection
+
 from django.core.mail import send_mail
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -92,6 +94,49 @@ def send_message(request, username):
 
     return redirect('chat', username=username)
 
+@login_required
+def open_chats(request):
+    # This querie will return the id of the chat partner, the last message time, and the id of the last message
+    raw_query = """
+        SELECT
+    CASE
+        WHEN sender_id = %s THEN receiver_id
+        ELSE sender_id
+    END AS chat_partner_id,
+    MAX(timestamp) AS last_message_time,
+    MAX(id) AS message_id
+FROM
+    website_message
+WHERE
+    sender_id = %s OR receiver_id = %s
+GROUP BY
+    chat_partner_id
+ORDER BY
+    last_message_time ASC;
+
+    """
+
+
+
+    # Execute the raw SQL query
+    with connection.cursor() as cursor:
+        cursor.execute(raw_query, [request.user.id, request.user.id, request.user.id])
+        rows = cursor.fetchall()
+
+    # Fetch Message objects based on the IDs returned by the query
+    chat_ids = [row[2] for row in rows]
+    # Get the message objects that have the same id as the ones returned by the query
+    chats = Message.objects.filter(id__in=chat_ids).order_by('-id') 
+    
+
+    # print(rows)
+    # print(chats)
+
+    # Render the 'open_chats.html' template with the retrieved message objects
+    
+    return render(request, 'open_chats.html', {'chats': chats})
+
+    
 class CreateProfilePageView(CreateView):
     model = Profile
     form_class = ProfilePageForm
@@ -593,18 +638,49 @@ def detect_plagiarism_view(request):
     return render(request, "plagiarism_detection.html")
 
 
+def generate_exercise_file_id():
+    current_uuid = uuid4()
+    cache.set("generated_exercise_id", str(current_uuid))
+    return current_uuid
+
+
+from docx import Document
+
+
+def exercise_generation_task(request, input_text, input_option):
+
+    if "generated_exercise_filename" in request.session:
+        request.session['generated_exercise_filename'] = None
+
+    fs = FileSystemStorage()
+    new_id = generate_exercise_file_id()
+    filename = f'generated_exercise_{new_id}.docx'  # Choose a unique filename if necessary
+    if fs.exists(filename):
+        fs.delete(filename)
+
+    generated_exercises = generate_exercises_from_prompt(input_text)
+    generated_exercise_doc = Document()
+
+    generated_exercise_doc.add_paragraph(generated_exercises)
+    with fs.open(filename, 'wb') as docx_file:
+        generated_exercise_doc.save(docx_file)
+    request.session['generated_exercise_filename'] = filename
+    cache.set("input_option", input_option)
+    # request.session['input_option'] = input_option
+
+
 @authenticated_user
 def generate_exercise_view(request):
-
         if request.method == "POST":
             input_option = request.POST.get("input_option")
             if input_option == "write":
                 input_text = request.POST.get("input_text")
                 if input_text:
-                    generated_exercises = generate_exercises_from_prompt(input_text)
-                    return render(request, 'exercise_generation.html',
-                                    {'generated_exercises': generated_exercises,
-                                    "input_option": input_option})
+
+                    thread = Thread(target=exercise_generation_task, args=(request, input_text, input_option))
+                    thread.start()
+
+                    return JsonResponse({'status': 'success', 'message': 'Exercise generated'})
                 else:
                     messages.error(request, "Please describe what type of exercises do you want.")
                     return render(request, "exercise_generation.html", {"input_option": "write"})
@@ -624,10 +700,12 @@ def generate_exercise_view(request):
 
                             document_text = "\n".join(full_text)
                             if document_text.strip():
-                                similar_exercises = generate_similar_exercises(document_text)
-                                return render(request, "exercise_generation.html",
-                                                {"generated_exercises": similar_exercises,
-                                                "input_option": input_option})
+                                thread = Thread(target=exercise_generation_task,
+                                                args=(request, document_text, input_option))
+                                thread.start()
+
+                                return JsonResponse({'status': 'success', 'message': 'Exercise generated'})
+
                             else:
                                 messages.error(request,
                                                 "You uploaded an empty .docx file.")
@@ -641,10 +719,12 @@ def generate_exercise_view(request):
                             pdf_text += page.extract_text()
 
                         if pdf_text.strip():
-                            similar_exercises = generate_similar_exercises(pdf_text)
-                            return render(request, "exercise_generation.html",
-                                            {"generated_exercises": similar_exercises,
-                                            "input_option": input_option})
+                            thread = Thread(target=exercise_generation_task,
+                                            args=(request, pdf_text, input_option))
+                            thread.start()
+
+                            return JsonResponse({'status': 'success', 'message': 'Exercise generated'})
+
                         else:
                             messages.error(request,
                                             "You uploaded an empty .pdf file.")
@@ -850,3 +930,41 @@ def presentation_status(request):
         return JsonResponse({'status': 'ready'})
     else:
         return JsonResponse({'status': 'pending'})
+
+
+def exercise_status(request):
+    exercise_id = cache.get("generated_exercise_id", "000")
+    filename = f'generated_exercise_{exercise_id}.docx'
+    fs = FileSystemStorage()
+
+    if fs.exists(filename):
+        return JsonResponse({'status': 'ready'})
+    else:
+        return JsonResponse({'status': 'pending'})
+
+
+def exercise_loading_page_view(request):
+    return render(request, "exercise_loading_page.html", {})
+
+
+def get_exercise_view(request):
+    exercise_id = cache.get("generated_exercise_id", "000")
+    filename = f'generated_exercise_{exercise_id}.docx'
+    # input_option = request.session.get('input_option')
+    input_option = cache.get("input_option", "invalid")
+
+    generated_exercises = ""
+    fs = FileSystemStorage()
+    if fs.exists(filename):
+        with fs.open(filename, 'rb') as docx_file:
+            doc = Document(docx_file)
+            generated_exercises = []
+
+            for paragraph in doc.paragraphs:
+                generated_exercises.append(paragraph.text)
+    fs.delete(filename)
+
+    return render(request, 'exercise_generation.html',
+                    {'generated_exercises': generated_exercises[0],
+                    "input_option": input_option})
+
