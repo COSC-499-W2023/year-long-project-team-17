@@ -1,19 +1,23 @@
 {% extends 'base.html' %}
+
 {% block title %}Edit Profile{% endblock %}
+
 {% block content %}
 
 <h1>Edit Settings</h1>
 <br/>
-<!-- This is the correct page -->
+<label for="id_profile_image">Profile Image:</label>
+<input type="file" name="profile_image" id="id_profile_image" accept="image/*">
+
 {{ user.website_record.bio }}
 
 <br/><br/>
 
 <div class="form-group">
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button class="btn btn-outline-primary">Update Profile</button>
+        <button class="btn btn-outline-primary">Update Profile Page</button>
     </form>
 </div>
 

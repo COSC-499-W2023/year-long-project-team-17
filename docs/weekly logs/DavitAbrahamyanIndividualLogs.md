@@ -268,3 +268,68 @@ Github commit for helper icons - https://github.com/COSC-499-W2023/year-long-pro
 
 ### Peer eval
 ![Screenshot](images/Term2Week4DavitPeerEval.png)
+
+
+## Week 5 Term 2
+
+### Work period
+- Feb.05, 2024 - Feb.11, 2024
+
+### Goals Recap
+- My goals for this week was start working on updating the frontend of our website as well as resolving some bugs
+
+### Tasks on board
+- The current task that I worked on was Updating frontend (associated task on Kanban Board: Update frontend) as well as fixing the broken image issue (associated task on Kanban Board: Resolve broken image issue)
+
+### Completed vs InProgress
+-  I worked on the updating the frontend and updated the design of most of the pages (except the login page as well as the virtual assistant page) as well as successfully resolved the broken image issue (github branch name: updated_frontend).
+
+### Context
+
+-  It was a productive week as I was able to update the UI of the most of the pages as well as resolve the broken image issue.
+
+### Peer eval
+![Screenshot](images/Term2Week5DavitPeerEval.png)
+
+## Week 6 Term 2
+
+### Work period
+- Feb.12, 2024 - Feb.18, 2024
+
+### Goals Recap
+- My goals for this week was to start working on light-dark mode implementation
+
+### Tasks on board
+- The current task that I worked on was implementing dark-light mode design for the website (associated task on Kanban Board: light-dark mode implementation)
+
+### Completed vs InProgress
+-  I worked on the initial stages of the light-dark mode implementation and will continue working on that in the upcoming weeks (Associated task on Kanban Board: light-dark mode implementation).
+
+### Context
+
+-  It was a productive week as I was able to implement a toggle switch which enables us to switch between light and dark modes and stores that state between different pages. The upcoming step would just be to improve the design for the light mode
+
+
+### Peer eval
+![Screenshot](images/Term2Week6DavitPeerEval.png)
+
+## Week8 
+
+### Work period
+- Feb 26, 2023 - Mar 03, 2023
+### Goals Recap
+- My goals for this week was to work on light-dark mode implementation, as well as create a loading page for exercise and adapted content generation
+
+### Tasks on board
+- The current task that I worked on was implementing dark-light mode design for the website (associated task on Kanban Board: light-dark mode implementation), and decided with Charvie that she will do a part of it, as well as worked exercise and adapted content generation loading page (associated task on Kanban Board: Exercise generation loading page and Adapted content generation loading page)
+
+### Completed vs InProgress
+-  I worked on and successfully completed exercise generation loading page and adapted content generation loading page (Associated task on Kanban Board: Exercise generation loading page and Adapted content generation loading page).
+
+### Context
+
+-  It was a productive week as I was able to implement loading pages that I intended which add better user experience. In the next week, I will work on presentation preview page 
+
+
+### Peer eval
+![Screenshot](images/Term2Week8DavitPeerEval.png)
