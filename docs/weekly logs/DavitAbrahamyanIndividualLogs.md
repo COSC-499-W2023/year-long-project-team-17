@@ -333,3 +333,21 @@ Github commit for helper icons - https://github.com/COSC-499-W2023/year-long-pro
 
 ### Peer eval
 ![Screenshot](images/Term2Week8DavitPeerEval.png)
+
+
+## Week9 (Feb 04, 2023 - Mar 10, 2023)
+### Goals Recap
+- The goal for this week was to implement a preview page for presentation generation. Also, I had to test the overall flow to make sure everything was ready for peer testing
+
+### Tasks on board
+- Implement presentation preview page (Associated Task on Kanban Board: Presentation Preview Page)
+
+### Completed vs InProgress
+- There is a PR currently under review for preview page
+
+### Context
+- This week was productive as I was able to implement a couple of features that are useful from the user's standpoint. Also, the peer testing was very helpful as it revealed what other things can be improved further.
+
+### Peer eval
+
+![Screenshot](images/Term2Week9DavitPeerEval.png)
