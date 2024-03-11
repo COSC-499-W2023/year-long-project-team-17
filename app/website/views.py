@@ -296,33 +296,23 @@ def download_presentation_pptx(request, pres_id):
 @authenticated_user
 def change_post_visibility(request, pres_id, is_shared):
     if request.method == 'POST' and request.htmx:
-            if is_shared == 0:
+            if is_shared == 0 or is_shared == 1:
                 #raises 404 http exception if presentation object does not exist
                 pres = get_object_or_404(Presentations, pk=pres_id)
                 #only update if presentation belongs to user making request
-                if request.user.id == pres.user_id:    
-                    pres.is_shared = 1
+                if request.user.id == pres.user_id:  
+                    if is_shared == 0:  
+                        pres.is_shared = 1
+                    else:
+                        pres.is_shared = 0
                     pres.save(update_fields=["is_shared"])
-                    #print("CHANGED TO 1")
                     return render(request, 'partials/post_visibility.html', {'value': pres})
                 else:
                     messages.error(request, "You do not have the authorization to make changes to that post.")
                     return redirect("home")
-                    
-            elif is_shared == 1:
-                #raises 404 http exception if presentation object does not exist
-                pres = get_object_or_404(Presentations, pk=pres_id)
-                #only update if presentation belongs to user making request
-                if request.user.id == pres.user_id:    
-                    pres.is_shared = 0
-                    pres.save(update_fields=["is_shared"])
-                    #print("CHANGED TO 0")
-                    return render(request, 'partials/post_visibility.html', {'value': pres})
-                else:    
+            else:
                     messages.error(request, "You do not have the authorization to make changes to that post.")
                     return redirect("home")
-            else:
-                return HttpResponseClientRefresh()
     else:
         messages.error(request, "You do not have the authorization to make changes to that post.")
         return redirect("home")
