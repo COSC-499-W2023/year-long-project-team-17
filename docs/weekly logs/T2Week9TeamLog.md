@@ -44,7 +44,7 @@ charviey -> Charvie Yadav
 - #118 Custom 404 page for wrong user navigation -> harshg03
 - #134 Forum page -> Gerry2002
 - #136 Adapted content generation loading page -> DavidAbrahamyan
-
+- #139 Animations -> charviey
 
 ## Burnup chart
 
