@@ -136,7 +136,10 @@ def get_presentation_info(result: dict):
             pres_info['main_title'] = value['title']
         #stores the titles in the remaining slides 
         elif value['title'].lower() != "conclusion" and value['title'].lower() != "references" and value['title'].lower() != "thank you":
-            pres_info['titles'] += value['title'] + " "
+            pres_info['titles'] += value['title'] + ", "
+    titles = pres_info['titles']
+    #remove space and comma at the end of titles string
+    pres_info['titles'] = titles[:-2]
     return pres_info
 
 def generate_presentation(description: str):
@@ -144,7 +147,6 @@ def generate_presentation(description: str):
         presentation_json = get_presentation_json(description)
         pres_info = get_presentation_info(presentation_json)
         presentation_object = process_and_store_presentation_json(presentation_json)
-        pres_info['presentation_json'] = presentation_json
         values = {}
         values['presentation'] = presentation_object
         values['pres_info'] = pres_info

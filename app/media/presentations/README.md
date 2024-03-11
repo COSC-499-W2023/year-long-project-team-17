@@ -1,0 +1,1 @@
+Keep so that git includes this folder but ignores the other files in the folder.
