@@ -17,6 +17,7 @@ from util.generate_presentation import generate_presentation
 from util.detect_plagiarism import detect_plagiarism
 from util.generate_exercises import generate_exercises_from_prompt, generate_similar_exercises
 from util.adapt_content import generate_adapted_content
+from util.modify_presentation import check_user_message, generate_modification_assistant_response, generate_modified_presentation
 from django.http import FileResponse
 from django.core.cache import cache
 from django.http import JsonResponse
@@ -32,6 +33,7 @@ import logging
 from django.http import HttpResponse, JsonResponse
 import openai
 from openai import OpenAI
+import json
 from django.contrib.auth.decorators import login_required
 from django.db import models
 from django_ratelimit.decorators import ratelimit
@@ -406,10 +408,22 @@ def generate_new_file_id():
     return current_uuid
 
 import subprocess
+import platform
+import os
+
 def convert_pptx_to_pdf(input_path, output_path=None):
     # Ensure that the path to soffice is correct or adapt it
     # it might be different depending on how LibreOffice is installed
-    libreoffice_path = "/Applications/LibreOffice.app/Contents/MacOS/soffice"
+    system_platform = platform.system()
+    if system_platform == 'Windows':
+        libreoffice_path = 'C:/Program Files/LibreOffice/program/soffice.exe'
+    elif system_platform == 'Darwin':  # macOS
+        libreoffice_path = "/Applications/LibreOffice.app/Contents/MacOS/soffice"
+    elif system_platform == 'Linux':
+        libreoffice_path = '/usr/bin/soffice'  # Adjust this path according to your Linux distribution
+    else:
+        print("Unsupported operating system.")
+        return
 
     if output_path is None:
         output_path = os.getcwd()
@@ -422,7 +436,6 @@ def convert_pptx_to_pdf(input_path, output_path=None):
         print(f"Conversion successful: '{input_path}' to PDF.")
     except Exception as e:
         print(f"Error converting file: {e}")
-
 
 
 def presentation_generation_task(request, input_text):
@@ -445,6 +458,7 @@ def presentation_generation_task(request, input_text):
         main_title = pres_info['main_title'],
         titles = pres_info['titles']
     )
+    cache.set("generated_presentation_json", json.dumps(pres_info['presentation_json']))
     with fs.open(filename, 'wb') as pptx_file:
         presentation.save(pptx_file)
     request.session['generated_presentation_filename'] = filename
@@ -918,7 +932,6 @@ def presentation_preview(request):
         # pdf_url = fs.url(filename)
         pdf_url = '/' + fs.base_url.lstrip('/') + filename
 
-
         return render(request, "presentation_preview.html", {"presentation_pdf_url": pdf_url})
     else:
         messages.error(request, "No presentation was ready for preview.")
@@ -947,3 +960,61 @@ def view_pdf(request):
     else:
         messages.error(request, "Something went wrong while generating your presentation, please try again.")
         return redirect('generate_presentation')
+
+
+def handle_modification_message(request):
+    logging.info("IN HANDLE MODIFICATION")
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        user_message = data.get('message', '')
+
+        # Call your function to check user message
+        modify_presentation = check_user_message(user_message)
+
+        if modify_presentation:
+            # Call your modify_presentation function here
+            # Example: modify_presentation(user_message)
+            response_data = {'modifyPresentation': True}
+        else:
+            # Call your function to answer user message
+            # Example: response = answer_user_message(user_message)
+            modification_assistant_answer = generate_modification_assistant_response(user_message)
+            response_data = {'modifyPresentation': False, 'response': modification_assistant_answer}
+
+        return JsonResponse(response_data)
+
+
+def modify_presentation(request):
+    logging.info("IN MODIFY PRESENTATION")
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        user_message = data.get('message', '')
+        generated_presentation_json = cache.get("generated_presentation_json", "{}")
+        logging.info(f"GENERATED PRESENTATION JSON: {generated_presentation_json}")
+        generated_presentation_json = json.loads(generated_presentation_json)
+        modified_presentation_json, modified_presentation_object = generate_modified_presentation(generated_presentation_json, user_message)
+        cache.set("generated_presentation_json", json.dumps(modified_presentation_json))
+        presentation_id = cache.get("generated_presentation_id", "000")
+        filename = f'generated_presentation_{presentation_id}.pptx'
+        fs = FileSystemStorage()
+        if fs.exists(filename):
+            pass
+        with fs.open(filename, 'wb') as pptx_file:
+            modified_presentation_object.save(pptx_file)
+
+        if fs.exists(filename):
+            pptx_file_path = fs.path(filename)
+            convert_pptx_to_pdf(pptx_file_path)
+
+        pdf_path = f'generated_presentation_{presentation_id}.pdf'
+
+        if fs.exists(pdf_path):
+            with open(pdf_path, 'rb') as f:
+                pdf_data = f.read()
+
+            # Return the PDF content as the HTTP response
+            fs.delete(pdf_path)
+            return HttpResponse(pdf_data, content_type='application/pdf')
+        else:
+            messages.error(request, "Something went wrong while generating your modified presentation, please try again.")
+            return redirect('generate_presentation')
