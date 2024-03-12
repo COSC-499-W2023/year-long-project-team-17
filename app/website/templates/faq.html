@@ -2,8 +2,24 @@
 
 {% block content %}
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.9.6/lottie.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lottie-web@5.7.11/build/player/lottie.min.js"></script>
+
 
 <div class="col-md-6 offset-md-3">
+
+    <div id="animation-container"></div>
+    <!-- {% load static %} -->
+    <script>
+            var animation = bodymovin.loadAnimation({
+                container: document.getElementById('animation-container'),
+                path: 'Animation.json',
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                name: 'demo animation'
+            });
+    </script>
 
     <h1 class="mb-5" style="text-align: center;">Frequent asked questions</h1>
 
@@ -322,12 +338,19 @@
             </div>
           </div>
         </div>
+
+  
         <style>
         body, html {
         font-family: 'Montserrat', sans-serif;
         background-color: #1e1e2f;
         color: white;
     }
+/* 
+    #animation-container{
+      z-index: 10;
+    } */
+
     .container {
         margin-top: 50px;
     }
