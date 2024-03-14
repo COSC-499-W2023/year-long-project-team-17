@@ -39,6 +39,7 @@ def get_presentation_json(description: str) -> Dict[str, str]:
                 {'role': 'user',
                  'content': f'{config.PRESENTATION_GENERATION_PROMPT}\nUSER:{description}\nYour Response:'}
             ],
+            response_format={"type": "json_object"},
         )
         response_json = json.loads(response.choices[0].message.content)
 
@@ -64,7 +65,7 @@ def download_image(url, destination):
         logging.info(f"Failed to download image. Status code: {response.status_code}")
 
 
-def process_and_store_presentation_json(result: dict):
+def process_and_store_presentation_json(result: dict, modified=False):
     """
            Process presentation json and create a Presentation object
            Args:
@@ -82,10 +83,10 @@ def process_and_store_presentation_json(result: dict):
             current_slide = presentation.slides.add_slide(presentation.slide_layouts[value["slide_layout"]])
             current_slide_title = current_slide.shapes.title
             current_slide_title.text = value["title"]
-            if value["subtitle"]:
+            if value.get("subtitle"):
                 current_slide_subtitle = current_slide.shapes.placeholders[1]
                 current_slide_subtitle.text = value["subtitle"]
-            if value["paragraphs"]:
+            if value.get("paragraphs"):
                 for paragraph, paragraph_text in value["paragraphs"].items():
                     current_content = None
                     if value["slide_layout"] == 3:
@@ -99,7 +100,7 @@ def process_and_store_presentation_json(result: dict):
                     for run in current_paragraph.runs:
                         run.font.size = Pt(18)
 
-                    if value["space_after_paragraphs"] > 0:
+                    if value.get("space_after_paragraphs") > 0:
                         current_paragraph.space_after = Inches(value["space_after_paragraphs"])
             if value.get("image_title") and value.get("slide_layout") == 3:
                 content = current_slide.shapes.placeholders[2]
@@ -114,8 +115,11 @@ def process_and_store_presentation_json(result: dict):
                 width_inch = height_inch = Inches(4)
                 current_slide.shapes.add_picture(image_path, left_inch, top_inch, width_inch, height_inch)
                 i += 1
+        if modified:
+            presentation.save("my_presentation_modified.pptx")
+        else:
+            presentation.save("my_presentation.pptx")
 
-        presentation.save("my_presentation.pptx")
         for image_path in all_image_paths:
             if os.path.exists(image_path):
                 os.remove(image_path)
@@ -143,7 +147,7 @@ def generate_presentation(description: str):
     try:
         presentation_json = get_presentation_json(description)
         pres_info = get_presentation_info(presentation_json)
-        presentation_object = process_and_store_presentation_json(presentation_json)
+        presentation_object = process_and_store_presentation_json(presentation_json, False)
         pres_info['presentation_json'] = presentation_json
         values = {}
         values['presentation'] = presentation_object
