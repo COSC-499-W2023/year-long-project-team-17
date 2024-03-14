@@ -45,7 +45,7 @@
             <div class="cloud-tooltip" id="textInstructions">
                 <p>Please describe below what type of exercises do you want. For example, you can write "I want 10 exercises on trigonometry"</p>
             </div>
-            <textarea id="input_text" name="input_text" rows="15" cols="100"></textarea>
+            <textarea class="textarea" id="input_text" name="input_text" rows="15" cols="100"></textarea>
         </div>
         <br>
 
@@ -136,7 +136,7 @@ body, html {
 
     .cloud-tooltip {
         position: absolute;
-        background-color: #1e1e2f;
+        background-color: #ffffff;
         border: 1px solid #ccc;
         padding: 10px;
         border-radius: 8px;
@@ -150,7 +150,7 @@ body, html {
 
     .cloud-tooltip-2 {
         position: absolute;
-        background-color: #1e1e2f;
+        background-color: #ffffff;
         border: 1px solid #ccc;
         padding: 10px;
         border-radius: 8px;
@@ -292,6 +292,7 @@ body, html {
 <!--</body>-->
 
 <script>
+
 document.getElementById('exerciseForm').onsubmit = function(event) {
     event.preventDefault(); // Stop the form from causing a page refresh
     var formData = new FormData(this);
@@ -378,19 +379,7 @@ document.getElementById('exerciseForm').onsubmit = function(event) {
         });
     });
 
-     function createStars() {
+    
 
-            const starfield = document.getElementById('starfield');
-            for (let i = 0; i < 100; i++) {
-                let star = document.createElement('div');
-                star.classList.add('star');
-                star.style.top = `${Math.random() * 100}%`;
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.animationDelay = `${Math.random() * 3}s`;
-                star.style.animationDuration = `${Math.random() * 3 + 2}s`;
-                starfield.appendChild(star);
-            }
-        }
-        createStars();
 </script>
 {% endblock %}
