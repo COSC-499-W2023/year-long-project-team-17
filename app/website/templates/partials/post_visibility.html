@@ -1,0 +1,16 @@
+{% load bootstrap_icons %}
+{% if value.is_shared == 0 %}
+<a hx-post="{% url 'change_post_visibility' value.id value.is_shared %}" 
+hx-target="this" 
+hx-swap="outerHTML" 
+hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+hx-confirm="{{ value.is_shared }}"
+class="btn btn-sm shadow-none bg-transparent text-white d-flex align-items-center" id="post-visibility"><i>{% bs_icon 'lock' %}</i></a>
+{% elif value.is_shared == 1 %}
+<a hx-post="{% url 'change_post_visibility' value.id value.is_shared %}" 
+hx-target="this" 
+hx-swap="outerHTML" 
+hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' 
+hx-confirm="{{ value.is_shared }}"
+class="btn btn-sm shadow-none bg-transparent text-white d-flex align-items-center" id="post-visibility"><i>{% bs_icon 'unlock' %}</i></a>
+{% endif %}

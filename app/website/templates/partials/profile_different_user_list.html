@@ -1,0 +1,18 @@
+<div class="col-md-6 offset-md-3 lazy-loaded">
+    {% for value in page_results_obj.object_list.values %}
+    {% include 'partials/presentations_different_user.html' %}
+    {% endfor %}
+    {% if page_results_obj.has_next %}
+</div>
+<div hx-get="{% url 'profile' user_obj.username %}?page_results={{ page_results_obj.next_page_number }}&page_date={{ page_date_obj.next_page_number }}"
+    hx-trigger="revealed"
+    hx-target="this"
+    hx-swap="outerHTML settle:0.5s" class="col-md-6 offset-md-3 lazy-loaded">
+    <div class="d-flex justify-content-center" style="display:none;">
+        <div class="spinner-border text-light" id="spinner-display" role="status">
+            <span class="sr-only"></span>
+        </div>
+    </div>
+</div>
+    
+{% endif %}

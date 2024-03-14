@@ -308,3 +308,23 @@ This week I did not have any advancement in features as I was focused on the liv
 
 
 ![Screenshot](images/T2Week8GerardPeerEval.png)
+
+## Week9 (Feb 04, 2023 - Mar 10, 2023)
+### Goals Recap
+- This week the goal was to clean up the PRs that were already prepared for the peer testing
+
+### Tasks on board
+- Live chatting (Improve implementation)
+- Forum Page
+
+### Completed vs InProgress
+- Live chatting is InProgress
+-  Forum Page is InProgress
+
+### Context
+- Doing PRs for the peer testing revealed some errors which we are now working on solving
+
+### Peer eval
+
+
+![Screenshot](images/T2Week9GerardPeerEval.png)
