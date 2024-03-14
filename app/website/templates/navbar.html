@@ -13,15 +13,6 @@
           <a class="nav-link" href="{% url 'edit_profile' %}">Edit Profile</a>
         </li>
 
-<<<<<<< HEAD
-=======
-          
-
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'home' %}">{{user.username}}</a>
-          </li>
-
->>>>>>> 3a28b2850c87b90e2b4866b040fcc679e08c73fd
           {% if request.user.groups.all.0.name == 'teacher' %}
 
           <li class="nav-item">
