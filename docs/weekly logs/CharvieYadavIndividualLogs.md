@@ -178,3 +178,20 @@
 
 ### Peer eval
 ![Screenshot](images/PeerEvalT2Week8Charvie.png)
+
+## Week9 (Feb 04, 2023 - Mar 10, 2023)
+### Goals Recap
+- The goal for this week was to debug light mode of website and transitions on homepage, and start working on building basic animations to make the website dynamic. We also had peer testing which gave us important feedback.
+
+### Tasks on board
+- My tasks are to work on creating animations and redesign the open chat feature that leads into the main chat functionality as currently its taking the default bootstrap theme.
+
+### Completed vs InProgress
+- There is a PR currently under review for transitions on homepage and light mode is completed. 
+
+### Context
+- This week our team made progress by implementing a main chunk of our website. From the frontend side, I will be adding more features to make the website look and feel better. Peer testing really helped me find bugs in my code and I will also begin fixing those in the upcoming week.
+
+### Peer eval
+
+![Screenshot](images/CharvieT2W9.png)
