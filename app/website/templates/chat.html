@@ -7,11 +7,36 @@
 <head>
     <title>Chat with {{ receiver.username }}</title>
     <style>
+        .glow {
+            color: #ffffff;
+            text-align: center;
+            animation: glow 1s ease-in-out infinite alternate;
+        }
+
+        @-webkit-keyframes glow {
+        from {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #a5b0de, 0 0 30px #a5b0de, 0 0 40px #a5b0de, 0 0 50px #a5b0de, 0 0 60px #a5b0de;
+        }
+        
+        to {
+            text-shadow: 0 0 10px #fff, 0 0 20px #B6BFE2, 0 0 30px #B6BFE2, 0 0 40px #B6BFE2, 0 0 50px #B6BFE2, 0 0 60px #B6BFE2, 0 0 70px #B6BFE2;
+        }
+        }
+
         body {
             justify-content: center;
             align-items: center;
             font-family: 'Roboto', sans-serif;
             background: linear-gradient(to left, rgba(15, 60, 99, 0.249), rgba(0, 0, 255, 0.098), rgba(103, 7, 81, 0.116));
+            margin: 0;
+            padding: 0;
+            border-radius: 10px;
+        }
+        body {
+            justify-content: center;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to left, rgb(80, 12, 80), rgb(90, 22, 83), rgb(28, 12, 90));
             margin: 0;
             padding: 0;
             border-radius: 10px;
@@ -27,9 +52,7 @@
             height: 300px;
             border-radius: 10px;
         }
-        #title {
-            color: #111B47;
-        }
+
 
         .sender-message {
             color: #111B47;
@@ -50,6 +73,7 @@
             display: flex;
             align-items: center;
             margin-top: 20px;
+            background: transparent;
         }
         #message-input {
             padding: 10px;
@@ -131,7 +155,7 @@
     <div class="column middle">
         <div class="main-container">
             <div class="title-container">
-                <h2 id="title">Chat with {{ receiver.username }} <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                <h2 id="title" class="glow">Chat with {{ receiver.username }} <i class="fa fa-commenting-o" aria-hidden="true"></i>
                 </h2>
             </div>
             <br>
@@ -163,7 +187,7 @@
                     <td class="data-2">
                         <div class="search-container">
                             <form action="/action_page.php">
-                              <i class="fa fa-search" aria-hidden="true"></i>
+                              <i class="fa fa-search" aria-hidden="true" ></i>
                               <input type="text" placeholder="Search.." name="search" >
                             </form>
                         </div>
