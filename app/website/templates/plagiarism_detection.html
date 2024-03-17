@@ -4,11 +4,11 @@
 <div class="col-md-9 offset-md-2">
     <h1>Please Upload Files To Test For Plagiarism</h1>
 
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" style="background-color: transparent;">
         {% csrf_token %}
 
         <div id="uploadFileField" style="display: block;" >
-            <label for="file">Upload File:<span class="question-mark-upload" onclick="showInstructionsUploadFile()">?</span></label>
+            <label for="file" >Upload File:<span class="question-mark-upload" onclick="showInstructionsUploadFile()">?</span></label>
               <div class="cloud-tooltip" id="textInstructionsUploadFile">
                 <p>Please upload files below. Similarity score will be calculated between each pair of files and reported to you in a table. The files that will have a similarity score of more than 85% will be marked as containing a plagiarism.</p>
             </div>
@@ -92,7 +92,9 @@
         margin-left: 5px; /* Adjust as needed for spacing */
     }
 
-
+    #file{
+        background-color: transparent;
+    }
     .cloud-tooltip {
         position: absolute;
         background-color: #fff;

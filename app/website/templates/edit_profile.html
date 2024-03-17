@@ -4,6 +4,11 @@
 
 {% block content %}
 
+<style>
+    #id_profile_image{
+        background-color: transparent;
+    }
+</style>
 <h1>Edit Settings</h1>
 <br/>
 <label for="id_profile_image">Profile Image:</label>
@@ -13,8 +18,8 @@
 
 <br/><br/>
 
-<div class="form-group">
-    <form method="POST" enctype="multipart/form-data">
+<div>
+    <form class="form-group" method="POST" enctype="multipart/form-data" style="background-color: transparent;">
         {% csrf_token %}
         {{ form.as_p }}
         <button class="btn btn-outline-primary">Update Profile Page</button>
