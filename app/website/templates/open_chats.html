@@ -24,11 +24,18 @@
     .card.mb-3:hover{
         background-color: #c7d4e7;
     }
+
 </style>
 
 </head>
 <body>
-        <h2>Open Chats</h2>
+        <!-- <h2>Open Chats</h2> -->
+        <div>
+            {% load static %}
+            <img src="{% static 'navpic.png' %}" alt="navpic" width="1090" height="930">
+        </div>
+
+
 
         {% for chat in chats %}
             <div class="card mb-3" style="max-width: 54" >
@@ -59,7 +66,7 @@
 
         {% endfor %}
 
-        
+    
 <script>
     var closebtns = document.getElementsByClassName("close");
     var i;
@@ -70,6 +77,14 @@
       });
     }
 </script>
+
+
+
+
+
+
+
+
    
 </body>
 </html>
