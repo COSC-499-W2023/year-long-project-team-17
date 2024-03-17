@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <!DOCTYPE html>
@@ -24,45 +25,100 @@
     .card.mb-3:hover{
         background-color: #c7d4e7;
     }
+    img{
+        position: absolute;
+        left:0;
+        top:80px;
+    }
 
 </style>
 
 </head>
+
 <body>
-        <!-- <h2>Open Chats</h2> -->
-        <div>
-            {% load static %}
-            <img src="{% static 'navpic.png' %}" alt="navpic" width="1090" height="930">
-        </div>
+    <h2>Open Chats</h2>
 
-
+        {% load static %}
+        <img src="{% static 'navpic.png' %}" alt="navpic" width="1263" height="970" >
 
         {% for chat in chats %}
-            <div class="card mb-3" style="max-width: 54" >
+            <div class="card mb-3" style="max-width: 54;top:400px" >
                 {% if chat.receiver.id == chat.sender.id %}
 
                 <span class="close">&times;</span>
 
 
-            <a class="nav-link name" href="/chat/{{ chat.receiver.username }}"><h3>{{ chat.receiver.username }}</h3>
-             {% else %}
-
-             {% if chat.sender.id == user.id %}
-
-             <a class="nav-link name" href="/chat/{{ chat.receiver.username }}"><h3>{{ chat.receiver.username }}</h3>
-
+                <a class="nav-link name" href="/chat/{{ chat.receiver.username }}"><h3>{{ chat.receiver.username }}</h3>
                 {% else %}
 
-                <a class="nav-link name" href="/chat/{{ chat.sender.username }}"><h3>{{ chat.sender.username }}</h3>
-
-                {% endif %}
-                {% endif %}
                 {% if chat.sender.id == user.id %}
-            <p>You: {{ chat.content }}</p></a>
-            {% else %}
-            <p>{{chat.sender.username}} : {{ chat.content }}</p></a>
-            {% endif %}
+
+                <a class="nav-link name" href="/chat/{{ chat.receiver.username }}"><h3>{{ chat.receiver.username }}</h3>
+
+                    {% else %}
+
+                    <a class="nav-link name" href="/chat/{{ chat.sender.username }}"><h3>{{ chat.sender.username }}</h3>
+
+                    {% endif %}
+                    {% endif %}
+                    {% if chat.sender.id == user.id %}
+                <p>You: {{ chat.content }}</p></a>
+                {% else %}
+                <p>{{chat.sender.username}} : {{ chat.content }}</p></a>
+                {% endif %}
             </div>
+
+            <div class="card mb-3" style="max-width: 54;top:400px" >
+                {% if chat.receiver.id == chat.sender.id %}
+
+                <span class="close">&times;</span>
+
+
+                <a class="nav-link name" href="/chat/{{ chat.receiver.username }}"><h3>{{ chat.receiver.username }}</h3>
+                {% else %}
+
+                {% if chat.sender.id == user.id %}
+
+                <a class="nav-link name" href="/chat/{{ chat.receiver.username }}"><h3>{{ chat.receiver.username }}</h3>
+
+                    {% else %}
+
+                    <a class="nav-link name" href="/chat/{{ chat.sender.username }}"><h3>{{ chat.sender.username }}</h3>
+
+                    {% endif %}
+                    {% endif %}
+                    {% if chat.sender.id == user.id %}
+                <p>You: {{ chat.content }}</p></a>
+                {% else %}
+                <p>{{chat.sender.username}} : {{ chat.content }}</p></a>
+                {% endif %}
+            </div>
+            <div class="card mb-3" style="max-width: 54;top:400px" >
+                {% if chat.receiver.id == chat.sender.id %}
+
+                <span class="close">&times;</span>
+
+
+                <a class="nav-link name" href="/chat/{{ chat.receiver.username }}"><h3>{{ chat.receiver.username }}</h3>
+                {% else %}
+
+                {% if chat.sender.id == user.id %}
+
+                <a class="nav-link name" href="/chat/{{ chat.receiver.username }}"><h3>{{ chat.receiver.username }}</h3>
+
+                    {% else %}
+
+                    <a class="nav-link name" href="/chat/{{ chat.sender.username }}"><h3>{{ chat.sender.username }}</h3>
+
+                    {% endif %}
+                    {% endif %}
+                    {% if chat.sender.id == user.id %}
+                <p>You: {{ chat.content }}</p></a>
+                {% else %}
+                <p>{{chat.sender.username}} : {{ chat.content }}</p></a>
+                {% endif %}
+            </div>
+
 
         {% endfor %}
 
