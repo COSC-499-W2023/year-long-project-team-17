@@ -175,7 +175,10 @@
 .demo:hover {
   opacity: .5;
 }
-
+.one-line p {
+    display: inline;
+    padding: 39px;
+}
 </style>
 
 <script>
@@ -268,9 +271,16 @@
     {% load static %}
     <div class="founders-container">
         <img src="{% static 'Founder1.jpeg' %}" alt="Gerard" width="250" height="150">
-        <img src="{% static 'Founder2.jpg' %}" alt="Charvie" width="250" height="150">
+        <img src="{% static 'Founder2.jpg' %}" alt="Charvie" width="150" height="150">
         <img src="{% static 'Founder3.jpg' %}" alt="Harsh" width="250" height="150">
         <img src="{% static 'Founder4.jpg' %}" alt="Davit" width="250" height="150">
+    </div>
+
+    <div class="one-line">
+      <p>Gerard</p>
+      <p>Charvie</p>
+      <p>Harsh</p>
+      <p>Davit</p>
     </div>
 
 </div>
