@@ -158,3 +158,40 @@
 
 ### Peer eval
 ![Screenshot](images/CharvieT2W3.png)
+
+## Week8 
+
+### Work period
+- Feb 26, 2023 - Mar 03, 2023
+### Goals Recap
+- My goal for this week was to start working on transtions and animations on the homepage and finish up on the light mode implementation of the website.
+
+### Tasks on board
+- The current task that I worked on was implementing dark-light mode design for the website (associated task on Kanban Board: light-dark mode implementation), and decided with Charvie that she will do a part of it, as well as worked exercise and adapted content generation loading page (associated task on Kanban Board: Exercise generation loading page and Adapted content generation loading page)
+
+### Completed vs InProgress
+- I completed chat functionality design (this was continuing as we decided to merge open chat features into the main chat page), completed creating the favicon logo and fixing image not loading with static images, fixed image sizes on homepage (personal PR), and completed the light mode of the website (in review). I am currently still working on the transitions and animations of the page.
+
+### Context
+
+-  It was a very productive week with a lot of different things to work on. Since each member has many things to merge, I am waiting for that to happen so I can complete my transitions on images as the branch currently does not have proper loading images. 
+
+### Peer eval
+![Screenshot](images/PeerEvalT2Week8Charvie.png)
+
+## Week9 (Feb 04, 2023 - Mar 10, 2023)
+### Goals Recap
+- The goal for this week was to debug light mode of website and transitions on homepage, and start working on building basic animations to make the website dynamic. We also had peer testing which gave us important feedback.
+
+### Tasks on board
+- My tasks are to work on creating animations and redesign the open chat feature that leads into the main chat functionality as currently its taking the default bootstrap theme.
+
+### Completed vs InProgress
+- There is a PR currently under review for transitions on homepage and light mode is completed. 
+
+### Context
+- This week our team made progress by implementing a main chunk of our website. From the frontend side, I will be adding more features to make the website look and feel better. Peer testing really helped me find bugs in my code and I will also begin fixing those in the upcoming week.
+
+### Peer eval
+
+![Screenshot](images/CharvieT2W9.png)

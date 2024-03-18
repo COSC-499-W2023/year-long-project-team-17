@@ -30,7 +30,7 @@ import docx
 from pptx import Presentation
 import PyPDF2
 import logging
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 import openai
 from openai import OpenAI
 import json
@@ -39,11 +39,19 @@ from django.db import models
 from django_ratelimit.decorators import ratelimit
 from django_ratelimit.core import get_usage, is_ratelimited
 from humanfriendly import format_timespan
+from django.db import connection
+
 from django.core.mail import send_mail
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from util import config
+from datetime import datetime, timezone
+import math
+from django.shortcuts import get_object_or_404
+from django.core.paginator import Paginator
+from collections import deque 
+from django_htmx.http import HttpResponseClientRefresh
 # Create your views here.
 # logging.info("----"*100)
 #
@@ -94,6 +102,49 @@ def send_message(request, username):
 
     return redirect('chat', username=username)
 
+@login_required
+def open_chats(request):
+    # This querie will return the id of the chat partner, the last message time, and the id of the last message
+    raw_query = """
+        SELECT
+    CASE
+        WHEN sender_id = %s THEN receiver_id
+        ELSE sender_id
+    END AS chat_partner_id,
+    MAX(timestamp) AS last_message_time,
+    MAX(id) AS message_id
+FROM
+    website_message
+WHERE
+    sender_id = %s OR receiver_id = %s
+GROUP BY
+    chat_partner_id
+ORDER BY
+    last_message_time ASC;
+
+    """
+
+
+
+    # Execute the raw SQL query
+    with connection.cursor() as cursor:
+        cursor.execute(raw_query, [request.user.id, request.user.id, request.user.id])
+        rows = cursor.fetchall()
+
+    # Fetch Message objects based on the IDs returned by the query
+    chat_ids = [row[2] for row in rows]
+    # Get the message objects that have the same id as the ones returned by the query
+    chats = Message.objects.filter(id__in=chat_ids).order_by('-id') 
+    
+
+    # print(rows)
+    # print(chats)
+
+    # Render the 'open_chats.html' template with the retrieved message objects
+    
+    return render(request, 'open_chats.html', {'chats': chats})
+
+    
 class CreateProfilePageView(CreateView):
     model = Profile
     form_class = ProfilePageForm
@@ -162,17 +213,129 @@ def contact_us(request):
     else:
         return render(request, 'contact_us.html')
 
-@login_required
-def get_presentations(request):
-    results = Presentations.objects.filter(user_id = request.user).values('main_title','titles','date_created', 'is_shared').order_by('date_created')
-    for item in results.values():
-        print(item['main_title'])
-        print(item['titles'])
-        print(item['date_created'])
-        print(item['is_shared'])
-    return render(request, 'get_presentations.html')
-    
+@authenticated_user
+def Profile(request, username):
 
+    #Users viewing their own profile page
+    if request.user.username == username:
+        results = Presentations.objects.filter(user_id = request.user.id).values('main_title','titles','date_created', 'is_shared').order_by('-date_created')
+        context = {}
+        formated_date = []
+        for value in results.values():
+            time = datetime.now(timezone.utc) - value['date_created']
+            time = format_timespan(math.floor(time.total_seconds()), max_units=2)
+            formated_date.append(time)
+
+        page_results_number = int(request.GET.get('page_results', 1))
+        paginator_results = Paginator(results, 2)
+        page_results_obj = paginator_results.get_page(page_results_number)
+        
+        page_date_number = int(request.GET.get('page_date', 1))
+        paginator_date = Paginator(formated_date, 2)
+        page_date_obj = paginator_date.get_page(page_date_number)
+        
+        context['page_results_obj'] = page_results_obj
+        page_date_obj.object_list = deque(page_date_obj.object_list)
+        context['page_date_obj'] = page_date_obj
+        
+        if request.htmx:
+            return render(request, 'partials/profile_list.html', context)
+
+        return render(request, 'profile.html', context)
+    else:
+        #Users viewing a users profile
+        context = {}
+        #if username does not exist raise 404 not found http exception
+        user_obj = get_object_or_404(User, username = username)
+        #Get presentation that are public
+        results = Presentations.objects.filter(user_id = user_obj.pk, is_shared = 1).values('main_title','titles','date_created').order_by('-date_created')
+        formated_date = []
+        for value in results.values():
+            time = datetime.now(timezone.utc) - value['date_created']
+            time = format_timespan(math.floor(time.total_seconds()), max_units = 2)
+            formated_date.append(time)
+        
+        
+
+        page_results_number = int(request.GET.get('page_results', 1))
+        paginator_results = Paginator(results, 2)
+        page_results_obj = paginator_results.get_page(page_results_number)
+
+        page_date_number = int(request.GET.get('page_date', 1))
+        paginator_date = Paginator(formated_date, 2)
+        page_date_obj = paginator_date.get_page(page_date_number)
+        
+        context['user_obj'] = user_obj
+        context['page_results_obj'] = page_results_obj
+        page_date_obj.object_list = deque(page_date_obj.object_list)
+        context['page_date_obj'] = page_date_obj
+        if request.htmx:
+            return render(request, 'partials/profile_different_user_list.html', context)
+
+        return render(request, 'profile_different_user.html', context)
+
+@authenticated_user
+def download_presentation_pptx(request, pres_id):
+    #raises 404 http exception if presentation object does not exist
+    pres = get_object_or_404(Presentations, pk=pres_id)
+    if(pres.is_shared == 1 or pres.user_id == request.user.id):
+        filename = pres.presentation
+        base_dir = str(settings.BASE_DIR)
+        file_path = base_dir + "/media/presentations/" + filename
+        try:
+            pres = Presentation(file_path)
+            response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
+            response['Content-Disposition'] = f'attachment; filename="{filename}"'
+            pres.save(response)
+            return response
+        except:
+            raise Http404("File not found.")
+    else:
+        messages.error(request, "Sorry this presentation has been set to private and can no longer be downloaded.")
+        return redirect("home")
+    
+@authenticated_user
+def change_post_visibility(request, pres_id, is_shared):
+    if request.method == 'POST' and request.htmx:
+            if is_shared == 0 or is_shared == 1:
+                #raises 404 http exception if presentation object does not exist
+                pres = get_object_or_404(Presentations, pk=pres_id)
+                #only update if presentation belongs to user making request
+                if request.user.id == pres.user_id:  
+                    if is_shared == 0:  
+                        pres.is_shared = 1
+                    else:
+                        pres.is_shared = 0
+                    pres.save(update_fields=["is_shared"])
+                    return render(request, 'partials/post_visibility.html', {'value': pres})
+                else:
+                    messages.error(request, "You do not have the authorization to make changes to that post.")
+                    return redirect("home")
+            else:
+                    messages.error(request, "You do not have the authorization to make changes to that post.")
+                    return redirect("home")
+    else:
+        messages.error(request, "You do not have the authorization to make changes to that post.")
+        return redirect("home")
+    
+@authenticated_user
+def delete_presentation(request, pres_id):
+    if request.htmx:
+        #raises 404 http exception if presentation object does not exist
+        pres = get_object_or_404(Presentations, pk=pres_id)
+        #only delete if presentation belongs to user making request
+        if request.user.id == pres.user_id:    
+            pres.delete()
+            messages.success(request, "Your presentation has been deleted.")
+            return HttpResponseClientRefresh()
+        else:
+            messages.error(request, "You do not have the authorization to make changes to that post.")
+            return redirect("home")      
+    else:
+        messages.error(request, "You do not have the authorization to make changes to that post.")
+        return redirect("home")
+    
 
 @ratelimit(key='post:username', rate='5/5m',
            method=['POST'], group='a')
@@ -427,6 +590,7 @@ def convert_pptx_to_pdf(input_path, output_path=None):
 
     if output_path is None:
         output_path = os.getcwd()
+        output_path = "app/media/presentations/"
         print(output_path)
 
     command = [libreoffice_path, '--convert-to', 'pdf', '--outdir', output_path, input_path]
@@ -443,29 +607,31 @@ def presentation_generation_task(request, input_text):
     if "generated_presentation_filename" in request.session:
         request.session['generated_presentation_filename'] = None
 
-    fs = FileSystemStorage()
+    fs = FileSystemStorage(location="app/media/presentations/")
     new_id = generate_new_file_id()
     filename = f'generated_presentation_{new_id}.pptx'  # Choose a unique filename if necessary
     if fs.exists(filename):
         fs.delete(filename)
     #presentation = generate_presentation(input_text)
-    values = generate_presentation(input_text)
+    values, presentation_json = generate_presentation(input_text)
     presentation = values['presentation']
     pres_info = values['pres_info']
     pres = Presentations.objects.create(
         user = request.user,
-        presentation = pres_info['presentation_json'],
         main_title = pres_info['main_title'],
-        titles = pres_info['titles']
+        titles = pres_info['titles'],
+        presentation = filename
     )
-    cache.set("generated_presentation_json", json.dumps(pres_info['presentation_json']))
-    with fs.open(filename, 'wb') as pptx_file:
-        presentation.save(pptx_file)
+    cache.set("generated_presentation_json", json.dumps(presentation_json))
+    # with fs.open(filename, 'wb') as pptx_file:
+    full_file_name = "app/media/presentations/" + filename
+    presentation.save(full_file_name)
     request.session['generated_presentation_filename'] = filename
     pdf_filename = f'generated_presentation_{new_id}.pdf'
+
     if fs.exists(filename):
         pptx_file_path = fs.path(filename)
-        pdf_file_path = fs.path(pdf_filename)
+        # pdf_file_path = fs.path(pdf_filename)
         # Popen(['unoconv', '-f', 'pdf', '-o', pdf_file_path, ppt_file_path]) #`sudo apt-get install -y unoconv
         # while not os.path.exists(pdf_file_path):
         #     time.sleep(1)
@@ -660,18 +826,49 @@ def detect_plagiarism_view(request):
     return render(request, "plagiarism_detection.html")
 
 
+def generate_exercise_file_id():
+    current_uuid = uuid4()
+    cache.set("generated_exercise_id", str(current_uuid))
+    return current_uuid
+
+
+from docx import Document
+
+
+def exercise_generation_task(request, input_text, input_option):
+
+    if "generated_exercise_filename" in request.session:
+        request.session['generated_exercise_filename'] = None
+
+    fs = FileSystemStorage()
+    new_id = generate_exercise_file_id()
+    filename = f'generated_exercise_{new_id}.docx'  # Choose a unique filename if necessary
+    if fs.exists(filename):
+        fs.delete(filename)
+
+    generated_exercises = generate_exercises_from_prompt(input_text)
+    generated_exercise_doc = Document()
+
+    generated_exercise_doc.add_paragraph(generated_exercises)
+    with fs.open(filename, 'wb') as docx_file:
+        generated_exercise_doc.save(docx_file)
+    request.session['generated_exercise_filename'] = filename
+    cache.set("input_option", input_option)
+    # request.session['input_option'] = input_option
+
+
 @authenticated_user
 def generate_exercise_view(request):
-
         if request.method == "POST":
             input_option = request.POST.get("input_option")
             if input_option == "write":
                 input_text = request.POST.get("input_text")
                 if input_text:
-                    generated_exercises = generate_exercises_from_prompt(input_text)
-                    return render(request, 'exercise_generation.html',
-                                    {'generated_exercises': generated_exercises,
-                                    "input_option": input_option})
+
+                    thread = Thread(target=exercise_generation_task, args=(request, input_text, input_option))
+                    thread.start()
+
+                    return JsonResponse({'status': 'success', 'message': 'Exercise generated'})
                 else:
                     messages.error(request, "Please describe what type of exercises do you want.")
                     return render(request, "exercise_generation.html", {"input_option": "write"})
@@ -691,10 +888,12 @@ def generate_exercise_view(request):
 
                             document_text = "\n".join(full_text)
                             if document_text.strip():
-                                similar_exercises = generate_similar_exercises(document_text)
-                                return render(request, "exercise_generation.html",
-                                                {"generated_exercises": similar_exercises,
-                                                "input_option": input_option})
+                                thread = Thread(target=exercise_generation_task,
+                                                args=(request, document_text, input_option))
+                                thread.start()
+
+                                return JsonResponse({'status': 'success', 'message': 'Exercise generated'})
+
                             else:
                                 messages.error(request,
                                                 "You uploaded an empty .docx file.")
@@ -708,10 +907,12 @@ def generate_exercise_view(request):
                             pdf_text += page.extract_text()
 
                         if pdf_text.strip():
-                            similar_exercises = generate_similar_exercises(pdf_text)
-                            return render(request, "exercise_generation.html",
-                                            {"generated_exercises": similar_exercises,
-                                            "input_option": input_option})
+                            thread = Thread(target=exercise_generation_task,
+                                            args=(request, pdf_text, input_option))
+                            thread.start()
+
+                            return JsonResponse({'status': 'success', 'message': 'Exercise generated'})
+
                         else:
                             messages.error(request,
                                             "You uploaded an empty .pdf file.")
@@ -894,7 +1095,7 @@ def presentation_download(request):
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pptx'
     if filename:
-        fs = FileSystemStorage()
+        fs = FileSystemStorage(location="app/media/presentations/")
         if fs.exists(filename):
             response = FileResponse(fs.open(filename, 'rb'), content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
             response['Content-Disposition'] = f'attachment; filename="{filename}"'
@@ -912,6 +1113,23 @@ def presentation_status(request):
 
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pptx'
+    fs = FileSystemStorage(location="app/media/presentations/")
+
+    if fs.exists(filename):
+        print(" ready yet ")
+        print(filename)
+        return JsonResponse({'status': 'ready'})
+    else:
+        print("Not ready yet ")
+        print(filename)
+        print(fs.location)
+
+        return JsonResponse({'status': 'pending'})
+
+
+def exercise_status(request):
+    exercise_id = cache.get("generated_exercise_id", "000")
+    filename = f'generated_exercise_{exercise_id}.docx'
     fs = FileSystemStorage()
 
     if fs.exists(filename):
@@ -925,7 +1143,7 @@ from django.templatetags.static import static
 def presentation_preview(request):
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pdf'  # Assuming conversion to PDF is done.
-    fs = FileSystemStorage()
+    fs = FileSystemStorage(location="app/media/presentations/")
 
     if fs.exists(filename):
 
@@ -949,9 +1167,10 @@ def view_pdf(request):
     # pdf_path = 'my_presentation.pdf'
     presentation_id = cache.get("generated_presentation_id", "000")
     pdf_path = f'generated_presentation_{presentation_id}.pdf'
-    fs = FileSystemStorage()
+    fs = FileSystemStorage(location="app/media/presentations/")
     if fs.exists(pdf_path):
-        with open(pdf_path, 'rb') as f:
+        full_pdf_path = "app/media/presentations/" + pdf_path
+        with open(full_pdf_path, 'rb') as f:
             pdf_data = f.read()
 
     # Return the PDF content as the HTTP response
@@ -996,7 +1215,7 @@ def modify_presentation(request):
         cache.set("generated_presentation_json", json.dumps(modified_presentation_json))
         presentation_id = cache.get("generated_presentation_id", "000")
         filename = f'generated_presentation_{presentation_id}.pptx'
-        fs = FileSystemStorage()
+        fs = FileSystemStorage(location="app/media/presentations/")
         if fs.exists(filename):
             pass
         with fs.open(filename, 'wb') as pptx_file:
@@ -1007,9 +1226,9 @@ def modify_presentation(request):
             convert_pptx_to_pdf(pptx_file_path)
 
         pdf_path = f'generated_presentation_{presentation_id}.pdf'
-
+        pdf_full_path = "app/media/presentations/" + pdf_path
         if fs.exists(pdf_path):
-            with open(pdf_path, 'rb') as f:
+            with open(pdf_full_path, 'rb') as f:
                 pdf_data = f.read()
 
             # Return the PDF content as the HTTP response
@@ -1018,3 +1237,29 @@ def modify_presentation(request):
         else:
             messages.error(request, "Something went wrong while generating your modified presentation, please try again.")
             return redirect('generate_presentation')
+
+def exercise_loading_page_view(request):
+    return render(request, "exercise_loading_page.html", {})
+
+
+def get_exercise_view(request):
+    exercise_id = cache.get("generated_exercise_id", "000")
+    filename = f'generated_exercise_{exercise_id}.docx'
+    # input_option = request.session.get('input_option')
+    input_option = cache.get("input_option", "invalid")
+
+    generated_exercises = ""
+    fs = FileSystemStorage()
+    if fs.exists(filename):
+        with fs.open(filename, 'rb') as docx_file:
+            doc = Document(docx_file)
+            generated_exercises = []
+
+            for paragraph in doc.paragraphs:
+                generated_exercises.append(paragraph.text)
+    fs.delete(filename)
+
+    return render(request, 'exercise_generation.html',
+                    {'generated_exercises': generated_exercises[0],
+                    "input_option": input_option})
+
