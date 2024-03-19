@@ -7,21 +7,6 @@
 <head>
     <title>Chat with {{ receiver.username }}</title>
     <style>
-        .glow {
-            color: #ffffff;
-            text-align: center;
-            animation: glow 1s ease-in-out infinite alternate;
-        }
-
-        @-webkit-keyframes glow {
-        from {
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #a5b0de, 0 0 30px #a5b0de, 0 0 40px #a5b0de, 0 0 50px #a5b0de, 0 0 60px #a5b0de;
-        }
-        
-        to {
-            text-shadow: 0 0 10px #fff, 0 0 20px #B6BFE2, 0 0 30px #B6BFE2, 0 0 40px #B6BFE2, 0 0 50px #B6BFE2, 0 0 60px #B6BFE2, 0 0 70px #B6BFE2;
-        }
-        }
 
         body {
             justify-content: center;
@@ -160,6 +145,9 @@
             display: table;
             clear: both;
         }
+        #title{
+            color: #0b122e;
+        }
     </style>
 </head>
 
@@ -168,7 +156,7 @@
     <div class="column middle">
         <div class="main-container">
             <div class="title-container">
-                <h2 id="title" class="glow">Chat with {{ receiver.username }} <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                <h2 id="title">Chat with {{ receiver.username }} <i class="fa fa-commenting-o" aria-hidden="true"></i>
                 </h2>
             </div>
             <br>
