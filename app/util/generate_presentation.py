@@ -12,7 +12,7 @@ import logging
 from . import config
 from io import BytesIO
 from PIL import Image
-
+import random
 logging.basicConfig(level=logging.DEBUG)
 
 load_dotenv(find_dotenv())
@@ -75,7 +75,11 @@ def process_and_store_presentation_json(result: dict, modified=False):
            """
 
     try:
-        presentation = Presentation()
+        presentation_template_index = random.randint(1, 10)
+        # path = "../media/presentation_templates/presentation_template_1.pptx"
+        presentation_template_path = f"app/media/presentation_templates/presentation_template_{presentation_template_index}.pptx"
+        print(presentation_template_path)
+        presentation = Presentation(presentation_template_path)
         i = 0
         all_image_paths = []
         for key, value in result.items():

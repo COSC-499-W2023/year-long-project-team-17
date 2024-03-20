@@ -5,83 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1f8e46ac-b6e1-4ca9-a206-ae01cd5eec3e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/media/default.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/media/profile_pictures/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/staticfiles/icon_cache/file-pdf_None_None_None.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/staticfiles/icon_cache/filetype-pdf_None_None_None.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/staticfiles/icon_cache/filetype-pptx_None_None_None.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/staticfiles/icon_cache/lock_None_None_None.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/staticfiles/icon_cache/three-dots_None_None_None.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/staticfiles/icon_cache/trash_None_None_None.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/staticfiles/icon_cache/unlock_None_None_None.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/website/migrations/0005_alter_presentations_date_created.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/website/migrations/0006_alter_profile_profile_pic.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/website/migrations/0007_alter_presentations_presentation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/website/signals.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/website/templates/exercise_loading_page.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/website/templates/images/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/website/templates/images/favicon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/website/templates/open_chats.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/website/templates/partials/post_visibility.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/website/templates/partials/presentations.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/website/templates/partials/presentations_different_user.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/website/templates/partials/profile_different_user_list.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/website/templates/partials/profile_list.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/website/templates/profile.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/website/templates/profile_different_user.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/T2Week5TeamLog.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/T2Week8TeamLog.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/T2Week9TeamLog.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/CharvieT2W9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/PeerEvalT2Week8Charvie.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/PeerEvaluationHarshWeek18.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/PeerEvaluationHarshWeek20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/PeerEvaluationHarshWeek21.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/ProjectBoardScreenshotHarshWeek18.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/ProjectBoardScreenshotHarshWeek20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/ProjectBoardScreenshotHarshWeek21.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/ProjectBoardScreenshotWeek18.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/ProjectBoardScreenshotWeek20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/ProjectBoardScreenshotWeek21.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/T2Week5GerardPeerEval.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/T2Week6GerardPeerEval.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/T2Week8GerardPeerEval.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/T2Week9GerardPeerEval.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/Term2Week5DavitPeerEval.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/Term2Week6DavitPeerEval.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/Term2Week8DavitPeerEval.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/Term2Week9DavitPeerEval.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/burnupchartweek18.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/burnupchartweek20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/burnupchartweek21.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/app/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/dcrm/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/dcrm/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/dcrm/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/dcrm/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/my_presentation.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/app/my_presentation.pptx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/util/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/util/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/util/generate_presentation.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/util/generate_presentation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/website/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/website/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/website/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/website/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/website/migrations/0004_presentations.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/website/migrations/0004_alter_profile_bio_alter_profile_profile_pic_and_more.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/website/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/website/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/website/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/website/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/website/templates/chat.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/website/templates/chat.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/website/templates/edit_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/website/templates/edit_profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/website/templates/exercise_generation.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/website/templates/exercise_generation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/website/templates/faq.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/website/templates/faq.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/website/templates/get_presentations.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/website/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/website/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/website/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/website/templates/navbar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/website/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/website/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/website/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/website/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/weekly logs/CharvieYadavIndividualLogs.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/weekly logs/CharvieYadavIndividualLogs.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/weekly logs/DavitAbrahamyanIndividualLogs.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/weekly logs/DavitAbrahamyanIndividualLogs.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/weekly logs/HarshGillIndividualLogs.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/weekly logs/HarshGillIndividualLogs.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/weekly logs/gerardIndividualLogs.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/weekly logs/gerardIndividualLogs.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my_presentation.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/my_presentation.pptx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/~$generated_presentation_dba21878-5943-4dd3-af16-0a3c1f2371b5.pptx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,16 +37,17 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Merging presentation__preview",
-    "last_opened_file_path": "/Users/davitabrahamyan/Documents/UBCO/Year 4/year-long-project-team-17/app/website/templates"
+    "git-widget-placeholder": "presentation__preview",
+    "last_opened_file_path": "/Users/davitabrahamyan/Documents/UBCO/Year 4/year-long-project-team-17/app/util"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/util" />
+      <recent name="$PROJECT_DIR$/app/media/presentations" />
       <recent name="$PROJECT_DIR$/app/website/templates" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/docs/weekly logs/images" />
-      <recent name="$PROJECT_DIR$/app/website/templates/static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/docs/weekly logs/images" />

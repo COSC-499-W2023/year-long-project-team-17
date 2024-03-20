@@ -1,0 +1,78 @@
+// Tree Structure Visualization
+digraph {
+	dot_0 [label="Product Release Manager" fillcolor=Indigo style=filled]
+	dot_1 [label="Feature Development Team" fillcolor=Crimson style=filled]
+	dot_2 [label="UI/UX Design Lead" fillcolor=Red style=filled]
+	dot_3 [label="UI Designer" fillcolor=DarkRed style=filled]
+	dot_4 [label="UX Researcher" fillcolor=FireBrick style=filled]
+	dot_5 [label="AI Algorithm Team Lead" fillcolor=Red style=filled]
+	dot_6 [label="Machine Learning Engineer" fillcolor=DarkRed style=filled]
+	dot_7 [label="Natural Language Processing Specialist" fillcolor=FireBrick style=filled]
+	dot_8 [label="Frontend Development Lead" fillcolor=Red style=filled]
+	dot_9 [label="Frontend Developer" fillcolor=DarkRed style=filled]
+	dot_10 [label="Backend Development Lead" fillcolor=Red style=filled]
+	dot_11 [label="Backend Developer" fillcolor=DarkRed style=filled]
+	dot_12 [label="Database Administrator" fillcolor=FireBrick style=filled]
+	dot_13 [label="Quality Assurance Team" fillcolor=Gold style=filled]
+	dot_14 [label="QA Lead" fillcolor=GoldenRod style=filled]
+	dot_15 [label="Test Automation Engineer" fillcolor=DarkGoldenRod style=filled]
+	dot_16 [label="Manual Tester" fillcolor=Yellow style=filled]
+	dot_17 [label="Security Team" fillcolor=MediumSeaGreen style=filled]
+	dot_18 [label="Security Lead" fillcolor=SeaGreen style=filled]
+	dot_19 [label="Application Security Engineer" fillcolor=PaleGreen style=filled]
+	dot_20 [label="Network Security Specialist" fillcolor=LightGreen style=filled]
+	dot_21 [label="Deployment Team" fillcolor=RoyalBlue style=filled]
+	dot_22 [label="Deployment Lead" fillcolor=DodgerBlue style=filled]
+	dot_23 [label="DevOps Engineer" fillcolor=CornflowerBlue style=filled]
+	dot_24 [label="Release Engineer" fillcolor=DeepSkyBlue style=filled]
+	dot_25 [label="Documentation Team" fillcolor=Orchid style=filled]
+	dot_26 [label="Technical Writer" fillcolor=MediumOrchid style=filled]
+	dot_27 [label="Documentation Reviewer" fillcolor=DarkOrchid style=filled]
+	dot_28 [label="Marketing and Sales Team" fillcolor=Tomato style=filled]
+	dot_29 [label="Marketing Lead" fillcolor=OrangeRed style=filled]
+	dot_30 [label="Digital Marketer" fillcolor=Coral style=filled]
+	dot_31 [label="Content Creator" fillcolor=DarkOrange style=filled]
+	dot_32 [label="Sales Lead" fillcolor=OrangeRed style=filled]
+	dot_33 [label="Sales Representative" fillcolor=Coral style=filled]
+	dot_34 [label="Customer Support Team" fillcolor=SlateBlue style=filled]
+	dot_35 [label="Support Team Lead" fillcolor=DarkSlateBlue style=filled]
+	dot_36 [label="Technical Support Specialist" fillcolor=MediumSlateBlue style=filled]
+	dot_37 [label="Customer Service Representative" fillcolor=Lavender style=filled]
+	dot_0 -> dot_1
+	dot_1 -> dot_2
+	dot_2 -> dot_3
+	dot_3 -> dot_4
+	dot_3 -> dot_5
+	dot_5 -> dot_6
+	dot_6 -> dot_7
+	dot_3 -> dot_8
+	dot_8 -> dot_9
+	dot_3 -> dot_10
+	dot_10 -> dot_11
+	dot_11 -> dot_12
+	dot_1 -> dot_13
+	dot_13 -> dot_14
+	dot_14 -> dot_15
+	dot_15 -> dot_16
+	dot_1 -> dot_17
+	dot_17 -> dot_18
+	dot_18 -> dot_19
+	dot_19 -> dot_20
+	dot_1 -> dot_21
+	dot_21 -> dot_22
+	dot_22 -> dot_23
+	dot_23 -> dot_24
+	dot_1 -> dot_25
+	dot_25 -> dot_26
+	dot_26 -> dot_27
+	dot_1 -> dot_28
+	dot_28 -> dot_29
+	dot_29 -> dot_30
+	dot_30 -> dot_31
+	dot_29 -> dot_32
+	dot_32 -> dot_33
+	dot_1 -> dot_34
+	dot_34 -> dot_35
+	dot_35 -> dot_36
+	dot_36 -> dot_37
+}
