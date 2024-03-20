@@ -328,3 +328,23 @@ This week I did not have any advancement in features as I was focused on the liv
 
 
 ![Screenshot](images/T2Week9GerardPeerEval.png)
+
+## Week10 (Feb 11, 2023 - Mar 17, 2023)
+### Goals Recap
+- This week my goal was to do minor improvements to the website design, these include NavBar design along with tge addition with small but usefull links in other pages
+
+### Tasks on board
+- Live chatting (Improve implementation)
+- Forum Page
+
+### Completed vs InProgress
+- Live chatting is InProgress
+-  Forum Page is InProgress
+
+### Context
+- Was sick for halve of the week and slowed my work a bit, but should be complete by the middle of next week.
+
+### Peer eval
+
+
+![Screenshot](images/T2Week10GerardPeerEval.png)
