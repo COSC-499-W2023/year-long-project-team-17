@@ -162,7 +162,7 @@
 ## Week8 
 
 ### Work period
-- Feb 26, 2023 - Mar 03, 2023
+- Feb 26, 2024 - Mar 03, 2024
 ### Goals Recap
 - My goal for this week was to start working on transtions and animations on the homepage and finish up on the light mode implementation of the website.
 
@@ -179,7 +179,7 @@
 ### Peer eval
 ![Screenshot](images/PeerEvalT2Week8Charvie.png)
 
-## Week9 (Feb 04, 2023 - Mar 10, 2023)
+## Week9 (Feb 04, 2024 - Mar 10, 2024)
 ### Goals Recap
 - The goal for this week was to debug light mode of website and transitions on homepage, and start working on building basic animations to make the website dynamic. We also had peer testing which gave us important feedback.
 
@@ -195,3 +195,20 @@
 ### Peer eval
 
 ![Screenshot](images/CharvieT2W9.png)
+
+## Week10 (Mar 11, 2024 - Mar 17, 2024)
+### Goals Recap
+- The goal for this week was to add more features to make the website look better, and fix bugs. I redesigned the open chat feature completely and made changes to the actual chat page, implementing dark mode as well. I added some UI components to the FAQ page. I've fixed all frontend bugs identified in the peer testing. 
+
+### Tasks on board
+- I am currently in progress of adding animations to make the website less static. All the other tasks are completed or in review: #151 Bug fixing from peer testing and #141 Open Chat Redesign.
+
+### Completed vs InProgress
+- The in review tasks are majorly completed. The in progress task is #139 Animations, which is something I'm trying to figure out as it's tricky to fit in with the Django framework.  
+
+### Context
+- I believe a major chunk of the frontend was completed this week and there is not much to add onto the current aesthetic. I will be discussing with my team in the weekly meeting to brainstorm final ideas to add onto our website.
+
+### Peer eval
+
+![Screenshot](images/CharvieT2W10.png)

@@ -33,8 +33,8 @@ charviey -> Charvie Yadav
 - #120 light-dark mode implementation -> DavidAbrahamyan 
 - #123 Transitions on homepage -> charviey 
 - #136 Adapted content generation loading page -> DavidAbrahamyan
-- #139 Animations -> charviey in review
 - #141 Open Chat Redesign -> charviey in review 
+- #151 Bug fixing from peer testing -> charviey in review
 - #146 Presentation Preview Page -> DavidAbrahamyan in review
 
 ## In progress tasks
@@ -45,6 +45,7 @@ charviey -> Charvie Yadav
 - #134 Forum page -> Gerry2002
 - #146 Presentation Modification -> DavidAbrahamyan 
 - #149 Update edit profile page -> harshg03
+- #139 Animations -> charviey 
 
 
 ## Burnup chart
