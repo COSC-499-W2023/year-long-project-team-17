@@ -19,7 +19,7 @@
         color: white;
     }
     .container {
-        margin-top: 35px;
+        margin-top: 15px;
     }
     h1 {
         color: #fff;
@@ -130,22 +130,24 @@
       opacity: 0;
     }
   }
-  
-#section03 {
+
+
+#sectiondiv {
   padding-top: 60px;
 }
-#section03 span {
+#sectiondiv span {
   position: absolute;
-  top: 0;
-  left: 50%;
-  width: 46px;
-  height: 46px;
+  top: 20%;
+  left: -90%;
+  width: 80px;
+  height: 80px;
   margin-left: -23px;
-  border: 1px solid #fff;
+  border: 1px solid #ffffff;
   border-radius: 100%;
   box-sizing: border-box;
 }
-#section03 span::after {
+
+ #sectiondiv span::after {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -153,8 +155,8 @@
   width: 16px;
   height: 16px;
   margin: -12px 0 0 -8px;
-  border-left: 1px solid #fff;
-  border-bottom: 1px solid #fff;
+  border-left: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
   -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
   box-sizing: border-box;
@@ -172,6 +174,10 @@
   text-decoration: none;
   transition: opacity .3s;
 }
+.smoothscroll {
+  scroll-behavior: smooth;
+ }
+ 
 .demo:hover {
   opacity: .5;
 }
@@ -190,10 +196,43 @@
 });
 </script>
 
+<script>
+  function smoothScroll(targetId) {
+    var duration = 1000;
+    var target = document.getElementById(targetId);
+    if (!target) return; // Exit if target element doesn't exist
+  
+    var targetPosition = target.offsetTop;
+    var startPosition = window.pageYOffset;
+    var distance = targetPosition - startPosition;
+    var startTime = null;
+  
+    function animation(currentTime) {
+      if (startTime === null) startTime = currentTime;
+      var timeElapsed = currentTime - startTime;
+      var run = ease(timeElapsed, startPosition, distance, duration);
+      window.scrollTo(0, run);
+      if (timeElapsed < duration) requestAnimationFrame(animation);
+    }
+  
+    function ease(t, b, c, d) {
+      t /= d / 2;
+      if (t < 1) return c / 2 * t * t + b;
+      t--;
+      return -c / 2 * (t * (t - 2) - 1) + b;
+    }
+  
+    requestAnimationFrame(animation);
+  }
+
+
+</script>
+
 </head>
 <body>
 
-    <div class="container col-md-5 offset-md-3.5">
+    <div id="section1">
+      <div class="container col-md-5 offset-md-3.5">
         <h1 class="animated-text ">   Welcome to EduPrompt</h1>
     </div>  
 
@@ -235,17 +274,25 @@
         </div>
       </div>
       <br>
-      <section id="section03" class="demo">
-        <span></span>
-      </section>
+
 
 </body>
+
 </html>
 
-<br>
-<br>
-<br>
 
+<a href="#" class="smoothScroll" onclick="smoothScroll('section2')">
+  <section id="sectiondiv" class="demo">
+    <span></span>
+  </section>
+</a>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <h1 class="container col-md-1 offset-md-0">About</h1>
 
 <section>
@@ -253,17 +300,16 @@
         <p class="container col-md-7 offset-md-0">Welcome to <b>EduPrompt!</b> <br>The purpose of this website is to create a learning space for students and teachers for using different files as input and being able to adapt the material using AI, or create new materials according to the user's preference. The main focus is to adapt materials for different age groups. It can either make it easier to understand, or give a deeper understanding to the topic.</p>
         <br>
         
-        <button type="button" class="btn btn-danger col-md-0 offset-md-0 custom-button" >Contact</button>
+        <button type="button" class="btn btn-danger col-md-0 offset-md-0 custom-button" onclick="smoothScroll('section4')">Contact</button>
 
     </aside>
 </section>
 
 <br>
 <br>
-
-
-
-<div class="team-details container col-md-6 offset-md-3 text-center">
+    </div>
+    
+<div class="team-details container col-md-6 offset-md-3 text-center" id="section2">
     <div class="container ">
         <h1 >Meet the Team</h1>
         <br>
@@ -299,14 +345,18 @@
 
 </div>
 <br>
-<section id="section03" class="demo">
-  <span></span>
-</section>
 
+<a href="#" class="smoothScroll" onclick="smoothScroll('section3')">
+  <section id="sectiondiv" class="demo">
+    <span></span>
+  </section>
+</a>
+<br>
+<br>
 <br>
 <br>
 
-<section class="container info-box">
+<section class="container info-box" id="section3">
     <div class="row">
         <div class="col-md-7 offset-md-0">
             <h2 class="container  light-blue-header">Detect Plagiarism</h2>
@@ -448,7 +498,7 @@
 <br>
 <br>
 
-<section class="mb-4">
+<section class="mb-4" id="section4">
 
     <div class="row">
         <div class="col-md-9 mb-md-0 mb-5">
