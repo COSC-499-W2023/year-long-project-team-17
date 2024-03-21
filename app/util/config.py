@@ -1,4 +1,4 @@
-ENGINE = "gpt-3.5-turbo"
+ENGINE = "gpt-4-0125-preview"
 CONTENT_ADAPTATION_ENGINE = "gpt-4"
 USER_INPUT_TOKEN_LIMIT = 2000
 # PRESENTATION_GENERATION_PROMPT = """ You are given a content based on which you should create the template for powerpoint

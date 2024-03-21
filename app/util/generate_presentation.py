@@ -12,6 +12,11 @@ import logging
 from . import config
 from io import BytesIO
 from PIL import Image
+import random
+from pptx.shapes.shapetree import PicturePlaceholder, SlidePlaceholder
+SlidePlaceholder.insert_picture = PicturePlaceholder.insert_picture
+SlidePlaceholder._new_placeholder_pic = PicturePlaceholder._new_placeholder_pic
+SlidePlaceholder._get_or_add_image = PicturePlaceholder._get_or_add_image
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -75,7 +80,11 @@ def process_and_store_presentation_json(result: dict, modified=False):
            """
 
     try:
-        presentation = Presentation()
+        presentation_template_index = random.randint(1, 10)
+        # path = "../media/presentation_templates/presentation_template_1.pptx"
+        presentation_template_path = f"app/media/presentation_templates/presentation_template_{presentation_template_index}.pptx"
+        print(presentation_template_path)
+        presentation = Presentation(presentation_template_path)
         i = 0
         all_image_paths = []
         for key, value in result.items():
@@ -90,7 +99,7 @@ def process_and_store_presentation_json(result: dict, modified=False):
                 for paragraph, paragraph_text in value["paragraphs"].items():
                     current_content = None
                     if value["slide_layout"] == 3:
-                        print("true")
+                        # print("true")
                         current_content = current_slide.shapes.placeholders[1]
                     else:
                         current_content = current_slide.shapes.placeholders[1]
@@ -103,17 +112,19 @@ def process_and_store_presentation_json(result: dict, modified=False):
                     if value.get("space_after_paragraphs") > 0:
                         current_paragraph.space_after = Inches(value["space_after_paragraphs"])
             if value.get("image_title") and value.get("slide_layout") == 3:
-                content = current_slide.shapes.placeholders[2]
-                image_title = content.text_frame.add_paragraph()
-                image_title.text = value.get("image_title")
-                for run in image_title.runs:
-                    run.font.size = Pt(18)
+                # content = current_slide.shapes.placeholders[2]
+                # image_title = content.text_frame.add_paragraph()
+                # image_title.text = value.get("image_title")
+                # for run in image_title.runs:
+                #     run.font.size = Pt(18)
                 image_path = generate_presentation_images(value.get("image_keywords"), i)
                 all_image_paths.append(image_path)
-                left_inch = Inches(5.5)
-                top_inch = Inches(3)
-                width_inch = height_inch = Inches(4)
-                current_slide.shapes.add_picture(image_path, left_inch, top_inch, width_inch, height_inch)
+                content_placeholder = current_slide.shapes.placeholders[2]
+                content_placeholder.insert_picture(image_path)
+                # left_inch = Inches(5.5)
+                # top_inch = Inches(3)
+                # width_inch = height_inch = Inches(4)
+                # current_slide.shapes.add_picture(image_path, left_inch, top_inch, width_inch, height_inch)
                 i += 1
         if modified:
             presentation.save("my_presentation_modified.pptx")
