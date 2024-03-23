@@ -82,7 +82,9 @@ def chat(request, username):
         (models.Q(sender=request.user) & models.Q(receiver=receiver)) |
         (models.Q(sender=receiver) & models.Q(receiver=request.user))
     ).order_by('timestamp')
-
+    if request.htmx:
+        return render(request, 'partials/chat_messages_load.html', {'messages' : messages, 'reciever': receiver})
+    
     return render(request, 'chat.html', {'messages': messages, 'receiver': receiver})
 
 @login_required

@@ -135,12 +135,11 @@
                 </h2>
             </div>
             <br>
-            <div id="chat-messages">
-                {% for message in messages %}
-                    <div class="{% if message.sender == request.user %}sender-message{% else %}receiver-message{% endif %}">
-                        <p>{{ message.sender.username }}: {{ message.content }}</p>
-                    </div>
-                {% endfor %}
+            <div id="chat-messages" 
+                hx-get="{% url 'chat' receiver.username %}" 
+                hx-trigger="every 4s" 
+                hx-swap="innerHTML">
+                {% include 'partials/chat_messages_load.html' %}
             </div>
         </div>
         <form method="post" action="{% url 'send_message' username=receiver.username %}" id="message-form">
@@ -231,12 +230,16 @@
 
         // Auto-scroll to the bottom to show the latest message
         chatMessages.scrollTop = chatMessages.scrollHeight;
-
+        
+        //Store the current length of messages in session storage
+        sessionStorage.setItem("oldMessagesLength", "{{ messages|length }}");
+        
+        /*
         // Auto-refresh every 3-5 seconds
         setInterval(function () {
             window.location.reload();
         }, 3000 + Math.floor(Math.random() * 2000));  // Random interval between 3 to 5 seconds
-
+        */
         // Submit the form when Enter key is pressed in the textarea
         document.getElementById("message-input").addEventListener("keydown", function (e) {
             if (e.key === "Enter" && !e.shiftKey) {
