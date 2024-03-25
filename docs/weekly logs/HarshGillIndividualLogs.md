@@ -397,3 +397,29 @@ adding a change password page and testing.
 - #118 Custom 404 page for wrong user navigation -> harshg03 in progress
 - #149 Update edit profile page -> harshg03 in progress
 
+
+## Week 11 Term 2
+
+### Work period
+- March.18, 2024 - March.24, 2024
+
+### Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek23.png)
+
+### Weekly goal recap
+
+- My goal this week was to finish updating the edit profile, complete change password, and finish testing on them. 
+
+### Tasks on board
+
+![Screenshot](images/ProjectBoardScreenshotHarshWeek23.png)
+
+### Completed vs in progress
+
+- #116 change password -> harshg03  in review
+- #117 edit profile testing -> harshg03 in review
+- #118 Custom 404 page for wrong user navigation -> harshg03 in progress
+- #149 Update edit profile page -> harshg03 in review
+- #155 Chat messages reload update -> harshg03 in review
+- #158 Change password testing -> harshg03 in review
+
