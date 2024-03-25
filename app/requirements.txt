@@ -8,8 +8,11 @@ certifi==2023.7.22
 charset-normalizer==3.3.0
 colorama==0.4.6
 coverage==7.3.2
+crispy-bootstrap5==2024.2
 Django==4.2.6
 django-bootstrap-icons==0.8.7
+django-cleanup==8.1.0
+django-crispy-forms==2.1
 django-extensions==3.2.3
 django-htmx==1.17.3
 django-ratelimit==4.1.0
