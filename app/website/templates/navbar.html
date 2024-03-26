@@ -117,6 +117,15 @@
     color: #ffffff; /* Comfortable dark gray text for readability */
   }
 
+  body[data-theme='light'] #sectiondiv span{
+    border: 1px solid #000000;
+  }
+
+  body[data-theme='light'] #sectiondiv span::after{
+    border-left: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+  }
+
   /* Navbar changes for light theme */
   body[data-theme='light'] .navbar{ 
     background: linear-gradient(to right, #ffffff, #f4f3f3); /* Light gradient background for the navbar */
