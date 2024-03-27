@@ -19,6 +19,7 @@
             {% endif %}
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownUserOptions">
+            <li><a class="dropdown-item" href="{% url 'profile' user.username %}">Profile</a></li>
             <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Profile</a></li>
             {% if request.user.groups.all.0.name == 'teacher' %}
               <li><a class="dropdown-item" href="{% url 'detect_plagiarism' %}">Detect Plagiarism</a></li>
