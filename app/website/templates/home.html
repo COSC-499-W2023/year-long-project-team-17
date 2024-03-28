@@ -185,6 +185,73 @@
     display: inline;
     padding: 39px;
 }
+
+
+/* Slideshow container */
+.slideshow-container {
+  position: absolute;
+}
+
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+
+.dot {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+  display:none;
+}
+
+.active {
+  background-color: #717171;
+}
+
+.fade {
+  animation-name: fade;
+  animation-duration: 3s;
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+.parent-container {
+    display: flex; 
+    justify-content: space-between; 
+    
+}
+
+.some-about {
+    flex: 1; 
+    z-index: 6;
+
+}
+
+.slideshow-container {
+    position: absolute;
+    flex: 1; 
+    opacity: 0.2;
+    z-index: 2;
+    left:0;
+    width:100%;
+    /* -webkit-mask-image: linear-gradient(black, transparent);
+    mask-image: linear-gradient(black, transparent); */
+} 
+
+
 </style>
 
 <script>
@@ -293,18 +360,82 @@
 <br>
 <br>
 <br>
-<h1 class="container col-md-1 offset-md-0">About</h1>
 
-<section>
-    <aside>
-        <p class="container col-md-7 offset-md-0">Welcome to <b>EduPrompt!</b> <br>The purpose of this website is to create a learning space for students and teachers for using different files as input and being able to adapt the material using AI, or create new materials according to the user's preference. The main focus is to adapt materials for different age groups. It can either make it easier to understand, or give a deeper understanding to the topic.</p>
-        <br>
-        
-        <button type="button" class="btn btn-danger col-md-0 offset-md-0 custom-button" onclick="smoothScroll('section4')">Contact</button>
+<div class="parent-container">
 
-    </aside>
-</section>
+  <div class="some-about">
+    <h1 class="container col-md-1 offset-md-0" style="margin-top: 100px;">About</h1>
 
+    <section>
+        <aside>
+            <p class="container col-md-7 offset-md-0">Welcome to <b>EduPrompt!</b> <br>The purpose of this website is to create a learning space for students and teachers for using different files as input and being able to adapt the material using AI, or create new materials according to the user's preference.<br><br> The main focus is to adapt materials for different age groups. It can either make it easier to understand, or give a deeper understanding to the topic.</p>
+            <br>
+            <br>
+            <button type="button" class="btn btn-danger col-md-0 offset-md-0 custom-button" onclick="smoothScroll('section4')">Contact</button>
+
+        </aside>
+    </section>
+</div>
+
+<div class="slideshow-container">
+    {% load static %}
+
+      <div class="mySlides fade">
+        <img src="{% static 'Frame-4.png' %}" style="width:1260px; height:600px">
+     </div>
+    
+     <div class="mySlides fade">
+        <img src="{% static 'Frame-7.jpg' %}" style="width:1260px; height:600px">
+     </div>
+    
+     <div class="mySlides fade">
+      <img src="{% static 'Frame-6.png' %}" style="width:1260px; height:600px">
+     </div>
+     <br>
+     <br>
+
+      <div>
+          <span class="dot"></span> 
+          <span class="dot"></span> 
+          <span class="dot"></span> 
+      </div>
+</div>
+</div>
+    
+
+    
+    <script>
+    let slideIndex = 0;
+    showSlides();
+    
+    function showSlides() {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("dot");
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";  
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) {slideIndex = 1}    
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex-1].style.display = "block";  
+      dots[slideIndex-1].className += " active";
+      setTimeout(showSlides, 2000); // Change image every 2 seconds
+    }
+    </script>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>
     </div>
