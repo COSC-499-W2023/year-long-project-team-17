@@ -5,10 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1f8e46ac-b6e1-4ca9-a206-ae01cd5eec3e" name="Changes" comment="">
+
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/util/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/util/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/util/generate_presentation.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/util/generate_presentation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my_presentation.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/my_presentation.pptx" afterDir="false" />
+
+      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/Term2Week10DavitPeerEval.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/weekly logs/DavitAbrahamyanIndividualLogs.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/weekly logs/DavitAbrahamyanIndividualLogs.md" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,8 +42,10 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+
     "git-widget-placeholder": "presentation__preview",
     "last_opened_file_path": "/Users/davitabrahamyan/Documents/UBCO/Year 4/year-long-project-team-17/app/util"
+
   }
 }]]></component>
   <component name="RecentsManager">
