@@ -6,17 +6,19 @@ from dotenv import load_dotenv, find_dotenv
 import os
 load_dotenv(find_dotenv())
 
-# openai.api_key = os.getenv('OPENAI_API_KEY')
 
 client = OpenAI(
-    # defaults to os.environ.get("OPENAI_API_KEY")
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
 
 def generate_summary(text: str):
+    """
+    A function to generate a summary of the provided text
+    :param text: Text, summary of which has to be generated
+    :return: The generated summary
+    """
     generated_summary = ""
-   # print(openai.api_key)
     try:
         generated_summary = client.chat.completions.create(
             model=config.ENGINE,

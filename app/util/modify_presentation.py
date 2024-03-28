@@ -1,18 +1,11 @@
-from pptx import Presentation
-from pptx.util import Pt, Inches
-import tiktoken
 import os
-from typing import Dict
-import openai
 from openai import OpenAI
 import json
-import requests
 from dotenv import load_dotenv, find_dotenv
 import logging
 from . import config
 from util.generate_presentation import process_and_store_presentation_json
-from io import BytesIO
-from PIL import Image
+
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -24,6 +17,12 @@ client = OpenAI(
 
 
 def generate_modified_presentation_json(original_presentation_json, user_comment):
+    """
+    A function that generates the json of the modified presentation based on the previous presentation as well as the user comments
+    :param original_presentation_json: Previously generated presentation json
+    :param user_comment: User comment, based on which new presentation json has to be generated
+    :return: The newly generated presentation json
+    """
     response = ""
     try:
 
@@ -45,20 +44,28 @@ def generate_modified_presentation_json(original_presentation_json, user_comment
 
 
 def generate_modified_presentation(original_presentation_json: dict, user_comment: str):
+    """
+    A wrapper function that generateds a modified presentation end-to-end using previous presentation json as well as the user comment
+    :param original_presentation_json: Previous presentation json
+    :param user_comment: User comment based on which the presentation has to be modified
+    :return: The modified presentation
+    """
+
     try:
         presentation_json = generate_modified_presentation_json(original_presentation_json, user_comment)
-        # pres_info = get_presentation_info(presentation_json)
         presentation_object = process_and_store_presentation_json(presentation_json, True)
-        # pres_info['presentation_json'] = presentation_json
-        # values = {}
-        # values['presentation'] = presentation_object
-        # values['pres_info'] = pres_info
         return presentation_json, presentation_object
     except Exception as e:
         logging.error(f"Something went wrong with modifying the presentation: {e}")
 
 
 def check_user_message(user_message):
+    """
+    A function to check whether the user message requires to modify the previously generated presentation or not
+    :param user_message: The user message
+    :return: A boolean indicating if the presentation needs to be modified or not
+    """
+
     response = ""
     try:
 
@@ -68,10 +75,8 @@ def check_user_message(user_message):
                 {'role': 'user',
                  'content': f'{config.MODIFICATION_CHECKER_PROMPT}\nUSER MESSAGE: {user_message}\nYour Response:'}
             ],
-            # response_format={"type": "json_object"},
 
         )
-        # response_json = json.loads(response.choices[0].message.content)
         logging.info(f"MODIFICATION CHECKER RESPONSE: {response}")
 
         modification_response = ""
@@ -94,6 +99,12 @@ def check_user_message(user_message):
 
 
 def generate_modification_assistant_response(user_message):
+    """
+    A function that responds to the user given question, indicating that either presentation is being modified or that the question is not in its scopes of expertice
+    :param user_message: The user message
+    :return: Response to the user message
+    """
+
     response = ""
     try:
 
@@ -103,7 +114,6 @@ def generate_modification_assistant_response(user_message):
                 {'role': 'user',
                  'content': f'{config.MODIFICATION_ASSISTANT_PROMPT}\nUSER MESSAGE: {user_message}\nYour Response:'}
             ],
-            # response_format={"type": "json_object"},
 
         )
         modification_assistant_response = response.choices[0].message.content
