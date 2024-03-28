@@ -351,3 +351,21 @@ Github commit for helper icons - https://github.com/COSC-499-W2023/year-long-pro
 ### Peer eval
 
 ![Screenshot](images/Term2Week9DavitPeerEval.png)
+
+
+## Week10 (Mar 11, 2023 - Mar 18, 2023)
+### Goals Recap
+- The goal for this week was to implement presentation modification functionality
+
+### Tasks on board
+- Implement presentation modification functionality page (Associated Task on Kanban Board: Presentation Modification)
+
+### Completed vs InProgress
+- There is a PR currently under review for presention modification
+
+### Context
+- This week was productive as I was able to implement a presentation modification functionality, which was quite a complicated task as it required changing both the frontend as well as the backend. This is a useful feature from the user's perspective as it allows users to make more customizable presentations.
+
+### Peer eval
+
+![Screenshot](images/Term2Week10DavitPeerEval.png)
