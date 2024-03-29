@@ -30,6 +30,25 @@
         left:0;
         top:55px;
     }
+    .parent-chat-container {
+    display: flex;
+    align-items: center; 
+    padding: 10px;
+    }
+
+    .circular-container {
+        width: 50px;
+        height: 50px;
+        background-color: #3b2e79a2;
+        border-radius: 50%;
+        border: 2px solid #3a2e79;
+        text-align: center;
+    }
+
+    .chat-text {
+        margin-left: 10px; 
+    }
+
 
 </style>
 
@@ -60,16 +79,22 @@
                     <a class="nav-link name" href="/chat/{{ chat.sender.username }}"><h3>{{ chat.sender.username }}</h3>
                     {% endif %}
                     {% endif %}
-                    <p>Open Chat</p>
+                    <div class="parent-chat-container">
+                        <div class="circular-container"></div>
+                        <div class="chat-text">
+                            <p>Open Chat</p>
+                            {% if chat.sender.id == user.id %}
+                        </div>
+                    </div>
+      
 
-                    {% if chat.sender.id == user.id %}
                 </a>
                 {% else %}
                 <p>{{chat.sender.username}} : {{ chat.content }}</p></a>
                 {% endif %}
             </div>
 
-            <div class="card mb-3" style="max-width: 54;top:400px" >
+            <div class="card mb-3" style="max-width: 54;top:400px;padding: 5px;" >
                 {% if chat.receiver.id == chat.sender.id %}
 
                 <span class="close">&times;</span>
@@ -87,9 +112,15 @@
 
                     {% endif %}
                     {% endif %}
-                    <p>Open Chat</p>
+                    <div class="parent-chat-container">
+                        <!-- /* Profile Picture goes here */ -->
+                        <div class="circular-container"></div>
+                        <div class="chat-text">
+                            <p>Open Chat</p>
+                            {% if chat.sender.id == user.id %}
+                        </div>
+                    </div>
 
-                    {% if chat.sender.id == user.id %}
                 {% else %}
                 <p>{{chat.sender.username}} : {{ chat.content }}</p></a>
                 {% endif %}
