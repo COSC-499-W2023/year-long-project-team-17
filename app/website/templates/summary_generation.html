@@ -39,7 +39,7 @@
             <br>
             <label for="input_text" class="label-with-tooltip">Enter Text:
                 <span class="question-mark" onclick="showInstructions()">?</span></label>
-            <div class="cloud-tooltip" id="textInstructions">
+            <div class="cloud-tooltip" id="textInstructions" style="color:black">
                 <p>Please write below the text that you would like us to summarize.</p>
             </div>
             <textarea class="textarea" id="input_text" name="input_text" rows="15" cols="100"></textarea>
@@ -64,7 +64,7 @@
 </div>
 
 <style>
-body, html {
+    body{
         font-family: 'Montserrat', sans-serif;
         background-color: #1e1e2f;
         color: white;
@@ -137,7 +137,7 @@ body, html {
     display: none;
     z-index: 1;
     transform: translate(39%, -100%);
-
+    color: black;
     max-width: 300px;
 }
 
@@ -151,7 +151,7 @@ body, html {
     display: none;
     z-index: 1;
     transform: translate(42%, -100%);
-
+    color: black;
     max-width: 300px;
 }
 
