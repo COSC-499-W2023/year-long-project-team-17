@@ -761,21 +761,21 @@
 {% else %}
 
 <div class="col-md-6 offset-md-3">
-<h1>Login</h1>
-</br>
-<form method="POST" action="{% url 'home' %}">
-    {% csrf_token %}
-        <div class="mb-3">
-          <input type="text" class="form-control" name="username", placeholder="Username" required>
-        </div>
+    <h1>Login</h1>
     </br>
-        <div class="mb-3">
-          <input type="password" class="form-control" name="password", placeholder="Password" required>
-        </div>
-    </br>
-        <button type="submit" style="margin-right: 7rem;" class="btn btn-outline-primary">Login</button> 
-        <a href="reset_password" class="link-primary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">Forgot password?</a>
-</form>
+    <form id="some-contact" method="POST" action="{% url 'home' %}">
+        {% csrf_token %}
+            <div class="mb-3">
+            <input  id="some-contact" type="text" class="form-control" name="username", placeholder="Username" required>
+            </div>
+        </br>
+            <div class="mb-3">
+            <input  id="some-contact" type="password" class="form-control" name="password", placeholder="Password" required>
+            </div>
+        </br>
+            <button type="submit" style="margin-right: 7rem;" class="btn btn-outline-primary">Login</button> 
+            <a href="reset_password" class="link-primary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">Forgot password?</a>
+    </form>
 </div>
 
 
