@@ -38,7 +38,7 @@ charviey -> Charvie Yadav
 - #145 Presentation Preview Page -> DavidAbrahamyan in review
 - #146 Presentation Modification -> DavidAbrahamyan in review
 - #149 Update edit profile page -> harshg03 in review
-- #151 Bug fixing from peer testing -> charviey in review
+- #151 Bug fixing from peer testing -> charviey 
 - #155 Chat messages reload update -> harshg03 in review
 - #158 Change password testing -> harshg03 in review
 
@@ -46,7 +46,9 @@ charviey -> Charvie Yadav
 
 - #118 Custom 404 page for wrong user navigation -> harshg03
 - #134 Forum page -> Gerry2002
-- #139 Animations -> charviey 
+- #166 New Chat functionality UI/UX -> charviey 
+- #167 Fix missing form validation -> charviey 
+
 
 ## Burnup chart
 
