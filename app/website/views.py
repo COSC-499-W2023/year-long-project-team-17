@@ -50,6 +50,8 @@ from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from collections import deque 
 from django_htmx.http import HttpResponseClientRefresh
+
+
 # Create your views here.
 # logging.info("----"*100)
 #
@@ -192,27 +194,29 @@ def faq(request):
 
 def contact_us(request):
     if request.method == 'POST':
-        email = request.POST['email']
-        message = request.POST['question']
-        if(len(message) == 0):
+        email = request.POST.get('email')
+        message = request.POST.get('question')
+        
+        # Validation
+        if not message:
             messages.error(request, "Please enter a question.")
             return render(request, 'contact_us.html')
         try:
             validate_email(email)
         except ValidationError as err:
-            messages.error(request, "An invalid email address was entered please try again.")
-            return render(request, 'contact_us.html')
-        else:
-            subject = 'Question from ' + email   
-            #Sends question from user as email to noreplyeduprompt@gmail.com
-            send_mail(subject,
-                    message,
-                    settings.EMAIL_HOST_USER,
-                    ['noreplyeduprompt@gmail.com'],
-                    fail_silently=False)
-            messages.success(request, "Your question has been sent.")
+            messages.error(request, "An invalid email address was entered. Please try again.")
             return render(request, 'contact_us.html')
         
+        # Sending email
+        subject = 'Question from ' + email   
+        send_mail(subject,
+                  message,
+                  settings.EMAIL_HOST_USER,
+                  ['noreplyeduprompt@gmail.com'],
+                  fail_silently=False)
+        
+        messages.success(request, "Your question has been sent.")
+        return render(request, 'contact_us.html')
     else:
         return render(request, 'contact_us.html')
 
