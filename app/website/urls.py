@@ -31,6 +31,7 @@ urlpatterns = [
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name = "password_reset_done.html"), name = 'password_reset_complete'),
     path('chat/<str:username>/', chat, name='chat'),
     path('send_message/<str:username>/', send_message, name='send_message'),
+    path('new_chats', views.new_chats, name='new_chats'), 
     path('faq', views.faq, name='faq'),
     path('contact_us', views.contact_us, name='contact_us'),
     path("loading_page", views.loading_page_view, name="loading_page"),
