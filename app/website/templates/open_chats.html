@@ -8,7 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Open Chats</title>
 
-    
+    <style>
+    .custom-button {
+        color: #fff;
+        background: linear-gradient(to right, #3498db 0%, #800080 100%);
+        background-size: 200% 100%;
+        transition: background-position 0.3s ease;
+    }
+
+    .custom-button:hover,
+    .custom-button:focus {
+        background-position: -100% 0;
+    }
+    </style>
 
 </head>
 <body>
@@ -32,7 +44,9 @@
             {% endif %}
             </div>
             <div>
-              <a class="nav-link" href="/new_chats"><button>New Chat</button></a>
+
+              <a href="{% url 'new_chats' %}" class="btn btn-danger col-md-0 offset-md-0 custom-button" >New Chat</a>
+
             </div>
 
         {% endfor %}
