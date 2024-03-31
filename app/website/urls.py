@@ -3,6 +3,7 @@ from django.urls import path
 from .views import UserEditView, EditProfilePageView, CreateProfilePageView, AboutUsView, chat, send_message
 from django.contrib.auth import views as auth_views
 from django_ratelimit.decorators import ratelimit
+from .views import get_recent_messages
 
 
 urlpatterns = [
@@ -45,5 +46,7 @@ urlpatterns = [
     path('presentation_status/', views.presentation_status, name='presentation_status'),
     path('exercise_status/', views.exercise_status, name="exercise_status"),
     path('exercise_loading_page', views.exercise_loading_page_view, name="exercise_loading_page"),
-    path('get_exercise', views.get_exercise_view, name="get_exercise")
+    path('get_exercise', views.get_exercise_view, name="get_exercise"),
+    path('get_recent_messages/<int:user_id>/', get_recent_messages, name='get_recent_messages')
+
 ]

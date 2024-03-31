@@ -38,6 +38,9 @@ from django_ratelimit.decorators import ratelimit
 from django_ratelimit.core import get_usage, is_ratelimited
 from humanfriendly import format_timespan
 from django.db import connection
+from django.http import JsonResponse
+from .models import Message  
+
 
 from django.core.mail import send_mail
 from django.conf import settings
@@ -79,6 +82,15 @@ class AboutUsView(CreateView):
 def new_chats(request):
     users = User.objects.all().exclude(username=request.user.username)
     return render(request, 'new_chats.html', {'users': users})
+
+
+def get_recent_messages(request, user_id):
+    user_messages = Message.objects.filter(receiver=request.user).order_by('-timestamp')[:1]
+    if user_messages.exists():
+        latest_timestamp = user_messages[0].timestamp
+        return JsonResponse({'timestamp': latest_timestamp})
+    else:
+        return JsonResponse({'timestamp': None})
 
 @login_required
 def chat(request, username):
@@ -146,6 +158,8 @@ ORDER BY
     # Render the 'open_chats.html' template with the retrieved message objects
     
     return render(request, 'open_chats.html', {'chats': chats})
+
+
 
     
 class CreateProfilePageView(CreateView):
