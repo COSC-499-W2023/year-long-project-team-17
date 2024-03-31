@@ -20,6 +20,7 @@ from util.adapt_content import generate_adapted_content
 from django.http import FileResponse
 from django.core.cache import cache
 from django.http import JsonResponse
+from django.utils import timezone
 from django.core.files.storage import FileSystemStorage
 from threading import Thread
 from uuid import uuid4
@@ -84,13 +85,15 @@ def new_chats(request):
     return render(request, 'new_chats.html', {'users': users})
 
 
+
 def get_recent_messages(request, user_id):
     user_messages = Message.objects.filter(receiver=request.user).order_by('-timestamp')[:1]
     if user_messages.exists():
-        latest_timestamp = user_messages[0].timestamp
+        latest_timestamp = user_messages[0].timestamp.date()  # Extracting only the date
         return JsonResponse({'timestamp': latest_timestamp})
     else:
         return JsonResponse({'timestamp': None})
+
 
 @login_required
 def chat(request, username):
