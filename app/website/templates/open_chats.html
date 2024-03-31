@@ -47,7 +47,7 @@
         <img src="{% static 'navpic.png' %}" alt="navpic" width="1263" height="970" >
 
         {% for chat in chats %}
-            <div class="card mb-3" style="max-width: 54;top:400px" >
+            <div class="card mb-3" style="top:400px" >
                 {% if chat.receiver.id == chat.sender.id %}
 
                 <span class="close">&times;</span>
