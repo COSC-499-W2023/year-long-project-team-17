@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background: linear-gradient(to right, #0f3c63, #670750);">
   <div class="container-fluid">
+    
     <a class="navbar-brand text-light" href="{% url 'home' %}">Edu Prompt</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -9,83 +10,71 @@
 
         {% if user.is_authenticated %} 
 
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'edit_profile' %}">Edit Profile</a>
+        <!-- User Options Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUserOptions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {% if user.profile.profile_pic %}
+              <img src="{{ user.profile.profile_pic.url }}" alt="Profile Picture" class="rounded-circle" style="width: 32px; height: 32px;">
+
+            {% endif %}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownUserOptions">
+            <li><a class="dropdown-item" href="{% url 'profile' user.username %}">Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Profile</a></li>
+            {% if request.user.groups.all.0.name == 'teacher' %}
+              <li><a class="dropdown-item" href="{% url 'detect_plagiarism' %}">Detect Plagiarism</a></li>
+            {% endif %}
+            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+          </ul>
         </li>
 
-          
 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'home' %}">{{user.username}}</a>
-          </li>
+        <!-- Generation Options Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownGenerationOptions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Generation Options
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownGenerationOptions">
+            <li><a class="dropdown-item" href="{% url 'generate_presentation' %}">Generate Presentation</a></li>
+            <li><a class="dropdown-item" href="{% url 'generate_exercise' %}">Generate Exercise</a></li>
+            <li><a class="dropdown-item" href="{% url 'generate_summary' %}">Generate Summary</a></li>
+            <li><a class="dropdown-item" href="{% url 'generate_adapted_content' %}">Generate Adapted Content</a></li>
+          </ul>
+        </li>
 
-          {% if request.user.groups.all.0.name == 'teacher' %}
-
-          <li class="nav-item">
-          <a class="nav-link" href="{% url 'detect_plagiarism' %}">Detect Plagiarism</a>
-          </li>
-
-          {% endif %}
-            <li class="nav-item">
-
-              <a class="nav-link" href="{% url 'generate_presentation' %}">Generate Presentation</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'generate_exercise' %}">Generate Exercise</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'generate_summary' %}">Generate Summary</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'generate_adapted_content' %}">Generate Adapted Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'chatbot' %}">Virtual Assistant</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'open_chats' %}">Chats</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'faq' %}">FAQ</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-            </li>
-
-          <!-- Theme toggle switch -->
-<li class="nav-item">
-  <label class="switch">
-    <input type="checkbox" id="theme-toggle">
-    <span class="slider round"></span>
-  </label>
-</li>
-
-
-
-
+        <!-- Other Links -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'chatbot' %}">Virtual Assistant</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'open_chats' %}">Chats</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'faq' %}">FAQ</a>
+        </li>
 
         {% else %}
-
-        
-
+        <!-- Guest Links -->
         <li class="nav-item">
           <a class="nav-link" href="{% url 'home' %}">Login</a>
         </li>
-
-
         <li class="nav-item">
           <a class="nav-link" href="{% url 'register' %}">Register</a>
         </li>
-
-        
-
-      
-
         {% endif %}
       </ul>
+
+      <!-- Theme Toggle Switch -->
+      <li class="nav-item">
+        <label class="switch">
+          <input type="checkbox" id="theme-toggle">
+          <span class="slider round"></span>
+        </label>
+      </li>
     </div>
   </div>
 </nav>
+
 
 <script type="text/javascript">
   // This script toggles the dark and light mode and remembers the choice in localStorage
@@ -121,6 +110,18 @@
   body[data-theme='light'] {
     background-color: #fbfbfb; /* Soft light gray background */
     color: #ffffff; /* Comfortable dark gray text for readability */
+  }
+  .nav-item {
+        list-style-type: none; /* Removes default marker */
+      }
+
+  body[data-theme='light'] #sectiondiv span{
+    border: 1px solid #000000;
+  }
+
+  body[data-theme='light'] #sectiondiv span::after{
+    border-left: 1px solid #000000;
+    border-bottom: 1px solid #000000;
   }
 
   /* Navbar changes for light theme */
@@ -171,12 +172,21 @@
   }
   body[data-theme='light'] .container2 figure{
     background-color: #dcdae76d;
+
+  }
+  body[data-theme='light'] .container.col-md-1.offset-md-0{
+    color: #000000;
+  }
+  body[data-theme='light'] .text-right.w-responsive.mx-auto.mb-5{
+    color: #000000;
+
   }
 
   /* Style the toggle switch */
   .switch {
     position: relative;
     display: inline-block;
+    list-style-type: none;
     width: 60px;
     height: 34px;
     margin-left: 10px; /* To align with other navbar items */

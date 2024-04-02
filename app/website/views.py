@@ -50,6 +50,7 @@ from django.core.paginator import Paginator
 from collections import deque 
 from django_htmx.http import HttpResponseClientRefresh
 
+
 from reportlab.pdfgen import canvas
 
 from django.http import HttpResponse
@@ -57,11 +58,30 @@ from django.conf import settings
 import os
 
 
+import subprocess
+import platform
+import os
+# Create your views here.
+# logging.info("----"*100)
+#
+# logging.info(os.environ.get("OPENAI_API_KEY"))
+# print("----"*100)
+#
+# print(os.environ.get("OPENAI_API_KEY"))
+
+
 client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
-
+system_platform = platform.system()
+if system_platform == 'Windows':
+    presentation_root = 'media'
+elif system_platform == 'Darwin':  # macOS
+     presentation_root = 'app/media'
+elif system_platform == 'Linux':
+     presentation_root = 'app/media'
+    
 class AboutUsView(CreateView):
     template_name = 'about_page.html'
     model = Profile
@@ -72,6 +92,11 @@ class AboutUsView(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+@login_required
+def new_chats(request):
+    users = User.objects.all().exclude(username=request.user.username)
+    return render(request, 'new_chats.html', {'users': users})
 
 @login_required
 def chat(request, username):
@@ -589,7 +614,6 @@ def generate_new_file_id():
     cache.set("generated_presentation_id", str(current_uuid))
     return current_uuid
 
-
 def convert_pptx_to_pdf(input_path, output_path=None):
     """
     A function that converts from pptx to pdf
@@ -611,7 +635,7 @@ def convert_pptx_to_pdf(input_path, output_path=None):
 
     if output_path is None:
         output_path = os.getcwd()
-        output_path = "app/media/presentations/"
+        output_path = presentation_root + "/presentations/"
         print(output_path)
 
     command = [libreoffice_path, '--convert-to', 'pdf', '--outdir', output_path, input_path]
@@ -633,7 +657,7 @@ def presentation_generation_task(request, input_text):
     if "generated_presentation_filename" in request.session:
         request.session['generated_presentation_filename'] = None
 
-    fs = FileSystemStorage(location="app/media/presentations/")
+    fs = FileSystemStorage(location=presentation_root + "/presentations/")
     new_id = generate_new_file_id()
     filename = f'generated_presentation_{new_id}.pptx'  # Choose a unique filename if necessary
     if fs.exists(filename):
@@ -650,7 +674,7 @@ def presentation_generation_task(request, input_text):
     )
     cache.set("generated_presentation_json", json.dumps(presentation_json))
     # with fs.open(filename, 'wb') as pptx_file:
-    full_file_name = "app/media/presentations/" + filename
+    full_file_name = presentation_root + "/presentations/" + filename
     presentation.save(full_file_name)
     request.session['generated_presentation_filename'] = filename
     pdf_filename = f'generated_presentation_{new_id}.pdf'
@@ -1159,13 +1183,13 @@ def presentation_download(request):
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pptx'
     if filename:
-        fs = FileSystemStorage(location="app/media/presentations/")
+        fs = FileSystemStorage(location=presentation_root + "/presentations/")
         if fs.exists(filename):
             response = FileResponse(fs.open(filename, 'rb'), content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
             response['Content-Disposition'] = f'attachment; filename="{filename}"'
             #fs.delete(filename)
-            fs.delete(filename)
-            cache.clear()
+            # fs.delete(filename)
+            # cache.clear()
 
             return response
 
@@ -1181,8 +1205,8 @@ def presentation_status(request):
     """
 
     presentation_id = cache.get("generated_presentation_id", "000")
-    filename = f'generated_presentation_{presentation_id}.pptx'
-    fs = FileSystemStorage(location="app/media/presentations/")
+    filename = f'generated_presentation_{presentation_id}.pdf'
+    fs = FileSystemStorage(location=presentation_root + "/presentations/")
 
     if fs.exists(filename):
 
@@ -1216,7 +1240,7 @@ def presentation_preview(request):
     """
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pdf'  # Assuming conversion to PDF is done.
-    fs = FileSystemStorage(location="app/media/presentations/")
+    fs = FileSystemStorage(location=presentation_root + "/presentations/")
 
     if fs.exists(filename):
 
@@ -1239,9 +1263,9 @@ def view_pdf(request):
     # pdf_path = 'my_presentation.pdf'
     presentation_id = cache.get("generated_presentation_id", "000")
     pdf_path = f'generated_presentation_{presentation_id}.pdf'
-    fs = FileSystemStorage(location="app/media/presentations/")
+    fs = FileSystemStorage(location=presentation_root + "/presentations/")
     if fs.exists(pdf_path):
-        full_pdf_path = "app/media/presentations/" + pdf_path
+        full_pdf_path = presentation_root + "/presentations/" + pdf_path
         with open(full_pdf_path, 'rb') as f:
             pdf_data = f.read()
 
@@ -1297,7 +1321,7 @@ def modify_presentation(request):
         cache.set("generated_presentation_json", json.dumps(modified_presentation_json))
         presentation_id = cache.get("generated_presentation_id", "000")
         filename = f'generated_presentation_{presentation_id}.pptx'
-        fs = FileSystemStorage(location="app/media/presentations/")
+        fs = FileSystemStorage(location=presentation_root + "/presentations/")
         if fs.exists(filename):
             pass
         with fs.open(filename, 'wb') as pptx_file:
@@ -1308,7 +1332,7 @@ def modify_presentation(request):
             convert_pptx_to_pdf(pptx_file_path)
 
         pdf_path = f'generated_presentation_{presentation_id}.pdf'
-        pdf_full_path = "app/media/presentations/" + pdf_path
+        pdf_full_path = presentation_root + "/presentations/" + pdf_path
         if fs.exists(pdf_path):
             with open(pdf_full_path, 'rb') as f:
                 pdf_data = f.read()

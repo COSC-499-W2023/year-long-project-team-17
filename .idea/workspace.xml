@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1f8e46ac-b6e1-4ca9-a206-ae01cd5eec3e" name="Changes" comment="">
+
+
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/util/adapt_content.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/util/adapt_content.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/util/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/util/config.py" afterDir="false" />
@@ -15,7 +17,9 @@
       <change beforePath="$PROJECT_DIR$/app/util/modify_presentation.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/util/modify_presentation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/website/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/website/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my_presentation.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/my_presentation.pptx" afterDir="false" />
+
       <change beforePath="$PROJECT_DIR$/my_presentation_modified.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/my_presentation_modified.pptx" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,21 +44,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;presentation__templates&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/davitabrahamyan/Documents/UBCO/Year 4/year-long-project-team-17/app/util&quot;
+
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+
+
+    "git-widget-placeholder": "presentation__preview",
+    "last_opened_file_path": "/Users/davitabrahamyan/Documents/UBCO/Year 4/year-long-project-team-17/app/util"
+
+
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+
       <recent name="$PROJECT_DIR$/app/util" />
       <recent name="$PROJECT_DIR$/app/media/presentations" />
       <recent name="$PROJECT_DIR$/app/website/templates" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/docs/weekly logs/images" />
+
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/docs/weekly logs/images" />
