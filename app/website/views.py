@@ -89,6 +89,11 @@ class AboutUsView(CreateView):
         return super().form_valid(form)
 
 @login_required
+def new_chats(request):
+    users = User.objects.all().exclude(username=request.user.username)
+    return render(request, 'new_chats.html', {'users': users})
+
+@login_required
 def chat(request, username):
     receiver = User.objects.get(username=username)
     messages = Message.objects.filter(

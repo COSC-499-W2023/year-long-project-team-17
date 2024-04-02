@@ -13,12 +13,13 @@
     <title>Text Animation Example</title>
     <style>
 
-    body, html {
+    body{
         font-family: 'Montserrat', sans-serif;
         background-color: #1e1e2f;
         color: white;
     }
     .container {
+
 
         margin-top: 35px;
 
@@ -43,7 +44,9 @@
     border-radius: 8px; /* Rounded corners */
     color: white; /* Text color */
 }
-
+.form-control.md-textarea{
+  background-color: #F0F5FA;
+}
 .readable-header {
     color: #ffffff; /*You can use white or any light shade that is readable on a dark background*/
     font-weight: bold; /*Makes the font bolder, clearer and more readable*/
@@ -132,22 +135,24 @@
       opacity: 0;
     }
   }
-  
-#section03 {
+
+
+#sectiondiv {
   padding-top: 60px;
 }
-#section03 span {
+#sectiondiv span {
   position: absolute;
-  top: 0;
-  left: 50%;
-  width: 46px;
-  height: 46px;
+  top: 20%;
+  left: -90%;
+  width: 80px;
+  height: 80px;
   margin-left: -23px;
-  border: 1px solid #fff;
+  border: 1px solid #ffffff;
   border-radius: 100%;
   box-sizing: border-box;
 }
-#section03 span::after {
+
+ #sectiondiv span::after {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -155,8 +160,8 @@
   width: 16px;
   height: 16px;
   margin: -12px 0 0 -8px;
-  border-left: 1px solid #fff;
-  border-bottom: 1px solid #fff;
+  border-left: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
   -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
   box-sizing: border-box;
@@ -174,9 +179,87 @@
   text-decoration: none;
   transition: opacity .3s;
 }
+.smoothscroll {
+  scroll-behavior: smooth;
+ }
+ 
 .demo:hover {
   opacity: .5;
 }
+.one-line p {
+    display: inline;
+    padding: 39px;
+}
+
+
+/* Slideshow container */
+.slideshow-container {
+  position: absolute;
+  mask-image: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(0, 0, 0, 1));
+}
+.mySlides{
+  mask-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(0, 0, 0, 1));
+}
+
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+
+.dot {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+  display:none;
+}
+
+.active {
+  background-color: #717171;
+}
+
+.fade {
+  animation-name: fade;
+  animation-duration: 3s;
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+.parent-container {
+    display: flex; 
+    justify-content: space-between; 
+    
+}
+
+.some-about {
+    flex: 1; 
+    z-index: 6;
+
+}
+
+.slideshow-container {
+    position: absolute;
+    flex: 1; 
+    opacity: 0.4;
+    z-index: 2;
+    left:0;
+    width:100%;
+    /* -webkit-mask-image: linear-gradient(black, transparent);
+    mask-image: linear-gradient(black, transparent); */
+} 
+
 
 
     .custom-button:hover,
@@ -218,11 +301,45 @@
 });
 </script>
 
+<script>
+  function smoothScroll(targetId) {
+    var duration = 1000;
+    var target = document.getElementById(targetId);
+    if (!target) return; // Exit if target element doesn't exist
+  
+    var targetPosition = target.offsetTop;
+    var startPosition = window.pageYOffset;
+    var distance = targetPosition - startPosition;
+    var startTime = null;
+  
+    function animation(currentTime) {
+      if (startTime === null) startTime = currentTime;
+      var timeElapsed = currentTime - startTime;
+      var run = ease(timeElapsed, startPosition, distance, duration);
+      window.scrollTo(0, run);
+      if (timeElapsed < duration) requestAnimationFrame(animation);
+    }
+  
+    function ease(t, b, c, d) {
+      t /= d / 2;
+      if (t < 1) return c / 2 * t * t + b;
+      t--;
+      return -c / 2 * (t * (t - 2) - 1) + b;
+    }
+  
+    requestAnimationFrame(animation);
+  }
+
+
+</script>
+
 </head>
 <body>
 
 
-    <div class="container col-md-5 offset-md-3.5">
+    <div id="section1">
+      <div class="container col-md-5 offset-md-3.5">
+
         <h1 class="animated-text ">   Welcome to EduPrompt</h1>
     </div>  
 
@@ -265,36 +382,108 @@
         </div>
       </div>
       <br>
-      <section id="section03" class="demo">
-        <span></span>
-      </section>
+
 
 </body>
+
 </html>
 
-<br>
-<br>
-<br>
 
-<h1 class="container col-md-1 offset-md-0">About</h1>
-
-<section>
-    <aside>
-        <p class="container col-md-7 offset-md-0">Welcome to <b>EduPrompt!</b> <br>The purpose of this website is to create a learning space for students and teachers for using different files as input and being able to adapt the material using AI, or create new materials according to the user's preference. The main focus is to adapt materials for different age groups. It can either make it easier to understand, or give a deeper understanding to the topic.</p>
-        <br>
-        
-        <button type="button" class="btn btn-danger col-md-0 offset-md-0 custom-button" >Contact</button>
-
-    </aside>
-</section>
+<a href="#" class="smoothScroll" onclick="smoothScroll('section2')">
+  <section id="sectiondiv" class="demo">
+    <span  class="sectiondiv-span"></span>
+  </section>
+</a>
 
 <br>
 <br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="parent-container">
+
+  <div class="some-about">
+    <h1 class="container col-md-1 offset-md-0" style="margin-top: 100px;">About</h1>
+
+    <section>
+        <aside>
+            <p class="container col-md-7 offset-md-0">Welcome to <b>EduPrompt!</b> <br>The purpose of this website is to create a learning space for students and teachers for using different files as input and being able to adapt the material using AI, or create new materials according to the user's preference.<br><br> The main focus is to adapt materials for different age groups. It can either make it easier to understand, or give a deeper understanding to the topic.</p>
+            <br>
+            <br>
+            <button type="button" class="btn btn-danger col-md-0 offset-md-0 custom-button" onclick="smoothScroll('section4')">Contact</button>
+
+        </aside>
+    </section>
+</div>
+
+<div class="slideshow-container">
+    {% load static %}
+
+      <div class="mySlides fade">
+        <img src="{% static 'Frame-4.png' %}" style="width:1260px; height:600px">
+     </div>
+    
+     <div class="mySlides fade">
+        <img src="{% static 'Frame-7.jpg' %}" style="width:1260px; height:600px">
+     </div>
+    
+     <div class="mySlides fade">
+      <img src="{% static 'Frame-6.png' %}" style="width:1260px; height:600px">
+     </div>
+     <br>
+     <br>
+
+      <div>
+          <span class="dot"></span> 
+          <span class="dot"></span> 
+          <span class="dot"></span> 
+      </div>
+</div>
+</div>
+    
+
+    
+    <script>
+    let slideIndex = 0;
+    showSlides();
+    
+    function showSlides() {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("dot");
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";  
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) {slideIndex = 1}    
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex-1].style.display = "block";  
+      dots[slideIndex-1].className += " active";
+      setTimeout(showSlides, 2000); // Change image every 2 seconds
+    }
+    </script>
 
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    </div>
+    
+<div class="team-details container col-md-6 offset-md-3 text-center" id="section2">
 
-
-<div class="team-details container col-md-6 offset-md-3 text-center">
     <div class="container ">
         <h1 >Meet the Team</h1>
         <br>
@@ -302,10 +491,17 @@
     {% load static %}
     <div class="founders-container">
         <img src="{% static 'Founder1.jpeg' %}" alt="Gerard" width="250" height="150">
-        <img src="{% static 'Founder2.jpg' %}" alt="Charvie" width="250" height="150">
+        <img src="{% static 'Founder2.jpg' %}" alt="Charvie" width="150" height="150">
         <img src="{% static 'Founder3.jpg' %}" alt="Harsh" width="250" height="150">
         <img src="{% static 'Founder4.jpg' %}" alt="Davit" width="250" height="150">
 
+    </div>
+
+    <div class="one-line">
+      <p>Gerard</p>
+      <p>Charvie</p>
+      <p>Harsh</p>
+      <p>Davit</p>
     </div>
 
 </div>
@@ -327,14 +523,18 @@
 
 </div>
 <br>
-<section id="section03" class="demo">
-  <span></span>
-</section>
 
+<a href="#" class="smoothScroll" onclick="smoothScroll('section3')">
+  <section id="sectiondiv" class="demo">
+    <span class="sectiondiv-span"></span>
+  </section>
+</a>
+<br>
+<br>
 <br>
 <br>
 
-<section class="container info-box">
+<section class="container info-box" id="section3">
     <div class="row">
         <div class="col-md-7 offset-md-0">
             <h2 class="container  light-blue-header">Detect Plagiarism</h2>
@@ -484,7 +684,7 @@
 <br>
 <br>
 
-<section class="mb-4">
+<section class="mb-4" id="section4">
 
     <div class="row">
         <div class="col-md-9 mb-md-0 mb-5">
