@@ -61,6 +61,14 @@ client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
+system_platform = platform.system()
+if system_platform == 'Windows':
+    presentation_root = 'media'
+elif system_platform == 'Darwin':  # macOS
+    presentation_root = 'app/media'
+elif system_platform == 'Linux':
+    presentation_root = 'app/media'
+
 
 class AboutUsView(CreateView):
     template_name = 'about_page.html'
@@ -586,7 +594,7 @@ def generate_new_file_id():
     :return: Generated file id
     """
     current_uuid = uuid4()
-    cache.set("generated_presentation_id", str(current_uuid))
+    cache.set("generated_presentation_id", str(current_uuid), timeout=1500)
     return current_uuid
 
 
@@ -611,7 +619,7 @@ def convert_pptx_to_pdf(input_path, output_path=None):
 
     if output_path is None:
         output_path = os.getcwd()
-        output_path = "app/media/presentations/"
+        output_path = presentation_root + "/presentations/"
         print(output_path)
 
     command = [libreoffice_path, '--convert-to', 'pdf', '--outdir', output_path, input_path]
@@ -633,7 +641,7 @@ def presentation_generation_task(request, input_text):
     if "generated_presentation_filename" in request.session:
         request.session['generated_presentation_filename'] = None
 
-    fs = FileSystemStorage(location="app/media/presentations/")
+    fs = FileSystemStorage(location=presentation_root + "/presentations/")
     new_id = generate_new_file_id()
     filename = f'generated_presentation_{new_id}.pptx'  # Choose a unique filename if necessary
     if fs.exists(filename):
@@ -643,14 +651,14 @@ def presentation_generation_task(request, input_text):
     presentation = values['presentation']
     pres_info = values['pres_info']
     pres = Presentations.objects.create(
-        user = request.user,
-        main_title = pres_info['main_title'],
-        titles = pres_info['titles'],
-        presentation = filename
+        user=request.user,
+        main_title=pres_info['main_title'],
+        titles=pres_info['titles'],
+        presentation=filename
     )
-    cache.set("generated_presentation_json", json.dumps(presentation_json))
+    cache.set("generated_presentation_json", json.dumps(presentation_json), timeout=1500)
     # with fs.open(filename, 'wb') as pptx_file:
-    full_file_name = "app/media/presentations/" + filename
+    full_file_name = presentation_root + "/presentations/" + filename
     presentation.save(full_file_name)
     request.session['generated_presentation_filename'] = filename
     pdf_filename = f'generated_presentation_{new_id}.pdf'
@@ -856,7 +864,7 @@ def generate_exercise_file_id():
     :return: Generated file id
     """
     current_uuid = uuid4()
-    cache.set("generated_exercise_id", str(current_uuid))
+    cache.set("generated_exercise_id", str(current_uuid), timeout=1500)
     return current_uuid
 
 
@@ -886,7 +894,7 @@ def exercise_generation_task(request, input_text, input_option):
     with fs.open(filename, 'wb') as docx_file:
         generated_exercise_doc.save(docx_file)
     request.session['generated_exercise_filename'] = filename
-    cache.set("input_option", input_option)
+    cache.set("input_option", input_option, timeout=1500)
     # request.session['input_option'] = input_option
 
 
@@ -1159,7 +1167,7 @@ def presentation_download(request):
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pptx'
     if filename:
-        fs = FileSystemStorage(location="app/media/presentations/")
+        fs = FileSystemStorage(location=presentation_root+"/presentations/")
         if fs.exists(filename):
             response = FileResponse(fs.open(filename, 'rb'), content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
             response['Content-Disposition'] = f'attachment; filename="{filename}"'
@@ -1170,7 +1178,7 @@ def presentation_download(request):
             return response
 
     messages.error(request, "No presentation was generated or the session has expired.")
-    return render(request, "presentation_generation.html")
+    return render(request, "presentation_generation.html", {"input_option": "write"})
 
 
 def presentation_status(request):
@@ -1182,7 +1190,7 @@ def presentation_status(request):
 
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pptx'
-    fs = FileSystemStorage(location="app/media/presentations/")
+    fs = FileSystemStorage(location=presentation_root + "/presentations/")
 
     if fs.exists(filename):
 
@@ -1216,7 +1224,7 @@ def presentation_preview(request):
     """
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pdf'  # Assuming conversion to PDF is done.
-    fs = FileSystemStorage(location="app/media/presentations/")
+    fs = FileSystemStorage(location=presentation_root+"/presentations/")
 
     if fs.exists(filename):
 
@@ -1239,9 +1247,9 @@ def view_pdf(request):
     # pdf_path = 'my_presentation.pdf'
     presentation_id = cache.get("generated_presentation_id", "000")
     pdf_path = f'generated_presentation_{presentation_id}.pdf'
-    fs = FileSystemStorage(location="app/media/presentations/")
+    fs = FileSystemStorage(location=presentation_root+"/presentations/")
     if fs.exists(pdf_path):
-        full_pdf_path = "app/media/presentations/" + pdf_path
+        full_pdf_path = presentation_root+"/presentations/" + pdf_path
         with open(full_pdf_path, 'rb') as f:
             pdf_data = f.read()
 
@@ -1290,14 +1298,19 @@ def modify_presentation(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         user_message = data.get('message', '')
+        presentation_id = cache.get("generated_presentation_id")
+        if not presentation_id:
+            messages.error(request,
+                           "Your session has expired")
+            return render(request, "presentation_generation.html", {"input_option": "write"})
         generated_presentation_json = cache.get("generated_presentation_json", "{}")
         logging.info(f"GENERATED PRESENTATION JSON: {generated_presentation_json}")
         generated_presentation_json = json.loads(generated_presentation_json)
         modified_presentation_json, modified_presentation_object = generate_modified_presentation(generated_presentation_json, user_message)
-        cache.set("generated_presentation_json", json.dumps(modified_presentation_json))
+        cache.set("generated_presentation_json", json.dumps(modified_presentation_json), timeout=1500)
         presentation_id = cache.get("generated_presentation_id", "000")
         filename = f'generated_presentation_{presentation_id}.pptx'
-        fs = FileSystemStorage(location="app/media/presentations/")
+        fs = FileSystemStorage(location=presentation_root + "/presentations/")
         if fs.exists(filename):
             pass
         with fs.open(filename, 'wb') as pptx_file:
@@ -1308,7 +1321,7 @@ def modify_presentation(request):
             convert_pptx_to_pdf(pptx_file_path)
 
         pdf_path = f'generated_presentation_{presentation_id}.pdf'
-        pdf_full_path = "app/media/presentations/" + pdf_path
+        pdf_full_path = presentation_root + "/presentations/" + pdf_path
         if fs.exists(pdf_path):
             with open(pdf_full_path, 'rb') as f:
                 pdf_data = f.read()
@@ -1318,11 +1331,12 @@ def modify_presentation(request):
             return HttpResponse(pdf_data, content_type='application/pdf')
         else:
             messages.error(request, "Something went wrong while generating your modified presentation, please try again.")
-            return redirect('generate_presentation')
+            return render(request, "presentation_generation.html", {"input_option": "write"})
 
 
 def exercise_loading_page_view(request):
     """
+    A function to redirect to the exercise loading page
     A function to redirect to the exercise loading page
     :param request: Request object
     :return: None (redirects to the exercise loading page)

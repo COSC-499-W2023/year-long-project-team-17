@@ -13,6 +13,7 @@ from . import config
 from io import BytesIO
 from PIL import Image
 import random
+import platform
 from pptx.shapes.shapetree import PicturePlaceholder, SlidePlaceholder
 SlidePlaceholder.insert_picture = PicturePlaceholder.insert_picture
 SlidePlaceholder._new_placeholder_pic = PicturePlaceholder._new_placeholder_pic
@@ -25,6 +26,14 @@ load_dotenv(find_dotenv())
 client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
+
+system_platform = platform.system()
+if system_platform == 'Windows':
+    presentation_root = 'media'
+elif system_platform == 'Darwin':  # macOS
+     presentation_root = 'app/media'
+elif system_platform == 'Linux':
+     presentation_root = 'app/media'
 
 
 def get_presentation_json(description: str) -> Dict[str, str]:
@@ -82,7 +91,7 @@ def process_and_store_presentation_json(result: dict, modified=False):
     try:
         presentation_template_index = random.randint(1, 10)
         # path = "../media/presentation_templates/presentation_template_1.pptx"
-        presentation_template_path = f"app/media/presentation_templates/presentation_template_{presentation_template_index}.pptx"
+        presentation_template_path = presentation_root + f"/presentation_templates/presentation_template_{presentation_template_index}.pptx"
         print(presentation_template_path)
         presentation = Presentation(presentation_template_path)
         i = 0
@@ -140,6 +149,7 @@ def process_and_store_presentation_json(result: dict, modified=False):
         logging.info("something went wrong with generating Presentation object based on the presentation json.")
         logging.info(e)
         logging.error(e)
+
 
 def get_presentation_info(result: dict):
     pres_info = {}
