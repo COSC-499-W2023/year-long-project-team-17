@@ -12,7 +12,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from .forms import SignUpForm, EditProfileForm, ProfilePageForm
 from .models import Profile, Message, Presentations
 from util.generate_summary import generate_summary
-from util.generate_presentation import generate_presentation
+from util.generate_presentation import generate_presentation, get_presentation_info
 from util.detect_plagiarism import detect_plagiarism
 from util.generate_exercises import generate_exercises_from_prompt, generate_similar_exercises
 from util.adapt_content import generate_adapted_content
@@ -325,26 +325,29 @@ def download_presentation_pptx(request, pres_id):
 
 
 @authenticated_user
-def change_post_visibility(request, pres_id, is_shared):
+def change_post_visibility(request, pres_id):
     if request.method == 'POST' and request.htmx:
-            if is_shared == 0 or is_shared == 1:
-                #raises 404 http exception if presentation object does not exist
-                pres = get_object_or_404(Presentations, pk=pres_id)
-                #only update if presentation belongs to user making request
-                if request.user.id == pres.user_id:  
-                    if is_shared == 0:  
-                        pres.is_shared = 1
-                    else:
-                        pres.is_shared = 0
-                    pres.save(update_fields=["is_shared"])
-                    return render(request, 'partials/post_visibility.html', {'value': pres})
+        if request.headers.get('HX-Trigger') == 'preview-pres' or request.headers.get('HX-Trigger') == 'post-visibility':
+            #raises 404 http exception if presentation object does not exist
+            pres = get_object_or_404(Presentations, pk=pres_id)
+            #only update if presentation belongs to user making request
+            if request.user.id == pres.user_id:  
+                if pres.is_shared == 0:  
+                    pres.is_shared = 1
                 else:
-                    messages.error(request, "You do not have the authorization to make changes to that post.")
-                    return redirect("home")
+                    pres.is_shared = 0
+                pres.save(update_fields=["is_shared"])
+                if request.headers.get('HX-Trigger') == 'preview-pres':
+                    return render(request, 'partials/preview_post_visibility.html', {'presentation_obj': pres})
+                elif request.headers.get('HX-Trigger') == 'post-visibility':
+                    return render(request, 'partials/post_visibility.html', {'value': pres})
             else:
-                    messages.error(request, "You do not have the authorization to make changes to that post.")
-                    return redirect("home")
-    else:
+                messages.error(request, "You do not have the authorization to make changes to that post.")
+                return redirect("home")
+        else:  
+            messages.error(request, "You do not have the authorization to make changes to that post.")
+            return redirect("home")
+    else:  
         messages.error(request, "You do not have the authorization to make changes to that post.")
         return redirect("home")
 
@@ -355,7 +358,11 @@ def delete_presentation(request, pres_id):
         #raises 404 http exception if presentation object does not exist
         pres = get_object_or_404(Presentations, pk=pres_id)
         #only delete if presentation belongs to user making request
-        if request.user.id == pres.user_id:    
+        if request.user.id == pres.user_id:
+            fs = FileSystemStorage(location=presentation_root + "/presentations/")    
+            #Remove presentation from storage
+            if fs.exists(pres.presentation):
+                fs.delete(pres.presentation)
             pres.delete()
             messages.success(request, "Your presentation has been deleted.")
             return HttpResponseClientRefresh()
@@ -1242,13 +1249,13 @@ def presentation_preview(request):
     filename = f'generated_presentation_{presentation_id}.pdf'  # Assuming conversion to PDF is done.
 
     fs = FileSystemStorage(location=presentation_root + "/presentations/")
-
+    presentation_obj_filename = f'generated_presentation_{presentation_id}.pptx'
     if fs.exists(filename):
-
+        presentation_obj = get_object_or_404(Presentations, presentation = presentation_obj_filename)
         # pdf_url = fs.url(filename)
         pdf_url = '/' + fs.base_url.lstrip('/') + filename
 
-        return render(request, "presentation_preview.html", {"presentation_pdf_url": pdf_url})
+        return render(request, "presentation_preview.html", {"presentation_pdf_url": pdf_url, "presentation_obj": presentation_obj})
     else:
         messages.error(request, "No presentation was ready for preview.")
         return redirect('generate_presentation')
@@ -1325,6 +1332,7 @@ def modify_presentation(request):
         logging.info(f"GENERATED PRESENTATION JSON: {generated_presentation_json}")
         generated_presentation_json = json.loads(generated_presentation_json)
         modified_presentation_json, modified_presentation_object = generate_modified_presentation(generated_presentation_json, user_message)
+        modified_presentation_info = get_presentation_info(modified_presentation_json)
         cache.set("generated_presentation_json", json.dumps(modified_presentation_json), timeout=1500)
         presentation_id = cache.get("generated_presentation_id", "000")
         filename = f'generated_presentation_{presentation_id}.pptx'
@@ -1337,6 +1345,13 @@ def modify_presentation(request):
         if fs.exists(filename):
             pptx_file_path = fs.path(filename)
             convert_pptx_to_pdf(pptx_file_path)
+
+        #Update the existing presentation object with the new modified information
+        if modified_presentation_info:
+            presentation_obj = get_object_or_404(Presentations, presentation=filename)
+            presentation_obj.main_title = modified_presentation_info['main_title']
+            presentation_obj.titles = modified_presentation_info['titles']
+            presentation_obj.save(update_fields=['main_title', 'titles'])
 
         pdf_path = f'generated_presentation_{presentation_id}.pdf'
         pdf_full_path = presentation_root + "/presentations/" + pdf_path

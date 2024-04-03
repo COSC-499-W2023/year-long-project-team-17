@@ -2,7 +2,7 @@
 {% block content %}
 {% csrf_token %}
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <div class="col-md-8 offset-md-2">
             <h1 class="text-center">Preview Presentation</h1>
             <div id="pdf-container" class="text-center"></div>
@@ -19,13 +19,14 @@
 
             <div class="text-center mt-3">
                 <a href="{% url 'presentation_download' %}" class="btn btn-outline-primary" >Download Presentation</a>
+                {% include 'partials/preview_post_visibility.html' %}
                 <a href="{% url 'generate_presentation' %}" class="btn btn-outline-primary">Back to Generate Page</a>
             </div>
         </div>
 
 
 <style>
-body, html {
+body {
         font-family: 'Montserrat', sans-serif;
         background-color: #1e1e2f;
         color: white;
@@ -248,7 +249,44 @@ function appendMessage(sender, message) {
             document.getElementById('send-btn').click();
         }
     });
-    </script>
+    
+    // Sweetalert popup 
+    document.addEventListener("htmx:confirm", function(e) {
+      if(e.target.tagName == "A") { 
+        e.preventDefault()
+        var visibility = "";
+        if(e.detail.question === "1") {visibility = "private";}
+        if(e.detail.question === "0") {visibility = "public";}
+    
+        if(e.target.id == "preview-pres"){Swal.fire({
+            icon: 'warning',
+            iconColor: '#f03932',
+            text: `Are you sure you want your presentation to be ${visibility}?`,
+            color: '#fff',
+            background: '#17181a',
+            showCancelButton: true,
+            confirmButtonColor: '#4191fa',
+            cancelButtonColor: '#f03932',
+            cancelButtonText:'Cancel',
+            confirmButtonText: `Set ${visibility}`
+            }).then(function(result) {
+            if(result.isConfirmed) 
+            { 
+            Swal.fire({
+                text: `Your presentation has been set to ${visibility}!`,
+                icon: "success",
+                showConfirmButton: false,
+                color: '#fff',
+                background: '#17181a',
+                timer: 1500
+            });
+            e.detail.issueRequest(true);
+        }
+        })}
+    }});
+</script>
+
+    
 
 {% endblock %}
 
