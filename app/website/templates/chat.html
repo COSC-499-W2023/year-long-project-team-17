@@ -187,46 +187,45 @@
                 <tr class="row-data-2">
                     <td class="data-2">
                         <div class="search-container">
-                            <form action="/action_page.php">
-                              <i class="fa fa-search" aria-hidden="true" ></i>
-                              <input type="text" placeholder="Search.." name="search" >
+                            <form id="search-form">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                                <input type="text" id="search-input" placeholder="Search.." name="search">
                             </form>
                         </div>
                     </td>
                 </tr>
-                <tr class="row-data-2">
-                    <td class="data-2-2">
-
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-
-<script>
-    window.onload = function () {
-        const chatMessages = document.getElementById("chat-messages");
-        const messageForm = document.getElementById("message-form");
-        const roomName = "{{ receiver.username }}";
-
-        // Auto-scroll to the bottom to show the latest message
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-
-        // Auto-refresh every 3-5 seconds
-        setInterval(function () {
-            window.location.reload();
-        }, 3000 + Math.floor(Math.random() * 2000));  // Random interval between 3 to 5 seconds
-
-        // Submit the form when Enter key is pressed in the textarea
-        document.getElementById("message-input").addEventListener("keydown", function (e) {
-            if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                messageForm.submit();
-            }
-        });
-    };
-</script>
+                
+                <script>
+                    window.onload = function () {
+                        const chatMessages = document.getElementById("chat-messages");
+                        const searchForm = document.getElementById("search-form");
+                        const searchInput = document.getElementById("search-input");
+                
+                        // Function to filter messages based on search input
+                        function filterMessages() {
+                            const searchTerm = searchInput.value.toLowerCase();
+                            const messages = document.querySelectorAll('.sender-message, .receiver-message');
+                
+                            messages.forEach(function (message) {
+                                const messageContent = message.textContent.toLowerCase();
+                                if (messageContent.includes(searchTerm)) {
+                                    message.style.display = 'block'; // Show matching messages
+                                } else {
+                                    message.style.display = 'none'; // Hide non-matching messages
+                                }
+                            });
+                        }
+                
+                        // Add event listener to search input
+                        searchForm.addEventListener("input", filterMessages);
+                
+                        // Auto-scroll to the bottom to show the latest message
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                
+                    };
+                </script>
+                
 </body>
 </html>
 {% endblock %}
