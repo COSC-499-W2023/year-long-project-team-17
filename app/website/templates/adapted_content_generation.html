@@ -22,7 +22,7 @@
         <div id="userGroupTextField" style="margin-top: 10px;">
             <label for="input_user_group"  class="label-with-tooltip">Enter User Group
                 <span class="question-mark-user-group" onclick="showInstructionsUserGroup()">?</span></label>
-            <div class="cloud-tooltip-3" id="userGroupTextInstructions">
+            <div class="cloud-tooltip-3" id="userGroupTextInstructions" style="color:black">
                 <p>Please write the user group to which the content has to be adapted. For example, "second grade students"</p>
             </div>
             <br>
@@ -39,7 +39,7 @@
         </div>
         <div id="writeTextField" style="margin-top: 10px;">
             <label for="input_text" class="label-with-tooltip">Enter Content to Adapt <span class="question-mark" onclick="showInstructions()">?</span></label>
-            <div class="cloud-tooltip" id="textInstructions">
+            <div class="cloud-tooltip" id="textInstructions" style="color:black">
                 <p>Please write below the content that has to be adapted for the target user group.</p>
             </div>
             <textarea class="textarea" id="input_text" name="input_text" rows="10" ></textarea>
@@ -63,7 +63,7 @@
 </div>
 
 <style>
-    body, html {
+    body {
         font-family: 'Montserrat', sans-serif;
         background-color: #1e1e2f;
         color: #fff;
@@ -127,7 +127,7 @@
 
     .cloud-tooltip {
         position: absolute;
-        background-color: #1e1e2f;
+        background-color: #ffffff;
         border: 1px solid #ccc;
         padding: 10px;
         border-radius: 8px;
@@ -152,7 +152,7 @@
     }
     .cloud-tooltip-2 {
         position: absolute;
-        background-color: #1e1e2f;
+        background-color: #ffffff;
         border: 1px solid #ccc;
         padding: 10px;
         border-radius: 8px;
@@ -160,13 +160,13 @@
         display: none;
         z-index: 1;
         transform: translate(40%, -100%);
-
+        color: black;
         max-width: 300px;
     }
 
     .cloud-tooltip-3 {
         position: absolute;
-        background-color: #1e1e2f;
+        background-color: #f8f8f8;
         border: 1px solid #ccc;
         padding: 10px;
         border-radius: 8px;

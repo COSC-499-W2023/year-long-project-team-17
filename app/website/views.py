@@ -50,11 +50,24 @@ from django.core.paginator import Paginator
 from collections import deque 
 from django_htmx.http import HttpResponseClientRefresh
 
+
 from reportlab.pdfgen import canvas
 
 from django.http import HttpResponse
 from django.conf import settings
 import os
+
+
+import subprocess
+import platform
+import os
+# Create your views here.
+# logging.info("----"*100)
+#
+# logging.info(os.environ.get("OPENAI_API_KEY"))
+# print("----"*100)
+#
+# print(os.environ.get("OPENAI_API_KEY"))
 
 
 client = OpenAI(
@@ -65,11 +78,10 @@ system_platform = platform.system()
 if system_platform == 'Windows':
     presentation_root = 'media'
 elif system_platform == 'Darwin':  # macOS
-    presentation_root = 'app/media'
+     presentation_root = 'app/media'
 elif system_platform == 'Linux':
-    presentation_root = 'app/media'
-
-
+     presentation_root = 'app/media'
+    
 class AboutUsView(CreateView):
     template_name = 'about_page.html'
     model = Profile
@@ -80,6 +92,11 @@ class AboutUsView(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+@login_required
+def new_chats(request):
+    users = User.objects.all().exclude(username=request.user.username)
+    return render(request, 'new_chats.html', {'users': users})
 
 @login_required
 def chat(request, username):
@@ -596,7 +613,6 @@ def generate_new_file_id():
     current_uuid = uuid4()
     cache.set("generated_presentation_id", str(current_uuid), timeout=1500)
     return current_uuid
-
 
 def convert_pptx_to_pdf(input_path, output_path=None):
     """
@@ -1167,13 +1183,13 @@ def presentation_download(request):
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pptx'
     if filename:
-        fs = FileSystemStorage(location=presentation_root+"/presentations/")
+        fs = FileSystemStorage(location=presentation_root + "/presentations/")
         if fs.exists(filename):
             response = FileResponse(fs.open(filename, 'rb'), content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation')
             response['Content-Disposition'] = f'attachment; filename="{filename}"'
             #fs.delete(filename)
-            fs.delete(filename)
-            cache.clear()
+            # fs.delete(filename)
+            # cache.clear()
 
             return response
 
@@ -1189,7 +1205,7 @@ def presentation_status(request):
     """
 
     presentation_id = cache.get("generated_presentation_id", "000")
-    filename = f'generated_presentation_{presentation_id}.pptx'
+    filename = f'generated_presentation_{presentation_id}.pdf'
     fs = FileSystemStorage(location=presentation_root + "/presentations/")
 
     if fs.exists(filename):
@@ -1224,7 +1240,8 @@ def presentation_preview(request):
     """
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pdf'  # Assuming conversion to PDF is done.
-    fs = FileSystemStorage(location=presentation_root+"/presentations/")
+
+    fs = FileSystemStorage(location=presentation_root + "/presentations/")
 
     if fs.exists(filename):
 
@@ -1247,9 +1264,10 @@ def view_pdf(request):
     # pdf_path = 'my_presentation.pdf'
     presentation_id = cache.get("generated_presentation_id", "000")
     pdf_path = f'generated_presentation_{presentation_id}.pdf'
-    fs = FileSystemStorage(location=presentation_root+"/presentations/")
+
+    fs = FileSystemStorage(location=presentation_root + "/presentations/")
     if fs.exists(pdf_path):
-        full_pdf_path = presentation_root+"/presentations/" + pdf_path
+        full_pdf_path = presentation_root + "/presentations/" + pdf_path
         with open(full_pdf_path, 'rb') as f:
             pdf_data = f.read()
 
