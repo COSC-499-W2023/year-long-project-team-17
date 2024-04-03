@@ -1,22 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Chat with {{ receiver.username }}</title>
     <style>
-
-        body {
-            justify-content: center;
-            align-items: center;
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(to left, rgba(15, 60, 99, 0.249), rgba(0, 0, 255, 0.098), rgba(103, 7, 81, 0.116));
-            margin: 0;
-            padding: 0;
-            border-radius: 10px;
-        }
         body {
             justify-content: center;
             align-items: center;
@@ -26,9 +15,27 @@
             padding: 0;
             border-radius: 10px;
         }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+        }
+
+        .column.middle {
+            flex: 2; /* Take up twice the space as the side column */
+        }
+
+        .column.side {
+            flex: 1; /* Take up half the space as the middle column */
+            background-color: #F0F2F5;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
         .fontAwesome {
             font-family: 'Helvetica', FontAwesome, sans-serif;
         }
+
         #chat-messages {
             overflow-y: auto;
             border: 1px solid #ccc;
@@ -42,37 +49,37 @@
             color: #111B47;
             background-color: #B6BFE2;
             border-radius: 15px;
-            margin:3px;
-            padding-left:5px;
-            padding-top: 5px;
-            padding-bottom: 2px;
-            width:30%;
-        } 
+            margin: 3px;
+            padding: 5px;
+            width: 30%;
+        }
 
         .receiver-message {
             color: green;
             background-color: #c4e0d1;
             border-radius: 15px;
-            margin:3px;
-            padding-left:5px;
-            padding-top: 5px;
-            padding-bottom: 2px;
-            width:30%;
+            margin: 3px;
+            padding: 5px;
+            width: 30%;
         }
+
         .title-container {
             background-color: #B6BFE2;
             padding: 18px;
             border-radius: 10px;
         }
+
         .main-container {
             border-radius: 10px;
         }
+
         #message-form {
             display: flex;
             align-items: center;
             margin-top: 20px;
             background: transparent;
         }
+
         #message-input {
             padding: 10px;
             border: 1px solid #ccc;
@@ -81,6 +88,7 @@
             width: 445px;
             border-radius: 10px;
         }
+
         #btn {
             padding: 13px;
             width: 13%;
@@ -91,73 +99,34 @@
             cursor: pointer;
             border-radius: 5px;
         }
-        .table{
-            float: right;
-            border-radius: 15px;
-            overflow: hidden;
-        }
-        .data{
-            width:300px;
-            height:60px;
-            background-color: white;
+
+        .search-section {
+            display: flex; /* Arrange search elements horizontally */
+            flex-direction: column; /* Stack elements vertically */
+            border: 1px solid #ccc;
+            border-radius: 5px;
             padding: 10px;
-            color: #acacac;
-        }
-        .row-data{
-            border: 1px solid rgb(203, 202, 202);
-        }
-        .table-2{
-            float: left;   
-            border-radius: 15px;
-            overflow: hidden;        
-        }
-        .data-2{
-            width:300px;
-            height:60px;
-            background-color: white;
-            padding: 10px;
-        }
-        .data-2-2{
-            width:300px;
-            height:410px;
-            background-color: white;
-        }
-        .row-data-2{
-            border: 1px solid rgb(203, 202, 202);
-        }
-        .data-head{
-            padding: 18px;
-        }
-        .column {
-            padding: 10px;
+            margin-bottom: 10px;
         }
 
-        .column.side {
-            width: 25%;
+        .search-title {
+            text-align: center;
+            padding-bottom: 5px;
+            font-weight: bold;
         }
 
-        .column.middle {
-            width: 50%;
-        }
-
-        .row::after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-        #title{
-            color: #0b122e;
+        .search-container {
+            display: flex;
+            align-items: center;
         }
     </style>
 </head>
-
 <body>
-  <div class="row">
+<div class="row">
     <div class="column middle">
         <div class="main-container">
             <div class="title-container">
-                <h2 id="title">Chat with {{ receiver.username }} <i class="fa fa-commenting-o" aria-hidden="true"></i>
-                </h2>
+                <h2 id="title">Chat with {{ receiver.username }} <i class="fa fa-commenting-o" aria-hidden="true"></i></h2>
             </div>
             <br>
             <div id="chat-messages">
@@ -169,16 +138,15 @@
             </div>
         </div>
         <form method="post" action="{% url 'send_message' username=receiver.username %}" id="message-form">
-          {% csrf_token %}
-          <textarea id="message-input" name="content" required rows="2" placeholder="Type message"></textarea>
-          <button type="send" id="btn">Send</button>
-      </form>    
+            {% csrf_token %}
+            <textarea id="message-input" name="content" required rows="2" placeholder="Type message"></textarea>
+            <button type="send" id="btn">Send</button>
+        </form>
+    </div>
 
-  </div>
-
-    <div class="column side">
+    <div class="column side" style="height: 200px;">
         <div class="table-2">
-            <table>
+            <table style="height: 150px;">
                 <tr class="row-data-2">
                     <td class="data-2">
                         Search in Channel
@@ -194,83 +162,50 @@
                         </div>
                     </td>
                 </tr>
-                
-                <script>
-                    window.onload = function () {
-                        const chatMessages = document.getElementById("chat-messages");
-                        const searchForm = document.getElementById("search-form");
-                        const searchInput = document.getElementById("search-input");
-                
-                        // Function to filter messages based on search input
-                        function filterMessages() {
-                            const searchTerm = searchInput.value.toLowerCase();
-                            const messages = document.querySelectorAll('.sender-message, .receiver-message');
-                
-                            messages.forEach(function (message) {
-                                const messageContent = message.textContent.toLowerCase();
-                                if (messageContent.includes(searchTerm)) {
-                                    message.style.display = 'block'; // Show matching messages
-                                } else {
-                                    message.style.display = 'none'; // Hide non-matching messages
-                                }
-                            });
-                        }
-                
-                        // Add event listener to search input
-                        searchForm.addEventListener("input", filterMessages);
-                
-                        // Auto-scroll to the bottom to show the latest message
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                
-                
-                    };
-                </script>
-                
+                <tr class="row-data-2">
+                    <td class="data-2">
+                        <!-- Add more elements here -->
+                        Attachments
+                    </td>
+                </tr>
+                <tr class="row-data-2">
+                    <td class="data-2">
+                        <!-- Add more elements here -->
+                        Add media button for attachments here
+                    </td>
+                </tr>
+            </table>
+            <script>
+                window.onload = function () {
+                    const chatMessages = document.getElementById("chat-messages");
+                    const searchForm = document.getElementById("search-form");
+                    const searchInput = document.getElementById("search-input");
+
+                    // Function to filter messages based on search input
+                    function filterMessages() {
+                        const searchTerm = searchInput.value.toLowerCase();
+                        const messages = document.querySelectorAll('.sender-message, .receiver-message');
+
+                        messages.forEach(function (message) {
+                            const messageContent = message.textContent.toLowerCase();
+                            if (messageContent.includes(searchTerm)) {
+                                message.style.display = 'block'; // Show matching messages
+                            } else {
+                                message.style.display = 'none'; // Hide non-matching messages
+                            }
+                        });
+                    }
+
+                    // Add event listener to search input
+                    searchForm.addEventListener("input", filterMessages);
+
+                    // Auto-scroll to the bottom to show the latest message
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                };
+            </script>
+        </div>
+    </div>
+</div>
 </body>
 </html>
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-<body>
-    <h2>Chat with {{ receiver.username }}</h2>
-    <div id="chat-messages">
-      {% for message in messages %}
-        <p>{{ message.sender.username }}: {{ message.content }}</p>
-      {% endfor %}
-    </div>
-  
-    <form method="post" action="{% url 'send_message' username=receiver.username %}">
-      {% csrf_token %}
-      <textarea id="message-input" name="content" required></textarea>
-      <button type="submit">Send</button>
-    </form>
-  
-    <script>
-      window.onload = function () {
-        const roomName = "{{ receiver.username }}";
-  
-        // Auto-refresh every 3-5 seconds
-        setInterval(function () {
-          window.location.reload();
-        }, 5000);  // Random interval between 3 to 5 seconds
-      };
-    </script>
-  </body>
--->
