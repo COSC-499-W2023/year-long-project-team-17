@@ -7,7 +7,6 @@ from django.urls import reverse_lazy
 from django.views import generic
 from .decorators import *
 from reportlab.lib.pagesizes import letter
-from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from .forms import SignUpForm, EditProfileForm, ProfilePageForm
@@ -20,18 +19,17 @@ from util.adapt_content import generate_adapted_content
 from util.modify_presentation import check_user_message, generate_modification_assistant_response, generate_modified_presentation
 from django.http import FileResponse
 from django.core.cache import cache
-from django.http import JsonResponse
 from django.core.files.storage import FileSystemStorage
 from threading import Thread
 from uuid import uuid4
 
-import os
+import subprocess
+import platform
 import docx
 from pptx import Presentation
 import PyPDF2
 import logging
 from django.http import HttpResponse, JsonResponse, Http404
-import openai
 from openai import OpenAI
 import json
 from django.contrib.auth.decorators import login_required
@@ -42,7 +40,6 @@ from humanfriendly import format_timespan
 from django.db import connection
 
 from django.core.mail import send_mail
-from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from util import config
@@ -52,6 +49,14 @@ from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from collections import deque 
 from django_htmx.http import HttpResponseClientRefresh
+
+
+from reportlab.pdfgen import canvas
+
+from django.http import HttpResponse
+from django.conf import settings
+import os
+
 
 import subprocess
 import platform
@@ -64,8 +69,8 @@ import os
 #
 # print(os.environ.get("OPENAI_API_KEY"))
 
+
 client = OpenAI(
-    # defaults to os.environ.get("OPENAI_API_KEY")
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
@@ -103,6 +108,7 @@ def chat(request, username):
 
     return render(request, 'chat.html', {'messages': messages, 'receiver': receiver})
 
+
 @login_required
 def send_message(request, username):
     if request.method == 'POST':
@@ -117,6 +123,7 @@ def send_message(request, username):
             )
 
     return redirect('chat', username=username)
+
 
 @login_required
 def open_chats(request):
@@ -139,8 +146,6 @@ ORDER BY
     last_message_time ASC;
 
     """
-
-
 
     # Execute the raw SQL query
     with connection.cursor() as cursor:
@@ -171,11 +176,13 @@ class CreateProfilePageView(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+
 class EditProfilePageView(generic.UpdateView):
     model = Profile
     template_name = 'edit_profile_page.html'
     fields = ['bio', 'profile_pic', 'website_url', 'facebook_url', 'twitter_url', 'instagram_url', 'pinterest_url']
     success_url = reverse_lazy('home')
+
 
 class UserEditView(generic.UpdateView):
     form_class = EditProfileForm
@@ -184,6 +191,7 @@ class UserEditView(generic.UpdateView):
 
     def get_object(self):
         return self.request.user
+
 
 def isLimited(request, exception):
     values = {}
@@ -200,8 +208,10 @@ def isLimited(request, exception):
         values['timeleft'] = format_timespan(usage['time_left'])
         return render(request, 'limited.html', values, status=429)
 
+
 def faq(request):
     return render(request,'faq.html')
+
 
 def contact_us(request):
     if request.method == 'POST':
@@ -228,6 +238,7 @@ def contact_us(request):
         
     else:
         return render(request, 'contact_us.html')
+
 
 @authenticated_user
 def Profile(request, username):
@@ -290,6 +301,7 @@ def Profile(request, username):
 
         return render(request, 'profile_different_user.html', context)
 
+
 @authenticated_user
 def download_presentation_pptx(request, pres_id):
     #raises 404 http exception if presentation object does not exist
@@ -310,7 +322,8 @@ def download_presentation_pptx(request, pres_id):
     else:
         messages.error(request, "Sorry this presentation has been set to private and can no longer be downloaded.")
         return redirect("home")
-    
+
+
 @authenticated_user
 def change_post_visibility(request, pres_id, is_shared):
     if request.method == 'POST' and request.htmx:
@@ -334,7 +347,8 @@ def change_post_visibility(request, pres_id, is_shared):
     else:
         messages.error(request, "You do not have the authorization to make changes to that post.")
         return redirect("home")
-    
+
+
 @authenticated_user
 def delete_presentation(request, pres_id):
     if request.htmx:
@@ -376,11 +390,13 @@ def home(request):
     else:
         return render(request, 'home.html')
 
+
 @authenticated_user
 def logout_user(request):
     logout(request)
     messages.success(request, "You have been Logged Out...")
     return redirect('home')
+
 
 @unauthenticated_user
 def register_user(request):
@@ -415,7 +431,8 @@ def customer_record(request, pk):
         messages.success(request, "You must be logged in to view that page")
         return redirect('home')
 
-#DELETE    
+
+#DELETE
 @allowed_users(allowed_roles=['teacher'])
 def delete_record(request, pk):
     if request.user.is_authenticated:
@@ -426,7 +443,8 @@ def delete_record(request, pk):
     else:
         messages.success(request, "You must be logged in do that action")
         return redirect('home')
-    
+
+
 #DELETE
 @allowed_users(allowed_roles=['teacher'])
 def add_record(request):
@@ -443,6 +461,7 @@ def add_record(request):
         messages.success(request, "You must be logged in")
         return redirect('home')
 
+
 #DELETE
 @allowed_users(allowed_roles=['teacher'])
 def update_record(request, pk):
@@ -458,8 +477,14 @@ def update_record(request, pk):
         messages.success(request, "You must be logged in")
         return redirect('home')
 
+
 @authenticated_user
 def generate_summary_view(request):
+    """
+    A view to generate a summary based on the user input
+    :param request: The request containing user message
+    :return: Generated summary
+    """
     
     if request.method == "POST":
         input_option = request.POST.get("input_option")
@@ -556,41 +581,47 @@ def generate_summary_view(request):
                 render(request, "summary_generation.html", {"input_option": "upload"})
     return render(request, "summary_generation.html", {"input_option": "write"})
 
-from reportlab.pdfgen import canvas
 
-def pptx_to_pdf(pptx_file, pdf_file):
-    # Load the PowerPoint presentation
-    prs = Presentation(pptx_file)
-
-    # Create a canvas with PDF size
-    c = canvas.Canvas(pdf_file, pagesize=letter)
-
-    # Set up dimensions
-    width, height = letter
-    slide_width = width - 72  # 1 inch margin on each side
-    slide_height = height - 72
-
-    # Go through each slide in the presentation
-    for slide in prs.slides:
-        # Start a new page for each slide
-        c.showPage()
-
-        # Draw the slide onto the canvas
-        slide.shapes._spTree.draw(c, 0, 0, slide_width, slide_height)
-
-    # Save the PDF
-    c.save()
+# def pptx_to_pdf(pptx_file, pdf_file):
+#     # Load the PowerPoint presentation
+#     prs = Presentation(pptx_file)
+#
+#     # Create a canvas with PDF size
+#     c = canvas.Canvas(pdf_file, pagesize=letter)
+#
+#     # Set up dimensions
+#     width, height = letter
+#     slide_width = width - 72  # 1 inch margin on each side
+#     slide_height = height - 72
+#
+#     # Go through each slide in the presentation
+#     for slide in prs.slides:
+#         # Start a new page for each slide
+#         c.showPage()
+#
+#         # Draw the slide onto the canvas
+#         slide.shapes._spTree.draw(c, 0, 0, slide_width, slide_height)
+#
+#     # Save the PDF
+#     c.save()
 
 def generate_new_file_id():
+    """
+    A function to generate a new file uuid which will be used to store generated presentation
+    :return: Generated file id
+    """
     current_uuid = uuid4()
-    cache.set("generated_presentation_id", str(current_uuid))
+    cache.set("generated_presentation_id", str(current_uuid), timeout=1500)
     return current_uuid
 
-
-
 def convert_pptx_to_pdf(input_path, output_path=None):
-    # Ensure that the path to soffice is correct or adapt it
-    # it might be different depending on how LibreOffice is installed
+    """
+    A function that converts from pptx to pdf
+    :param input_path: The file path to pptx
+    :param output_path: The file path where pdf has to be stored
+    :return: None (pdf is being stored of successfully executed)
+    """
+
     system_platform = platform.system()
     if system_platform == 'Windows':
         libreoffice_path = 'C:/Program Files/LibreOffice/program/soffice.exe'
@@ -617,7 +648,12 @@ def convert_pptx_to_pdf(input_path, output_path=None):
 
 
 def presentation_generation_task(request, input_text):
-
+    """
+    A function to generate a presentation using user input
+    :param request: Request containing user input message
+    :param input_text: The user input
+    :return: None (Presentation is generated)
+    """
     if "generated_presentation_filename" in request.session:
         request.session['generated_presentation_filename'] = None
 
@@ -631,12 +667,12 @@ def presentation_generation_task(request, input_text):
     presentation = values['presentation']
     pres_info = values['pres_info']
     pres = Presentations.objects.create(
-        user = request.user,
-        main_title = pres_info['main_title'],
-        titles = pres_info['titles'],
-        presentation = filename
+        user=request.user,
+        main_title=pres_info['main_title'],
+        titles=pres_info['titles'],
+        presentation=filename
     )
-    cache.set("generated_presentation_json", json.dumps(presentation_json))
+    cache.set("generated_presentation_json", json.dumps(presentation_json), timeout=1500)
     # with fs.open(filename, 'wb') as pptx_file:
     full_file_name = presentation_root + "/presentations/" + filename
     presentation.save(full_file_name)
@@ -656,6 +692,11 @@ def presentation_generation_task(request, input_text):
 
 @authenticated_user
 def generate_presentation_view(request):
+    """
+    A view to generate a presentation
+    :param request: Request containing user message
+    :return: Generated presentation
+    """
 
     if request.method == "POST":
         input_option = request.POST.get("input_option")
@@ -748,24 +789,17 @@ def generate_presentation_view(request):
             else:
                 messages.error(request, "Please upload a file", {"input_option": "upload"})
 
-            # if input_text:
-            #     presentation = generate_presentation(input_text)  # Modify this line to generate the presentation
-            #     if presentation:
-            #         # Save the presentation to a temporary file
-            #         presentation_path = "path_to_temporary_file.pptx"
-            #         presentation.save(presentation_path)
-            #         return render(request, 'presentation_generation.html', {'presentation_link': presentation_path})
-            #     else:
-            #         messages.error(request, "Failed to generate presentation.")
-            # else:
-            #     messages.error(request, "Please enter text for the presentation")
-            #     return render(request, "presentation_generation.html")
     return render(request, "presentation_generation.html", {"input_option": "write"})
     
 
 @authenticated_user
 @allowed_users(allowed_roles=['teacher'])
 def detect_plagiarism_view(request):
+    """
+    A view to detect plagiarism
+    :param request: Request containing user message
+    :return: Similarity scores between each pair of files
+    """
     if request.method == "POST":
         uploaded_files = request.FILES.getlist('file')
         if uploaded_files and len(uploaded_files) > 1:
@@ -841,8 +875,12 @@ def detect_plagiarism_view(request):
 
 
 def generate_exercise_file_id():
+    """
+    A function to generate a new file uuid which will be used to store generated exercises
+    :return: Generated file id
+    """
     current_uuid = uuid4()
-    cache.set("generated_exercise_id", str(current_uuid))
+    cache.set("generated_exercise_id", str(current_uuid), timeout=1500)
     return current_uuid
 
 
@@ -850,7 +888,12 @@ from docx import Document
 
 
 def exercise_generation_task(request, input_text, input_option):
-
+    """
+   A function to generate an exercise using user input
+   :param request: Request containing user input message
+   :param input_text: The user input
+   :return: None (Exercise is generated)
+   """
     if "generated_exercise_filename" in request.session:
         request.session['generated_exercise_filename'] = None
 
@@ -867,77 +910,88 @@ def exercise_generation_task(request, input_text, input_option):
     with fs.open(filename, 'wb') as docx_file:
         generated_exercise_doc.save(docx_file)
     request.session['generated_exercise_filename'] = filename
-    cache.set("input_option", input_option)
+    cache.set("input_option", input_option, timeout=1500)
     # request.session['input_option'] = input_option
 
 
 @authenticated_user
 def generate_exercise_view(request):
-        if request.method == "POST":
-            input_option = request.POST.get("input_option")
-            if input_option == "write":
-                input_text = request.POST.get("input_text")
-                if input_text:
+    """
+   A view to generate exercises
+   :param request: Request containing user message
+   :return: Generated exercises
+   """
+    if request.method == "POST":
+        input_option = request.POST.get("input_option")
+        if input_option == "write":
+            input_text = request.POST.get("input_text")
+            if input_text:
 
-                    thread = Thread(target=exercise_generation_task, args=(request, input_text, input_option))
-                    thread.start()
+                thread = Thread(target=exercise_generation_task, args=(request, input_text, input_option))
+                thread.start()
 
-                    return JsonResponse({'status': 'success', 'message': 'Exercise generated'})
-                else:
-                    messages.error(request, "Please describe what type of exercises do you want.")
-                    return render(request, "exercise_generation.html", {"input_option": "write"})
-            elif input_option == "upload":
-                uploaded_file = request.FILES.get("file")
-                if uploaded_file:
-                    file_extension = os.path.splitext(uploaded_file.name)[1].lower()
-                    if file_extension not in [".docx", ".pdf"]:
-                        messages.error(request,
-                                        "The uploaded file must have one of the following extensions: .docx, .pdf")
-                        return render(request, "exercise_generation.html", {"input_option": "upload"})
-                    elif file_extension == ".docx":
-                            doc = docx.Document(uploaded_file)
-                            full_text = []
-                            for paragraph in doc.paragraphs:
-                                full_text.append(paragraph.text)
+                return JsonResponse({'status': 'success', 'message': 'Exercise generated'})
+            else:
+                messages.error(request, "Please describe what type of exercises do you want.")
+                return render(request, "exercise_generation.html", {"input_option": "write"})
+        elif input_option == "upload":
+            uploaded_file = request.FILES.get("file")
+            if uploaded_file:
+                file_extension = os.path.splitext(uploaded_file.name)[1].lower()
+                if file_extension not in [".docx", ".pdf"]:
+                    messages.error(request,
+                                    "The uploaded file must have one of the following extensions: .docx, .pdf")
+                    return render(request, "exercise_generation.html", {"input_option": "upload"})
+                elif file_extension == ".docx":
+                        doc = docx.Document(uploaded_file)
+                        full_text = []
+                        for paragraph in doc.paragraphs:
+                            full_text.append(paragraph.text)
 
-                            document_text = "\n".join(full_text)
-                            if document_text.strip():
-                                thread = Thread(target=exercise_generation_task,
-                                                args=(request, document_text, input_option))
-                                thread.start()
-
-                                return JsonResponse({'status': 'success', 'message': 'Exercise generated'})
-
-                            else:
-                                messages.error(request,
-                                                "You uploaded an empty .docx file.")
-                    elif file_extension == ".pdf":
-                        pdf_content = uploaded_file
-                        pdf_file = PyPDF2.PdfReader(pdf_content)
-                        pdf_text = ""
-
-                        for page_num in range(len(pdf_file.pages)):
-                            page = pdf_file.pages[page_num]
-                            pdf_text += page.extract_text()
-
-                        if pdf_text.strip():
+                        document_text = "\n".join(full_text)
+                        if document_text.strip():
                             thread = Thread(target=exercise_generation_task,
-                                            args=(request, pdf_text, input_option))
+                                            args=(request, document_text, input_option))
                             thread.start()
 
                             return JsonResponse({'status': 'success', 'message': 'Exercise generated'})
 
                         else:
                             messages.error(request,
-                                            "You uploaded an empty .pdf file.")
-                else:
-                    messages.error(request,
-                                    "Please upload a file before Pressing the button. The uploaded file must have one of the following extensions: .docx, .pdf")
-                    return render(request, "exercise_generation.html", {"input_option": "upload"})
-        return render(request, "exercise_generation.html", {"input_option": "write"})
-    
+                                            "You uploaded an empty .docx file.")
+                elif file_extension == ".pdf":
+                    pdf_content = uploaded_file
+                    pdf_file = PyPDF2.PdfReader(pdf_content)
+                    pdf_text = ""
+
+                    for page_num in range(len(pdf_file.pages)):
+                        page = pdf_file.pages[page_num]
+                        pdf_text += page.extract_text()
+
+                    if pdf_text.strip():
+                        thread = Thread(target=exercise_generation_task,
+                                        args=(request, pdf_text, input_option))
+                        thread.start()
+
+                        return JsonResponse({'status': 'success', 'message': 'Exercise generated'})
+
+                    else:
+                        messages.error(request,
+                                        "You uploaded an empty .pdf file.")
+            else:
+                messages.error(request,
+                                "Please upload a file before Pressing the button. The uploaded file must have one of the following extensions: .docx, .pdf")
+                return render(request, "exercise_generation.html", {"input_option": "upload"})
+    return render(request, "exercise_generation.html", {"input_option": "write"})
+
+
 @authenticated_user
 def chatbot_view(request):
+    """
+   A view to generate the chatbot response to the user message
+   :param request: Request containing user message
+   :return: Generated chatbot response
+   """
     chat_history = request.session.get('chat_history', [])
 
     if request.method == "POST":
@@ -956,8 +1010,13 @@ def chatbot_view(request):
     return render(request, "chatbot.html")
 
 
-
 def get_chatbot_response(chat_history: str, request: str):
+    """
+    A function to generate a chatbot response to the user message
+    :param chat_history: The previous chat history (conversation history)
+    :param request: The request containing the user message
+    :return: Generated chatbot response
+    """
     response = ""
     try:
         response = client.chat.completions.create(
@@ -981,6 +1040,11 @@ def get_chatbot_response(chat_history: str, request: str):
 
 @authenticated_user
 def generate_adapted_content_view(request):
+    """
+    A view to generate an adapted content
+    :param request: Request containing user message
+    :return: Adapted content
+    """
     if request.method == "POST":
         input_option = request.POST.get("input_option")
         if input_option == "write":
@@ -1101,10 +1165,20 @@ def generate_adapted_content_view(request):
 
 
 def loading_page_view(request):
+    """
+    A view to navigate to the loading page
+    :param request: Request object
+    :return: None (Navigates to the loading page)
+    """
     return render(request, "loading_page.html", {})
 
 
 def presentation_download(request):
+    """
+    A function that triggers download of the generated presentation
+    :param request: Request object
+    :return: None (the necessary file is downloaded)
+    """
 
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pptx'
@@ -1120,28 +1194,34 @@ def presentation_download(request):
             return response
 
     messages.error(request, "No presentation was generated or the session has expired.")
-    return render(request, "presentation_generation.html")
+    return render(request, "presentation_generation.html", {"input_option": "write"})
 
 
 def presentation_status(request):
+    """
+    A function to check if the presentation is ready or not
+    :param request: Request object
+    :return: A json indicating if the presentation has been generated or not
+    """
 
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pdf'
     fs = FileSystemStorage(location=presentation_root + "/presentations/")
 
     if fs.exists(filename):
-        print(" ready yet ")
-        print(filename)
+
         return JsonResponse({'status': 'ready'})
     else:
-        print("Not ready yet ")
-        print(filename)
-        print(fs.location)
 
         return JsonResponse({'status': 'pending'})
 
 
 def exercise_status(request):
+    """
+    A function to check if the exercises are ready or not
+    :param request: Request object
+    :return: A json indicating if the exercises have been generated or not
+    """
     exercise_id = cache.get("generated_exercise_id", "000")
     filename = f'generated_exercise_{exercise_id}.docx'
     fs = FileSystemStorage()
@@ -1151,12 +1231,16 @@ def exercise_status(request):
     else:
         return JsonResponse({'status': 'pending'})
 
-from django.templatetags.static import static
-
 
 def presentation_preview(request):
+    """
+    A function that navigates to the presentation preview page
+    :param request: Request object
+    :return: None (redirects to the presentation preview page and displays the generated presentation)
+    """
     presentation_id = cache.get("generated_presentation_id", "000")
     filename = f'generated_presentation_{presentation_id}.pdf'  # Assuming conversion to PDF is done.
+
     fs = FileSystemStorage(location=presentation_root + "/presentations/")
 
     if fs.exists(filename):
@@ -1170,17 +1254,17 @@ def presentation_preview(request):
         return redirect('generate_presentation')
 
 
-
-from django.http import HttpResponse
-from django.conf import settings
-import os
-
-
 def view_pdf(request):
+    """
+    A function that when called, returns the contents of the generated presentation pdf
+    :param request:
+    :return:
+    """
     # Path to the PDF file
     # pdf_path = 'my_presentation.pdf'
     presentation_id = cache.get("generated_presentation_id", "000")
     pdf_path = f'generated_presentation_{presentation_id}.pdf'
+
     fs = FileSystemStorage(location=presentation_root + "/presentations/")
     if fs.exists(pdf_path):
         full_pdf_path = presentation_root + "/presentations/" + pdf_path
@@ -1196,6 +1280,11 @@ def view_pdf(request):
 
 
 def handle_modification_message(request):
+    """
+    A function to handle user message requiring a modification in the presentation
+    :param request: Request containing user message
+    :return: Appropriate response to the user message
+    """
     logging.info("IN HANDLE MODIFICATION")
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -1218,15 +1307,25 @@ def handle_modification_message(request):
 
 
 def modify_presentation(request):
+    """
+    A function to modify the given presentation
+    :param request: Request object
+    :return: The modified presentation contents
+    """
     logging.info("IN MODIFY PRESENTATION")
     if request.method == 'POST':
         data = json.loads(request.body)
         user_message = data.get('message', '')
+        presentation_id = cache.get("generated_presentation_id")
+        if not presentation_id:
+            messages.error(request,
+                           "Your session has expired")
+            return render(request, "presentation_generation.html", {"input_option": "write"})
         generated_presentation_json = cache.get("generated_presentation_json", "{}")
         logging.info(f"GENERATED PRESENTATION JSON: {generated_presentation_json}")
         generated_presentation_json = json.loads(generated_presentation_json)
         modified_presentation_json, modified_presentation_object = generate_modified_presentation(generated_presentation_json, user_message)
-        cache.set("generated_presentation_json", json.dumps(modified_presentation_json))
+        cache.set("generated_presentation_json", json.dumps(modified_presentation_json), timeout=1500)
         presentation_id = cache.get("generated_presentation_id", "000")
         filename = f'generated_presentation_{presentation_id}.pptx'
         fs = FileSystemStorage(location=presentation_root + "/presentations/")
@@ -1250,13 +1349,25 @@ def modify_presentation(request):
             return HttpResponse(pdf_data, content_type='application/pdf')
         else:
             messages.error(request, "Something went wrong while generating your modified presentation, please try again.")
-            return redirect('generate_presentation')
+            return render(request, "presentation_generation.html", {"input_option": "write"})
+
 
 def exercise_loading_page_view(request):
+    """
+    A function to redirect to the exercise loading page
+    A function to redirect to the exercise loading page
+    :param request: Request object
+    :return: None (redirects to the exercise loading page)
+    """
     return render(request, "exercise_loading_page.html", {})
 
 
 def get_exercise_view(request):
+    """
+    A view that generates exercises and redirects to the exercise generation page
+    :param request: Request containing user message
+    :return: None (redirects to the exercise page and displays the generated exercises)
+    """
     exercise_id = cache.get("generated_exercise_id", "000")
     filename = f'generated_exercise_{exercise_id}.docx'
     # input_option = request.session.get('input_option')
@@ -1276,4 +1387,3 @@ def get_exercise_view(request):
     return render(request, 'exercise_generation.html',
                     {'generated_exercises': generated_exercises[0],
                     "input_option": input_option})
-

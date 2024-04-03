@@ -8,13 +8,11 @@
 
 
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/util/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/util/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/util/generate_presentation.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/util/generate_presentation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/website/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/website/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my_presentation.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/my_presentation.pptx" afterDir="false" />
 
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/Term2Week11DavitPeerEval.png" afterDir="false" />
-
-      <change beforePath="$PROJECT_DIR$/docs/weekly logs/DavitAbrahamyanIndividualLogs.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/weekly logs/DavitAbrahamyanIndividualLogs.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my_presentation_modified.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/my_presentation_modified.pptx" afterDir="false" />
 
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,16 +38,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8cedb04149fa790f7719d0d8db19ca2cdf2c779e
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+<<<<<<< HEAD
+    "git-widget-placeholder": "add-doc-strings",
+    "last_opened_file_path": "/Users/davitabrahamyan/Documents/UBCO/Year 4/year-long-project-team-17/app/util"
+=======
 
 
     "git-widget-placeholder": "presentation__preview",
     "last_opened_file_path": "/Users/davitabrahamyan/Documents/UBCO/Year 4/year-long-project-team-17/app/util"
 
 
+>>>>>>> 8cedb04149fa790f7719d0d8db19ca2cdf2c779e
   }
 }]]></component>
   <component name="RecentsManager">

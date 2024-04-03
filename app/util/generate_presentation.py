@@ -150,6 +150,7 @@ def process_and_store_presentation_json(result: dict, modified=False):
         logging.info(e)
         logging.error(e)
 
+
 def get_presentation_info(result: dict):
     pres_info = {}
     pres_info['main_title'] = ""
@@ -166,22 +167,21 @@ def get_presentation_info(result: dict):
     pres_info['titles'] = titles[:-2]
     return pres_info
 
+
 def generate_presentation(description: str):
+    """
+    A wrapper function that generates a stores presentation end-to-end
+    :param description: Description of the topic on what presentation needs to be generated
+    :return: Generated presentation
+    """
     try:
         presentation_json = get_presentation_json(description)
         pres_info = get_presentation_info(presentation_json)
-# <<<<<<< HEAD
         presentation_object = process_and_store_presentation_json(presentation_json, False)
-        # pres_info['presentation_json'] = presentation_json
-# =======
-#         presentation_object = process_and_store_presentation_json(presentation_json)
-# >>>>>>> master
+
         values = {}
         values['presentation'] = presentation_object
         values['pres_info'] = pres_info
-        print("*"*100)
-        print(values)
-        print("*"*100)
 
         return values, presentation_json
     except Exception as e:
@@ -191,6 +191,12 @@ def generate_presentation(description: str):
 
 
 def generate_presentation_images(image_keywords, image_number):
+    """
+    A function to generate images for the presentation using Dall-E
+    :param image_keywords: Keywords that need to be used for image generation
+    :param image_number: The index of the image
+    :return: Generated image
+    """
     result = client.images.generate(
         model="dall-e-3",
         prompt=image_keywords,
