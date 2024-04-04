@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1f8e46ac-b6e1-4ca9-a206-ae01cd5eec3e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/Term2Week10DavitPeerEval.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/weekly logs/images/Term2Week11DavitPeerEval.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/weekly logs/DavitAbrahamyanIndividualLogs.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/weekly logs/DavitAbrahamyanIndividualLogs.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,15 +36,15 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "T2Week10Logs",
+    "git-widget-placeholder": "T2Week11Logs",
     "last_opened_file_path": "/Users/davitabrahamyan/Documents/UBCO/Year 4/year-long-project-team-17/docs/weekly logs/images"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/docs/weekly logs/images" />
       <recent name="$PROJECT_DIR$/app/website/templates" />
       <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/docs/weekly logs/images" />
       <recent name="$PROJECT_DIR$/app/website/templates/static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">

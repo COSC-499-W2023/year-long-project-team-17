@@ -169,12 +169,11 @@
                 <h2 id="title">Chat with {{ receiver.username }} <i class="fa fa-commenting-o" aria-hidden="true"></i></h2>
             </div>
             <br>
-            <div id="chat-messages">
-                {% for message in messages %}
-                    <div class="{% if message.sender == request.user %}sender-message{% else %}receiver-message{% endif %}">
-                        <p>{{ message.sender.username }}: {{ message.content }}</p>
-                    </div>
-                {% endfor %}
+            <div id="chat-messages" 
+                hx-get="{% url 'chat' receiver.username %}" 
+                hx-trigger="every 4s" 
+                hx-swap="innerHTML">
+                {% include 'partials/chat_messages_load.html' %}
             </div>
         </div>
         <form method="post" action="{% url 'send_message' username=receiver.username %}" id="message-form">
@@ -253,6 +252,7 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>
 {% endblock %}

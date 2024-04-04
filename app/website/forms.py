@@ -1,8 +1,10 @@
 from typing import Any
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django import forms
 from .models import Profile
+from django.core.validators import FileExtensionValidator
+
 
 class ProfilePageForm(forms.ModelForm):
     class Meta:
@@ -19,15 +21,20 @@ class ProfilePageForm(forms.ModelForm):
         }
 
 class EditProfileForm(UserChangeForm):
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    first_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
-
+    email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(label='First name', max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(label='Last name', max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password')
+        help_texts = {'username':'<span class="form-text text-muted"><small>Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small></span>'}
 
+class EditProfilePageForm(forms.ModelForm):
+    bio = forms.CharField(max_length=300, widget=forms.Textarea(attrs={'class':'form-control'}), help_text='<p class="form-text text-muted"><small>Bio must be 300 characters or less.</small></p>')
+    profile_pic = forms.ImageField(widget=forms.FileInput,required=False, validators=[FileExtensionValidator(allowed_extensions=['gif', 'jfif','jpg', 'jpeg', 'png'])], help_text='<p class="form-text text-muted"><small>Stays your current profile picture if no picture is chosen</small></p>')
+    class Meta:
+        model = Profile
+        fields = ('bio', 'profile_pic')
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(label='', widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
@@ -66,6 +73,27 @@ class SignUpForm(UserCreationForm):
         self.fields['password2'].label = ''
         self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'	
 
+class ChangePasswordForm(PasswordChangeForm):
+   
+    class Meta:
+        model = User
+        fields = ('old_password', 'new_password1', 'new_password2')
+
+    def __init__(self, *args: Any, **kwargs: Any):
+        super(ChangePasswordForm, self).__init__(*args, **kwargs)
+        self.fields['old_password'].widget.attrs['class'] = 'form-control'
+        self.fields['old_password'].widget.attrs['placeholder'] = 'Old Password'
+        self.fields['old_password'].label = ''
+
+        self.fields['new_password1'].widget.attrs['class'] = 'form-control'
+        self.fields['new_password1'].widget.attrs['placeholder'] = 'New Password'
+        self.fields['new_password1'].label = ''
+        self.fields['new_password1'].help_text = '<ul class="form-text text-muted small"><li>Your password can\'t be too similar to your other personal information.</li><li>Your password must contain at least 8 characters.</li><li>Your password can\'t be a commonly used password.</li><li>Your password can\'t be entirely numeric.</li></ul>'
+
+        self.fields['new_password2'].widget.attrs['class'] = 'form-control'
+        self.fields['new_password2'].widget.attrs['placeholder'] = 'Confirm Password'
+        self.fields['new_password2'].label = ''
+        self.fields['new_password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'	
 
 
 #create add record form

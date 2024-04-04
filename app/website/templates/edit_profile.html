@@ -3,6 +3,8 @@
 {% block title %}Edit Profile{% endblock %}
 
 {% block content %}
+{% load crispy_forms_tags %}
+<div class="col-md-6 offset-md-3">
 
 <style>
     #id_profile_image{
@@ -20,10 +22,138 @@
 
 <div>
     <form class="form-group" method="POST" enctype="multipart/form-data" style="background-color: transparent;">
+<h1 class="text-center">Edit Settings</h1>
+
+<br/><br/>
+
+<div class="form-group">
+    <form method="POST" enctype="multipart/form-data" id="page_form" class="edit-profile">
+        <br/>
         {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn btn-outline-primary">Update Profile Page</button>
+        {{ page_form|crispy }}
+        <br>
+        <button type='submit' name='page_form' class="btn btn-outline-primary mb-4">Update Profile Page</button>
     </form>
 </div>
+<br/><br/>
+<div class="form-group">
+    <form method="POST"  enctype="multipart/form-data" class="edit-profile">
+        <br/>
+        {% csrf_token %}
+        {{ settings_form.username|as_crispy_field }}
+        {{ settings_form.first_name|as_crispy_field }}
+        {{ settings_form.last_name|as_crispy_field }}
+        {{ settings_form.email|as_crispy_field }}
+        <p class="form-label">{{ settings_form.password.label }}</p>
+        <p class="form-text">You can change your password using <a href="{% url 'change_password' %}" class="link-primary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">this form</a>.</p>
+        <br>
+        <button type='submit' name="settings_form" class="btn btn-outline-primary mb-4">Update Settings</button>
+    </form>
+</div>
+<br><br>
+</div>
 
+<style>
+    .asteriskField {
+        display: none;
+    }
+    
+body, html {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #1e1e2f;
+    color: white;
+}
+.container {
+    margin-top: 50px;
+}
+h1 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 50px;
+    font-weight: 700;
+}
+form {
+    background: rgba(255, 255, 255, 0.05);
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.form-check-label {
+    color: #fff;
+}
+.btn {
+    transition: all 0.4s;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+}
+.btn:hover {
+    transform: translateY(-3px);
+}
+
+.btn:active {
+    transform: translateY(2px);
+}
+
+
+</style>
+
+<script>
+    window.onload = function () {
+    //get profile pic input element
+    const picInput = document.getElementById("id_profile_pic");
+    document.getElementById('page_form').addEventListener("submit", function(e) {
+        const check = checkFileSize();
+        //Prevent form submission if file size > 3MB
+        if(check) {
+            e.preventDefault()
+            //Add bootstrap is-invalid class to the profile pic file input
+            picInput.classList.add("is-invalid");
+            const fileSizeError = document.getElementById("fileSizeError");
+            //element containing the form error displayed by crispyforms
+            const picError = document.getElementById("error_1_id_profile_pic");
+
+            if(picError) {
+                /*Removes element containing the error if it exists since this form is no longer being passed to the server,
+                this specific error won't get checked until the form is passed to the server.*/
+                picError.remove();
+            }
+
+            //If the fileSizeError element doesn't exist then create an element containing info about the error
+            if(!fileSizeError){
+            const p = document.createElement("p");
+            p.innerHTML = "<strong>The size of your file is too large, select an file below 3MB</strong>";
+            //add bootstrap class for invalid feedback
+            p.classList.add("invalid-feedback");
+            p.id = "fileSizeError";
+            //insert element below the profile pic file input
+            picInput.insertAdjacentElement("afterend", p);
+            }   
+        }
+    })
+
+    function checkFileSize() {
+        const file = picInput.files[0];
+        if(file) {
+            //convert file size to KB
+            const fileSize = file.size/1024;
+            //profile pic file size limit is 3MB
+            const picSizelimit = 3000;
+            if(fileSize > picSizelimit) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        //return false if no profile pic is selected
+        else
+            return false;
+        }
+    }
+</script>
 {% endblock %}

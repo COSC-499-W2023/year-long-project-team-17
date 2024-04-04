@@ -10,7 +10,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
-from .forms import SignUpForm, EditProfileForm, ProfilePageForm
+from .forms import SignUpForm, EditProfileForm, ProfilePageForm, ChangePasswordForm, EditProfilePageForm
 from .models import Profile, Message, Presentations
 from util.generate_summary import generate_summary
 from util.generate_presentation import generate_presentation
@@ -50,6 +50,7 @@ from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from collections import deque 
 from django_htmx.http import HttpResponseClientRefresh
+from django.contrib.auth import update_session_auth_hash
 # Create your views here.
 # logging.info("----"*100)
 #
@@ -76,13 +77,20 @@ class AboutUsView(CreateView):
         return super().form_valid(form)
 
 @login_required
+def new_chats(request):
+    users = User.objects.all().exclude(username=request.user.username)
+    return render(request, 'new_chats.html', {'users': users})
+
+@login_required
 def chat(request, username):
     receiver = User.objects.get(username=username)
     messages = Message.objects.filter(
         (models.Q(sender=request.user) & models.Q(receiver=receiver)) |
         (models.Q(sender=receiver) & models.Q(receiver=request.user))
     ).order_by('timestamp')
-
+    if request.htmx:
+        return render(request, 'partials/chat_messages_load.html', {'messages' : messages, 'reciever': receiver})
+    
     return render(request, 'chat.html', {'messages': messages, 'receiver': receiver})
 
 @login_required
@@ -385,6 +393,60 @@ def register_user(request):
     else:
         form = SignUpForm()
         return render(request, 'register.html', {'form':form})
+
+@authenticated_user
+def change_password(request):
+        if request.method == 'POST':    
+            form = ChangePasswordForm(user=request.user, data=request.POST)
+            if form.is_valid():
+                form.save()
+                #Updates session with the new session hash after password change so that the user stays logged in
+                update_session_auth_hash(request, request.user)
+                messages.success(request, "Your password has been changed successfully.")
+                form = ChangePasswordForm(user=request.user)
+                return render(request, 'change_password.html', {'form': form})
+            else:
+                return render(request,'change_password.html',{'form': form})
+        else:
+            form = ChangePasswordForm(user=request.user)
+            return render(request, 'change_password.html', {'form': form})
+    
+@authenticated_user
+def edit_profile(request):
+    if request.method == 'POST':
+        if 'settings_form' in request.POST:
+            settings_form = EditProfileForm(data=request.POST, instance=request.user)
+            if settings_form.is_valid():
+                settings_form.save()
+                page_form = EditProfilePageForm(initial={'bio' : request.user.profile.bio})
+                settings_form = EditProfileForm(instance=request.user)
+                messages.success(request, "Your information has been updated.")
+                return render(request, 'edit_profile.html', {'page_form' : page_form, 'settings_form' : settings_form})
+            else:
+                page_form = EditProfilePageForm(initial={'bio' : request.user.profile.bio})
+                messages.error(request, "A problem occured when updating your settings, your form contains the following errors listed below.")
+                return render(request, 'edit_profile.html', {'page_form' : page_form, 'settings_form' : settings_form})
+        if 'page_form' in request.POST:
+            page_form = EditProfilePageForm(data = request.POST, files=request.FILES, instance = request.user.profile)
+            if page_form.is_valid():
+                page_form.save()
+                page_form = EditProfilePageForm(initial={'bio' : request.user.profile.bio})
+                settings_form = EditProfileForm(instance=request.user)
+                messages.success(request, "Your profile page information has been updated.")
+                return render(request, 'edit_profile.html', {'page_form' : page_form, 'settings_form' : settings_form})
+            else:
+                settings_form = EditProfileForm(instance=request.user)
+                messages.error(request, "A problem occurred when updating your profile page information, your form contains the following errors listed below.")
+                return render(request, 'edit_profile.html', {'page_form' : page_form, 'settings_form' : settings_form})
+        else:
+            page_form = EditProfilePageForm(initial={'bio' : request.user.profile.bio})
+            settings_form = EditProfileForm(instance=request.user)
+            messages.error(request, "There was a problem updating your information, please try again.")
+            return render(request, 'edit_profile.html', {'page_form' : page_form, 'settings_form' : settings_form})
+    else:
+        page_form = EditProfilePageForm(initial={'bio' : request.user.profile.bio})
+        settings_form = EditProfileForm(instance=request.user)
+        return render(request, 'edit_profile.html', {'page_form' : page_form, 'settings_form' : settings_form})
 
 
 #DELETE
