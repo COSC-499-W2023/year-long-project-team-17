@@ -44,13 +44,14 @@
             <p>{{chat.sender.username}} : {{ chat.content }}</p></a>
             {% endif %}
             </div>
-            <div>
-
-              <a href="{% url 'new_chats' %}" class="btn btn-danger col-md-0 offset-md-0 custom-button" >New Chat</a>
-
-            </div>
+            
 
         {% endfor %}
+        <div>
+
+            <a href="{% url 'new_chats' %}" class="btn btn-danger col-md-0 offset-md-0 custom-button" >New Chat</a>
+
+          </div>
    
 </body>
 </html>
