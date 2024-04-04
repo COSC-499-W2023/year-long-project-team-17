@@ -299,7 +299,11 @@ body[data-theme='light'] input[type="file"] {
 
 
 body[data-theme='light'] div.form-group .edit-profile,
-body[data-theme='light'] div.form-group .change-password {
+body[data-theme='light'] div.form-group .change-password,
+body[data-theme='light'] #contact-us,
+body[data-theme='light'] #login-form,
+body[data-theme='light'] #register-form,
+body[data-theme='light'] .password-reset   {
   box-shadow: 0 0px 10px rgba(12, 68, 90, 0.2);
   padding-left: 25px;
   padding-right: 25px;
@@ -312,5 +316,76 @@ body[data-theme='light'] textarea.form-control {
 body[data-theme='light'] input.form-control {
   background-color:hsl(0, 0%, 100%);
 }
+
+
+/* Profile page*/
+
+body[data-theme='light'] .prof-card {
+  background-color: rgba(205, 238, 252, 0.1) !important;
+  border-radius: 10px;
+  border: 1.0px solid hsl(216, 90%, 90%);
+  box-shadow: 0 0px 6px hsl(202, 98%, 45%);
+}
+
+body[data-theme='light'] .profile-heading { 
+  color: black !important;
+}
+
+body[data-theme='light'] .profile-bio { 
+  color: black !important;
+}
+
+body[data-theme='light'] #spinner-display { 
+  color: #2196F3 !important;
+}
+
+body[data-theme='light'] .pres-card {
+  background-color: rgba(205, 238, 252, 0.1) !important;
+  border-radius: 10px;
+  border: 1.0px solid hsl(202, 98%, 95%) !important;
+  box-shadow: 0 0px 3px hsl(202, 98%, 55%);
+  color: black !important;
+}
+
+body[data-theme='light'] .pres-card .card-header .btn { 
+  color: hsl(202, 98%, 45%) !important;
+  border: 0px;
+}
+
+body[data-theme='light'] .pres-card .card-footer {
+  color:hsl(261, 100%, 25%) !important;
+  border-color: hsl(202, 98%, 75%) !important;
+}
+
+body[data-theme='light'] .pres-card .card-header {
+  border-color:  hsl(202, 98%, 75%) !important;
+}
+
+body[data-theme='light'] .pres-card .dropdown-menu {
+  background-color: hsl(205, 93%, 98%) !important;
+  border-color: hsl(202, 98%, 90%) !important;
+}
+
+body[data-theme='light'] .pres-card .dropdown-menu a {
+  color: hsl(0, 0%, 0%);
+}
+
+body[data-theme='light'] .pres-card .dropdown-menu a:hover {
+  color: hsl(0, 0%, 70%)
+}
+
+body[data-theme='light'] .prof-card .custom-button {
+  background: linear-gradient(to right, hsl(214, 96%, 65%) 0%, hsl(214,96%, 50%) 100%) !important;
+  background-size: 200% 100% !important;
+  transition: background-position 0.3s ease !important;
+  padding: 4px 4px !important;
+  border-color: hsl(214, 96%, 55%) !important;
+}
+
+body[data-theme='light'] .prof-card .custom-button:hover,
+body[data-theme='light'] .prof-card .custom-button:focus {
+   background-position: -100% 0 !important;
+  }
+
 
 </style>
