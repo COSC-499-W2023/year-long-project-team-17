@@ -387,3 +387,21 @@ Github commit for helper icons - https://github.com/COSC-499-W2023/year-long-pro
 ### Peer eval
 
 ![Screenshot](images/Term2Week11DavitPeerEval.png)
+
+
+## Week12 (Mar 26, 2023 - Apr 1, 2023)
+### Goals Recap
+- The goal for this week was to add doc strings to the functions and make the code more documented and readable
+
+### Tasks on board
+- Add doc strings (Associated Task on Kanban Board: add doc strings)
+
+### Completed vs InProgress
+- There is a PR currently under review for doc strings
+
+### Context
+- This week was productive as I was able to add doc strings to our functions, which increases readability of our code. Also, I worked on solving merge conflicts to try to finalize the overall project.
+
+### Peer eval
+
+![Screenshot](images/Term2Week12DavitPeerEval.png)
