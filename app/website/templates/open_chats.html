@@ -78,10 +78,13 @@
                 {% else %}
                 <p>{{chat.sender.username}} : {{ chat.content }}</p></a>
                 {% endif %}
+
+                <br>
+                <div>
+                  <a class="nav-link" href="/new_chats"><button>New Chat</button></a>
+                </div>
             </div>
-            <div>
-              <a class="nav-link" href="/new_chats"><button>New Chat</button></a>
-            </div>
+
 
 
         {% endfor %}
