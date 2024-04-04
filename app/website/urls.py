@@ -4,7 +4,8 @@ from .views import UserEditView, EditProfilePageView, CreateProfilePageView, Abo
 from django.contrib.auth import views as auth_views
 from django_ratelimit.decorators import ratelimit
 from .views import get_recent_messages
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -21,7 +22,7 @@ urlpatterns = [
     path("detect_plagiarism/", views.detect_plagiarism_view, name="detect_plagiarism"),
     path("generate_exercise/", views.generate_exercise_view, name="generate_exercise"),
     path("generate_adapted_content/", views.generate_adapted_content_view, name="generate_adapted_content"),
-    path('edit_profile/', UserEditView.as_view(), name='edit_profile'),
+    path('edit_profile/', views.edit_profile, name='edit_profile'),
     path('edit_profile_page/', EditProfilePageView.as_view(), name='edit_profile_page'),
     path('create_profile_page/', CreateProfilePageView.as_view(), name='create_profile_page'),
     path("chatbot", views.chatbot_view, name="chatbot"),
@@ -40,13 +41,19 @@ urlpatterns = [
     path('presentation_status/', views.presentation_status, name='presentation_status'), 
     path('profile/<str:username>/', views.Profile, name='profile'),        
     path('download_presentation_pptx/<int:pres_id>/', views.download_presentation_pptx, name='download_presentation_pptx'),
-    path('change_post_visibility/<int:pres_id>/<int:is_shared>/', views.change_post_visibility, name='change_post_visibility'),
+    path('change_post_visibility/<int:pres_id>/', views.change_post_visibility, name='change_post_visibility'),
     path('delete_presentation/<int:pres_id>/', views.delete_presentation, name="delete_presentation"),       
     path('open_chats', views.open_chats, name='open_chats'), 
     path('presentation_status/', views.presentation_status, name='presentation_status'),
+    # path('get_presentations', views.get_presentations, name='get_presentations'),
+    path('presentation_preview/', views.presentation_preview, name='presentation_preview'),
+    path('view-pdf/', views.view_pdf, name='view_pdf'),
+    path('handle_modification_message', views.handle_modification_message, name='handle_modification_message'),
+    path('modify_presentation/', views.modify_presentation, name="modify_presentation"),
     path('exercise_status/', views.exercise_status, name="exercise_status"),
     path('exercise_loading_page', views.exercise_loading_page_view, name="exercise_loading_page"),
     path('get_exercise', views.get_exercise_view, name="get_exercise"),
     path('get_recent_messages/<int:user_id>/', get_recent_messages, name='get_recent_messages')
 
-]
+    path('password/', views.change_password, name='change_password'),
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

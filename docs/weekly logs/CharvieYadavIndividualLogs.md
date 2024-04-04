@@ -212,3 +212,32 @@
 ### Peer eval
 
 ![Screenshot](images/CharvieT2W10.png)
+
+## Week11 (Feb 18, 2023 - Mar 24, 2024)
+### Goals Recap
+- My goal for this week was to continue working on #151 Bug fixing from peer testing and #141 Open Chat Redesign as I received feedback from my team and made changes. I also started working on new tasks i.e. implementing new chat list functionality and adding form validation that was missing. I am also waiting on another team member to fix edit_profile page so that I can implement adding profile image and bio asynchronously.
+
+### Completed vs in progress
+
+- #151 Bug fixing from peer testing -> charviey completed
+- #141 Open Chat Redesign -> charviey in review 
+- #166 New Chat functionality UI/UX -> charviey in progress
+- #167 Fix missing form validation -> charviey in progress
+
+### Context
+- This week involved a lot of planning and mapping out tasks as we had many pending PRs and changes were not synched. Since it's almost the end of the semester, me and the team are working towards getting major frontend and backend changes completed for the features. This also includes retouching the frontend regularly. 
+
+## Week12 (Mar 25, 2023 - Mar 31, 2024)
+### Goals Recap
+- My goal for this week was to complete #141 Open Chat Redesign and implementing new chat list UI UX functionality.
+
+### Completed vs in progress
+
+- #166 New Chat functionality UI/UX -> charviey in review
+- #141 Open Chat Redesign -> charviey in review 
+- #165 Chat search and media functionality -> charviey in progress 
+
+### Context
+- Next week I'll be working on fixing some minor issues and writing the code report
+
+![Screenshot](images/CharvieT2W12.png)

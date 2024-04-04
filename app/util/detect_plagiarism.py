@@ -5,6 +5,12 @@ model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
 
 def detect_plagiarism(files: List[str], allowable_limit: float):
+    """
+    A function to detect plagiarism among given list of files as well as the threshold of the similarity between files
+    :param files: List of files which should be checked for plagiarism
+    :param allowable_limit: Percentage limit of allowable similarity
+    :return: Complete list of similarity scores between each pair of files
+    """
     plagiarism_pairs = []
     embeddings = []
     similarity_scores = []

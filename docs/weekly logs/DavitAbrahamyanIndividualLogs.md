@@ -361,7 +361,7 @@ Github commit for helper icons - https://github.com/COSC-499-W2023/year-long-pro
 - Implement presentation modification functionality page (Associated Task on Kanban Board: Presentation Modification)
 
 ### Completed vs InProgress
-- There is a PR currently under review for presention modification
+- There is a PR currently under review for presentation modification
 
 ### Context
 - This week was productive as I was able to implement a presentation modification functionality, which was quite a complicated task as it required changing both the frontend as well as the backend. This is a useful feature from the user's perspective as it allows users to make more customizable presentations.
@@ -369,3 +369,39 @@ Github commit for helper icons - https://github.com/COSC-499-W2023/year-long-pro
 ### Peer eval
 
 ![Screenshot](images/Term2Week10DavitPeerEval.png)
+
+
+## Week11 (Mar 19, 2023 - Mar 25, 2023)
+### Goals Recap
+- The goal for this week was to implement generation of presentations using prebuilt powerpoint design templates
+
+### Tasks on board
+- Implement presentation generation with templates(Associated Task on Kanban Board: Presentation Generation with Design Templates)
+
+### Completed vs InProgress
+- There is a PR currently under review for presentation generation with templates
+
+### Context
+- This week was productive as I was able to implement a presentation generation with templates functionality, which is quite important aspect of overall presentation generation as it improves the overall design. This makes presentations more entertaining, which, in turn, increases user satisfaction 
+
+### Peer eval
+
+![Screenshot](images/Term2Week11DavitPeerEval.png)
+
+
+## Week12 (Mar 26, 2023 - Apr 1, 2023)
+### Goals Recap
+- The goal for this week was to add doc strings to the functions and make the code more documented and readable
+
+### Tasks on board
+- Add doc strings (Associated Task on Kanban Board: add doc strings)
+
+### Completed vs InProgress
+- There is a PR currently under review for doc strings
+
+### Context
+- This week was productive as I was able to add doc strings to our functions, which increases readability of our code. Also, I worked on solving merge conflicts to try to finalize the overall project.
+
+### Peer eval
+
+![Screenshot](images/Term2Week12DavitPeerEval.png)

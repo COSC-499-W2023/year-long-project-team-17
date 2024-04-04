@@ -1,0 +1,17 @@
+{% if presentation_obj.is_shared == 0 %}
+<a hx-post="{% url 'change_post_visibility' presentation_obj.id %}" 
+hx-target="this"                            
+hx-swap="outerHTML" 
+hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+hx-confirm="{{ presentation_obj.is_shared }}"
+class="btn btn-outline-primary"
+id="preview-pres">Set to public</a>
+{% elif presentation_obj.is_shared == 1 %}
+<a hx-post="{% url 'change_post_visibility' presentation_obj.id %}" 
+hx-target="this" 
+hx-swap="outerHTML" 
+hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' 
+hx-confirm="{{ presentation_obj.is_shared }}"
+class="btn btn-outline-primary"
+id="preview-pres">Set to private</a>
+{% endif %}

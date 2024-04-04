@@ -173,7 +173,7 @@ This week I did not have any advancement in features as I was focused on the liv
 
 # Term 2
 
-## Week1 (Jan 8, 2023 - Jan 14, 2023)
+## Week1 (Jan 8, 2023 - Jan 14, 2024)
 ### Goals Recap
 - We just came back from winter break so this weeks goal was to chck up on the team and see the objective for the upcoming weeks
 
@@ -192,7 +192,7 @@ This week I did not have any advancement in features as I was focused on the liv
 
 ![Screenshot](images/T2Week1GerardPeerEval.png)
 
-## Week2 (Jan 15, 2023 - Jan 21, 2023)
+## Week2 (Jan 15, 2023 - Jan 21, 2024)
 ### Goals Recap
 - This week my goal was to focus on the front end of the chat website. I have not completed it
 
@@ -211,7 +211,7 @@ This week I did not have any advancement in features as I was focused on the liv
 
 ![Screenshot](images/T2Week2GerardPeerEval.png)
 
-## Week3 (Jan 22, 2023 - Jan 28, 2023)
+## Week3 (Jan 22, 2023 - Jan 28, 2024)
 ### Goals Recap
 - My goal this week was to create the front end of the chat feature. I completed it
 
@@ -230,7 +230,7 @@ This week I did not have any advancement in features as I was focused on the liv
 
 ![Screenshot](images/T2Week3GerardPeerEval.png)
 
-## Week4 (Jan 29, 2023 - Feb 04, 2023)
+## Week4 (Jan 29, 2023 - Feb 04, 2024)
 ### Goals Recap
 - My goal this week was to work on the open chats function to show the user the chats they have open. Another goal which I was unable to complete was the create a new chat with a different user
 
@@ -250,7 +250,7 @@ This week I did not have any advancement in features as I was focused on the liv
 ![Screenshot](images/T2Week4GerardPeerEval.png)
 
 
-## Week5 (Feb 05, 2023 - Feb 11, 2023)
+## Week5 (Feb 05, 2023 - Feb 11, 2024)
 ### Goals Recap
 - My goal this week was to review code from my peers, along with fixing merge conflicts found in the repo
 
@@ -269,7 +269,7 @@ This week I did not have any advancement in features as I was focused on the liv
 
 ![Screenshot](images/T2Week5GerardPeerEval.png)
 
-## Week6 (Feb 12, 2023 - Feb 18, 2023)
+## Week6 (Feb 12, 2023 - Feb 18, 2024)
 ### Goals Recap
 - My goal this week was to start working on the forum page
 
@@ -289,7 +289,7 @@ This week I did not have any advancement in features as I was focused on the liv
 
 ![Screenshot](images/T2Week6GerardPeerEval.png)
 
-## Week8 (Feb 26, 2023 - Mar 03, 2023)
+## Week8 (Feb 26, 2023 - Mar 03, 2024)
 ### Goals Recap
 - This week the goal was to catch up with the work done over the break. Especially getting rid of the PR that were pending
 
@@ -309,7 +309,7 @@ This week I did not have any advancement in features as I was focused on the liv
 
 ![Screenshot](images/T2Week8GerardPeerEval.png)
 
-## Week9 (Feb 04, 2023 - Mar 10, 2023)
+## Week9 (Mar 04, 2023 - Mar 10, 2024)
 ### Goals Recap
 - This week the goal was to clean up the PRs that were already prepared for the peer testing
 
@@ -329,7 +329,7 @@ This week I did not have any advancement in features as I was focused on the liv
 
 ![Screenshot](images/T2Week9GerardPeerEval.png)
 
-## Week10 (Feb 11, 2023 - Mar 17, 2023)
+## Week10 (Mar 11, 2023 - Mar 17, 2024)
 ### Goals Recap
 - This week my goal was to do minor improvements to the website design, these include NavBar design along with tge addition with small but usefull links in other pages
 
@@ -348,3 +348,42 @@ This week I did not have any advancement in features as I was focused on the liv
 
 
 ![Screenshot](images/T2Week10GerardPeerEval.png)
+
+## Week11 (Mar 18, 2023 - Mar 24, 2024)
+### Goals Recap
+- My goal this week was to make general quality of life improvements to the website, improving the navbar and adding some shortcuts for easier navigation
+
+### Tasks on board
+- Forum Page
+
+### Completed vs InProgress
+- Live chatting is Complete/Review
+-  Forum Page is InProgress
+
+### Context
+- 
+
+### Peer eval
+
+
+![Screenshot](images/T2Week11GerardPeerEval.png)
+
+## Week12 (Mar 25, 2023 - Mar 31, 2024)
+### Goals Recap
+- My goal this week was to complete  the Forum page as I had been putting it off due to other tasks taking up too much time.
+- Also as were approaching the end, trying to finish up some things that we have been putting off and merge all the PRs
+
+### Tasks on board
+- Forum Page
+
+### Completed vs InProgress
+- Live chatting is Complete/Review
+-  Forum Page is InProgress
+
+### Context
+- 
+
+### Peer eval
+
+
+![Screenshot](images/T2Week12GerardPeerEval.png)
