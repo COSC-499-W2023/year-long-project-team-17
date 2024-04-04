@@ -423,3 +423,30 @@ adding a change password page and testing.
 - #155 Chat messages reload update -> harshg03 in review
 - #158 Change password testing -> harshg03 in review
 
+
+
+## Week 12 Term 2
+
+### Work period
+- March.25, 2024 - March.31, 2024
+
+### Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek24.png)
+
+### Weekly goal recap
+
+- My goal this week was to work on light mode for the profile page and the 404 page. 
+
+### Tasks on board
+
+![Screenshot](images/ProjectBoardScreenshotHarshWeek24.png)
+
+### Completed vs in progress
+
+- #116 change password -> in review
+- #117 edit profile testing -> in review
+- #118 Custom 404 page for wrong user navigation -> in progress
+- #149 Update edit profile page -> in review
+- #155 Chat messages reload update -> in review
+- #158 Change password testing -> in review
+- #160 Profile page light mode -> in progress

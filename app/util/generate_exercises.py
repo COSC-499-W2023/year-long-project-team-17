@@ -8,15 +8,18 @@ import os
 logging.basicConfig(level=logging.DEBUG)
 
 load_dotenv(find_dotenv())
-# openai.api_key = os.getenv('OPENAI_API_KEY')
 
 client = OpenAI(
-    # defaults to os.environ.get("OPENAI_API_KEY")
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
 
-def generate_exercises_from_prompt(prompt:str):
+def generate_exercises_from_prompt(prompt: str):
+    """
+    A function to generate exercises based on the given prompt
+    :param prompt: Prompt from the user
+    :return: Generated exercises
+    """
     response = ""
     try:
         response = client.chat.completions.create(
@@ -40,7 +43,12 @@ def generate_exercises_from_prompt(prompt:str):
         logging.error(e)
 
 
-def generate_similar_exercises(text:str):
+def generate_similar_exercises(text: str):
+    """
+    Generate exercises similar to the ones provided
+    :param text: Content or a list of other exercises, based on which new exercises must be generated related to the content
+    :return: Generated exercises
+    """
     response = ""
     try:
         response = client.chat.completions.create(
