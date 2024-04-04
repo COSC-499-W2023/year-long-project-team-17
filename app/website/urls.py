@@ -53,7 +53,6 @@ urlpatterns = [
     path('exercise_status/', views.exercise_status, name="exercise_status"),
     path('exercise_loading_page', views.exercise_loading_page_view, name="exercise_loading_page"),
     path('get_exercise', views.get_exercise_view, name="get_exercise"),
-    path('get_recent_messages/<int:user_id>/', get_recent_messages, name='get_recent_messages')
-
+    path('get_recent_messages/<int:user_id>/', get_recent_messages, name='get_recent_messages'),
     path('password/', views.change_password, name='change_password'),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
