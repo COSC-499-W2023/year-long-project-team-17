@@ -281,6 +281,40 @@ def Profile(request, username):
         return render(request, 'profile_different_user.html', context)
 
 @authenticated_user
+def forumPage(request):
+
+    #Users viewing a users profile
+    context = {}
+    #if username does not exist raise 404 not found http exception
+    
+    #Get presentation that are public
+    results = Presentations.objects.filter(is_shared = 1).values('main_title','titles','date_created').order_by('-date_created')
+    formated_date = []
+    for value in results.values():
+        time = datetime.now(timezone.utc) - value['date_created']
+        time = format_timespan(math.floor(time.total_seconds()), max_units = 2)
+        formated_date.append(time)
+    
+    
+
+    page_results_number = int(request.GET.get('page_results', 1))
+    paginator_results = Paginator(results, 2)
+    page_results_obj = paginator_results.get_page(page_results_number)
+
+    page_date_number = int(request.GET.get('page_date', 1))
+    paginator_date = Paginator(formated_date, 2)
+    page_date_obj = paginator_date.get_page(page_date_number)
+    
+    context['page_results_obj'] = page_results_obj
+    page_date_obj.object_list = deque(page_date_obj.object_list)
+    context['page_date_obj'] = page_date_obj
+    if request.htmx:
+        return render(request, 'partials/profile_different_user_list.html', context)
+
+    return render(request, 'forumPage.html', context)
+
+
+@authenticated_user
 def download_presentation_pptx(request, pres_id):
     #raises 404 http exception if presentation object does not exist
     pres = get_object_or_404(Presentations, pk=pres_id)
