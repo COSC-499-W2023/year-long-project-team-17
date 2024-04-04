@@ -20,6 +20,46 @@
             display: flex;
             flex-wrap: wrap; /* Allow items to wrap on smaller screens */
         }
+        #btn1{
+            padding: 10px;
+            background-color: #FA9189;
+            border: none;
+            border-radius: 5px;
+            color: #b9382f;
+        }
+        #btn1:hover{
+            background-color: #d17b75;
+        }
+        #btn2{
+            padding: 10px;
+            background-color: #B3F5BC;
+            border: none;
+            border-radius: 5px;
+            color: #387a41;
+        }
+        #btn2:hover{
+            background-color: #92c999;
+        }
+        #btn3{
+            padding: 10px;
+            background-color: #D1BDFF;
+            border: none;
+            border-radius: 5px;
+            color:  #594488;
+        }
+        #btn3:hover{
+            background-color: #a797cc;
+        }
+        #btn4{
+            padding: 10px;
+            background-color: #aee0ee;
+            border: none;
+            border-radius: 5px;
+            color:  #356f7e;
+        }
+        #btn4:hover{
+            background-color: #9dcbd8;
+        }
 
         .column.middle {
             flex: 2; /* Take up twice the space as the side column */
@@ -144,9 +184,9 @@
         </form>
     </div>
 
-    <div class="column side" style="height: 200px;">
-        <div class="table-2">
-            <table style="height: 150px;">
+    <div class="column side" style="height: 200px; width:100%">
+        <div class="table-2" >
+            <table style="height: 150px">
                 <tr class="row-data-2">
                     <td class="data-2">
                         Search in Channel
@@ -158,6 +198,7 @@
                             <form id="search-form">
                                 <i class="fa fa-search" aria-hidden="true"></i>
                                 <input type="text" id="search-input" placeholder="Search.." name="search">
+                                <br>
                             </form>
                         </div>
                     </td>
@@ -171,7 +212,13 @@
                 <tr class="row-data-2">
                     <td class="data-2">
                         <!-- Add more elements here -->
-                        Add media button for attachments here
+                        <div>
+                            <button id="btn1"><i class="fa-solid fa-file-pdf"></i><br>PDF</button>
+                            <button id="btn2"><i class="fa fa-video-camera" aria-hidden="true"></i><br>Video</button>
+                            <button id="btn3"><i class="fa-solid fa-radio"></i><br>MP3</button>
+                            <button id="btn4"><i class="fa-solid fa-image"></i><br>Image</button>
+                        </div>
+
                     </td>
                 </tr>
             </table>
