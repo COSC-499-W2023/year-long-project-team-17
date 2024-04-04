@@ -19,6 +19,9 @@ from util.adapt_content import generate_adapted_content
 from util.modify_presentation import check_user_message, generate_modification_assistant_response, generate_modified_presentation
 from django.http import FileResponse
 from django.core.cache import cache
+from django.http import JsonResponse
+from django.utils import timezone
+
 from django.core.files.storage import FileSystemStorage
 from threading import Thread
 from uuid import uuid4
@@ -38,6 +41,9 @@ from django_ratelimit.decorators import ratelimit
 from django_ratelimit.core import get_usage, is_ratelimited
 from humanfriendly import format_timespan
 from django.db import connection
+from django.http import JsonResponse
+from .models import Message  
+
 
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
@@ -97,6 +103,17 @@ class AboutUsView(CreateView):
 def new_chats(request):
     users = User.objects.all().exclude(username=request.user.username)
     return render(request, 'new_chats.html', {'users': users})
+
+
+
+def get_recent_messages(request, user_id):
+    user_messages = Message.objects.filter(receiver=request.user).order_by('-timestamp')[:1]
+    if user_messages.exists():
+        latest_timestamp = user_messages[0].timestamp.date()  # Extracting only the date
+        return JsonResponse({'timestamp': latest_timestamp})
+    else:
+        return JsonResponse({'timestamp': None})
+
 
 @login_required
 def chat(request, username):
@@ -166,6 +183,8 @@ ORDER BY
     # Render the 'open_chats.html' template with the retrieved message objects
     
     return render(request, 'open_chats.html', {'chats': chats})
+
+
 
     
 class CreateProfilePageView(CreateView):

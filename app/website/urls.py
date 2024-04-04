@@ -3,9 +3,9 @@ from django.urls import path
 from .views import UserEditView, EditProfilePageView, CreateProfilePageView, AboutUsView, chat, send_message
 from django.contrib.auth import views as auth_views
 from django_ratelimit.decorators import ratelimit
+from .views import get_recent_messages
 from django.conf import settings
 from django.conf.urls.static import static
-
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -53,5 +53,7 @@ urlpatterns = [
     path('exercise_status/', views.exercise_status, name="exercise_status"),
     path('exercise_loading_page', views.exercise_loading_page_view, name="exercise_loading_page"),
     path('get_exercise', views.get_exercise_view, name="get_exercise"),
+    path('get_recent_messages/<int:user_id>/', get_recent_messages, name='get_recent_messages')
+
     path('password/', views.change_password, name='change_password'),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
