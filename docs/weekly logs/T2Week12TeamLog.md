@@ -43,7 +43,6 @@ charviey -> Charvie Yadav
 - #158 Change password testing -> harshg03 in review
 - #163 Presentation Generation with Design Templates -> DavidAbrahamyan in review
 - #166 New Chat functionality UI/UX -> charviey in review
-- #167 Fix missing form validation -> charviey in review
 
 ## In progress tasks
 
