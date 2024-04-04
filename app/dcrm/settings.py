@@ -54,6 +54,9 @@ INSTALLED_APPS = [
     #"django_ratelimit",
     'django_bootstrap_icons',
     'django_htmx',
+    "crispy_forms",
+    "crispy_bootstrap5",
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
@@ -146,6 +149,10 @@ MEDIA_URL = '/media/'
 
 # Cache configuration for bootstrap icons
 BS_ICONS_CACHE = os.path.join(STATIC_ROOT, 'icon_cache')
+
+# Crispy forms 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
