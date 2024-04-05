@@ -353,10 +353,7 @@
                     completeProgressBar();
                     // Delay for visual effect before navigating, ensuring bar reaches 100%
                     setTimeout(function() {
-                        window.location.href = "{% url 'presentation_download' %}";
-                    }, 3000); // Adjust timing for progress bar completion visual as you see fit
-                    setTimeout(function() {
-                        window.location.href = "{% url 'generate_presentation'%}";
+                         window.location.href = "{% url 'presentation_preview' %}";
                     }, 3500)
 
                 }
