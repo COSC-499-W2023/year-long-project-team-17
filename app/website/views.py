@@ -21,7 +21,6 @@ from django.http import FileResponse
 from django.core.cache import cache
 from django.http import JsonResponse
 from django.utils import timezone
-
 from django.core.files.storage import FileSystemStorage
 from threading import Thread
 from uuid import uuid4
@@ -98,6 +97,18 @@ class AboutUsView(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+    
+
+def upload(request):
+    context = {}
+    if request.method == 'POST':
+        uploaded_file = request.FILES['document']
+        fs = FileSystemStorage()
+        name = fs.save(uploaded_file.name, uploaded_file)
+        context['url'] = fs.url(name)
+    return render(request, 'upload.html', context)
+
+
 
 @login_required
 def new_chats(request):

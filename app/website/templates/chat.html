@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
-
+{% load bootstrap_icons %}
 {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,7 +62,16 @@
         #btn4:hover{
             background-color: #9dcbd8;
         }
-
+        #btn5{
+            padding: 10px;
+            background-color: #94a2a7;
+            border: none;
+            border-radius: 5px;
+            color:  #333636;
+        }
+        #btn5:hover{
+            background-color: #61686b;
+        }
         .column.middle {
             flex: 2; /* Take up twice the space as the side column */
         }
@@ -86,22 +97,26 @@
         }
 
         .sender-message {
-            color: #111B47;
-            background-color: #B6BFE2;
-            border-radius: 15px;
-            margin: 3px;
-            padding: 5px;
-            width: 30%;
-        }
+        color: #111B47;
+        background-color: #B6BFE2;
+        border-radius: 15px;
+        margin: 3px;
+        padding: 5px;
+        width: 30%;
+        /* Align sender messages to the right */
+        text-align: right;
+    }
 
-        .receiver-message {
-            color: green;
-            background-color: #c4e0d1;
-            border-radius: 15px;
-            margin: 3px;
-            padding: 5px;
-            width: 30%;
-        }
+    .receiver-message {
+        color: green;
+        background-color: #c4e0d1;
+        border-radius: 15px;
+        margin: 3px;
+        padding: 5px;
+        width: 30%;
+        /* Align receiver messages to the left */
+        text-align: left;
+    }
 
         .title-container {
             background-color: #B6BFE2;
@@ -125,7 +140,8 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-right: 10px;
-            width: 445px;
+            width: 620px;
+            height:100px;
             border-radius: 10px;
         }
 
@@ -159,10 +175,84 @@
             display: flex;
             align-items: center;
         }
+        .lazy-loaded.htmx-added {
+            opacity: 0;
+        }
+
+        .lazy-loaded {
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+        .profile-image {
+            height: 125px;
+            width: 125px;
+            margin-top: 1em;
+            margin-right: 1.5em;
+            margin-bottom: 2em;
+        }
     </style>
 </head>
+
 <body>
+   
+    
+    <script>
+        document.addEventListener("htmx:confirm", function(e) {
+          
+        if(e.target.tagName == "A") {
+        e.preventDefault()
+        var visibility = "";
+        if(e.detail.question === "1") {visibility = "private";}
+        if(e.detail.question === "0") {visibility = "public";}
+        
+        if(e.target.id == "delete-pres") {Swal.fire({
+            icon: 'warning',
+            iconColor: '#f03932',
+            text: 'Do you wish to delete this presentation?',
+            color: '#fff',
+            background: '#17181a',
+            showCancelButton: true,
+            confirmButtonColor: '#4191fa',
+            cancelButtonColor: '#f03932',
+            cancelButtonText:'Cancel',
+            confirmButtonText: 'Delete presentation'
+        }).then(function(result) {
+          if(result.isConfirmed) e.detail.issueRequest(true) 
+        })}
+    
+        if(e.target.id == "post-visibility"){Swal.fire({
+            icon: 'warning',
+            iconColor: '#f03932',
+            text: `Are you sure you want your presentation to be ${visibility}?`,
+            color: '#fff',
+            background: '#17181a',
+            showCancelButton: true,
+            confirmButtonColor: '#4191fa',
+            cancelButtonColor: '#f03932',
+            cancelButtonText:'Cancel',
+            confirmButtonText: `Set ${visibility}`
+        }).then(function(result) {
+          if(result.isConfirmed) 
+          { 
+            Swal.fire({
+          text: `Your presentation has been set to ${visibility}!`,
+          icon: "success",
+          showConfirmButton: false,
+          color: '#fff',
+          background: '#17181a',
+          timer: 1500
+        });
+        e.detail.issueRequest(true);
+        }
+        })}
+        
+      } })
+    </script>
+    
+
+    
 <div class="row">
+
     <div class="column middle">
         <div class="main-container">
             <div class="title-container">
@@ -183,11 +273,14 @@
         </form>
     </div>
 
-    <div class="column side" style="height: 200px; width:100%">
+
+
+    <div class="column side" >
         <div class="table-2" >
-            <table style="height: 150px">
+            <table style="height: 300px">
                 <tr class="row-data-2">
                     <td class="data-2">
+                        <br>
                         Search in Channel
                     </td>
                 </tr>
@@ -195,6 +288,7 @@
                     <td class="data-2">
                         <div class="search-container">
                             <form id="search-form">
+                                <br>
                                 <i class="fa fa-search" aria-hidden="true"></i>
                                 <input type="text" id="search-input" placeholder="Search.." name="search">
                                 <br>
@@ -205,52 +299,105 @@
                 <tr class="row-data-2">
                     <td class="data-2">
                         <!-- Add more elements here -->
-                        Attachments
+                        <br>
+                        Attach Files:
+                        <br>
+                    </td>
+                </tr>
+                <br>
+                <tr class="row-data-2">
+                    <td class="data-2">
+                        <!-- Add more elements here -->
+                            <br>
+
+                            <a id="btn1" href="{% url 'upload' %}" role="button">PDF</a>
+                            <a id="btn2" href="{% url 'upload' %}" role="button">Video</a>
+                            <a id="btn4" href="{% url 'upload' %}" role="button">Image</a>
+
+                    </td>
+                </tr>
+                <br>
+
+                <tr class="row-data-2">
+                    <td class="data-2">
+                        <br>
+
+                        <!-- Add more elements here -->
+                        Access Media:
+                        <br>
+
                     </td>
                 </tr>
                 <tr class="row-data-2">
                     <td class="data-2">
                         <!-- Add more elements here -->
                         <div>
-                            <button id="btn1"><i class="fa-solid fa-file-pdf"></i><br>PDF</button>
-                            <button id="btn2"><i class="fa fa-video-camera" aria-hidden="true"></i><br>Video</button>
-                            <button id="btn3"><i class="fa-solid fa-radio"></i><br>MP3</button>
-                            <button id="btn4"><i class="fa-solid fa-image"></i><br>Image</button>
+                            <br>
+
+                            <input type="file" name="document" id="file-input" style="display: none;">
+                            <button type="button" onclick="document.getElementById('file-input').click()"><i class="fa-solid fa-radio"></i><br>Upload file</button>
+
+
                         </div>
 
                     </td>
                 </tr>
+
             </table>
+
+
             <script>
-                window.onload = function () {
-                    const chatMessages = document.getElementById("chat-messages");
-                    const searchForm = document.getElementById("search-form");
-                    const searchInput = document.getElementById("search-input");
-
-                    // Function to filter messages based on search input
-                    function filterMessages() {
-                        const searchTerm = searchInput.value.toLowerCase();
-                        const messages = document.querySelectorAll('.sender-message, .receiver-message');
-
-                        messages.forEach(function (message) {
-                            const messageContent = message.textContent.toLowerCase();
-                            if (messageContent.includes(searchTerm)) {
-                                message.style.display = 'block'; // Show matching messages
-                            } else {
-                                message.style.display = 'none'; // Hide non-matching messages
-                            }
+                // Function to handle file upload and set the link in the textarea
+                function handleFileUpload(event) {
+                    const file = event.target.files[0];
+                    const fileLink = URL.createObjectURL(file);
+                    const textarea = document.getElementById('message-input');
+                    textarea.value = fileLink;
+                }
+            
+                // Add event listener to the file input
+                document.getElementById('file-input').addEventListener('change', handleFileUpload);
+            </script>
+                
+                <script>
+                    // Function to handle file upload and set the link in the textarea
+                    function handleFileUpload(event) {
+                        const file = event.target.files[0];
+                        const formData = new FormData();
+                        formData.append('document', file);
+                
+                        // Send AJAX request to the server to handle the file upload
+                        fetch('{% url "upload" %}', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Set the URL returned by the server in the div as a clickable link
+                            const fileUrl = data.url;
+                            const linkDiv = document.getElementById('file-link');
+                            linkDiv.innerHTML = `<a href="${fileUrl}" target="_blank">${fileUrl}</a>`;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
                         });
                     }
+                
+                    // Add event listener to the file input
+                    document.getElementById('file-input').addEventListener('change', handleFileUpload);
+                </script>
+                
+                
+                
+        
 
-                    // Add event listener to search input
-                    searchForm.addEventListener("input", filterMessages);
-
-                    // Auto-scroll to the bottom to show the latest message
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                };
-            </script>
+            
         </div>
     </div>
+    
+    
+
+        
 </div>
 
 </body>

@@ -1,19 +1,41 @@
 {% for message in messages %}
-    <div class="{% if message.sender == request.user %}sender-message{% else %}receiver-message{% endif %}">
+    <div class="message {% if message.sender == request.user %}sender-message{% else %}receiver-message{% endif %}">
         <p>{{ message.sender.username }}: {{ message.content }}</p>
     </div>
 {% endfor %}
 
+<style>
+    .message {
+        margin: 5px;
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 70%;
+    }
+
+    .sender-message {
+        background-color: #B6BFE2;
+        color: #111B47;
+        text-align: right;
+        margin-left: 475px;
+    }
+
+    .receiver-message {
+        background-color: #c4e0d1;
+        color: green;
+        text-align: left;
+    }
+</style>
+
 <script>
     var chatMessages = document.getElementById("chat-messages");
 
-    var messagesLength = "{{ messages|length }}"
-    var oldMessagesLength = sessionStorage.getItem('oldMessagesLength')
+    var messagesLength = "{{ messages|length }}";
+    var oldMessagesLength = sessionStorage.getItem('oldMessagesLength');
 
-    if(oldMessagesLength < messagesLength && oldMessagesLength !== null) {
-        //Sets scroll to bottom if new message
+    if (oldMessagesLength < messagesLength && oldMessagesLength !== null) {
+        // Sets scroll to bottom if new message
         chatMessages.scrollTop = chatMessages.scrollHeight; 
-        //Update session variable with new length of messages
-        sessionStorage.setItem('oldMessagesLength', "{{ messages|length }}")
-        }
+        // Update session variable with new length of messages
+        sessionStorage.setItem('oldMessagesLength', messagesLength);
+    }
 </script>
