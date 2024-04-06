@@ -219,15 +219,25 @@ class TestEditProfile(TestCase):
         #check if profile picture remains the same (default image)
         self.assertEqual(user.profile.profile_pic.url, '/media/default.jpg')
 
+    #Test without specifying name of form being passed
+    def test_post_no_form_specified(self):
+        response = self.client.post(reverse("edit_profile"), {
+            'bio':'Test11 Updated Bio'
+        }, follow=True)
+        #Check if post request was a success
+        self.assertEqual(response.status_code, 200)
+        #Check to see if correct template was used 
+        self.assertTemplateUsed(response, 'edit_profile.html')
+        user = User.objects.get(username=self.user.username)
+        #check if bio updated, should return true as bio did not update
+        self.assertNotEqual(user.profile.bio, 'Test11 Updated Bio')
+
     
     def tearDown(self) -> None:
         #remove 'test.jpg' from storage if it exists
         fs = FileSystemStorage("media/profile_pictures/")
         if fs.exists('test.jpg'):
             fs.delete('test.jpg')
-        #remove 'test.bmp' 
-        if fs.exists('test.bmp'):
-            fs.delete('test.bmp')
         #enable logging again after tests are completed
         logging.disable(logging.NOTSET)
         return super().tearDown()

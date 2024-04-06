@@ -9,10 +9,13 @@ class TestViews(TestCase):
     def setUp(self) -> None:
         Group.objects.get_or_create(name='teacher')
         Group.objects.get_or_create(name='student')
+        user = User.objects.create_user(username='test111', email = 'test111@hotmailtestttt.com', password='passpass22', first_name='bob', last_name='johnson')
+        user2 = User.objects.create_user(username='test112', email = 'test112@hotmailtestttt.com', password='passpass22', first_name='bob', last_name='johnson')
+        self.user = user
         return super().setUp()
 
     """
-    Testing to see if Users can view our pages correctly.
+    Testing to see if Users can view our unauthenticated pages correctly.
     """
     def test_home_view(self):
         response = self.client.get(reverse("home"))
@@ -47,35 +50,19 @@ class TestViews(TestCase):
        if they do they should be redirected back to the home page.
     """
     def test_authenticated_register_view(self):
-        #creates the user and saves it in the test database
-        user = User.objects.create_user(username='test1', email = 'test1@hotmailtestttt.com', password='passpass22')
         #login
-        response = self.client.post(reverse("home"), {
-            'username':'test1',
-            'password':'passpass22'}, follow=True)
-        #check if post request was successful
-        self.assertEqual(response.status_code, 200)
-        #check if user is authenticated (logged in)
-        self.assertTrue(response.context['user'].is_authenticated)
+        self.client.force_login(self.user)
         response = self.client.get(reverse("register"))
         #Should redirect to home page as user has already registered an account
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("home"))
 
-    """These two tests below check to see if an authenticated user is 
-       viewing the generateSummary and generatePresentation pages correctly
+    """These tests below check to see if an authenticated user is 
+       viewing the pages that require authentication correctly
     """
     def test_generateSummary_view_authenticated(self):
-        #creates the user and saves it in the test database
-        user = User.objects.create_user(username='test2', email = 'test2@hotmailtestttt.com', password='passpass22')
         #login
-        response = self.client.post(reverse("home"), {
-            'username':'test2',
-            'password':'passpass22'}, follow=True)
-        #check if post request was successful
-        self.assertEqual(response.status_code, 200)
-        #check if user is authenticated (logged in)
-        self.assertTrue(response.context['user'].is_authenticated)
+        self.client.force_login(self.user)
         response = self.client.get(reverse("generate_summary"))
         #check to see if get request was successful
         self.assertEqual(response.status_code, 200)
@@ -83,16 +70,8 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, 'summary_generation.html')
     
     def test_generatePresentation_view_authenticated(self):
-        #creates the user and saves it in the test database
-        user = User.objects.create_user(username='test3', email = 'test3@hotmailtestttt.com', password='passpass22')
         #login
-        response = self.client.post(reverse("home"), {
-            'username':'test3',
-            'password':'passpass22'}, follow=True)
-        #check if post request was successful
-        self.assertEqual(response.status_code, 200)
-        #check if user is authenticated (logged in)
-        self.assertTrue(response.context['user'].is_authenticated)
+        self.client.force_login(self.user)
         response = self.client.get(reverse("generate_presentation"))
         #check if get request was successful
         self.assertEqual(response.status_code, 200)
@@ -100,16 +79,8 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, 'presentation_generation.html')
     
     def test_generateExercise_view_authenticated(self):
-        #creates the user and saves it in the test database
-        user = User.objects.create_user(username='test4', email = 'test4@hotmailtestttt.com', password='passpass22')
         #login
-        response = self.client.post(reverse("home"), {
-            'username':'test4',
-            'password':'passpass22'}, follow=True)
-        #check if post request was successful
-        self.assertEqual(response.status_code, 200)
-        #check if user is authenticated (logged in)
-        self.assertTrue(response.context['user'].is_authenticated)
+        self.client.force_login(self.user) 
         response = self.client.get(reverse("generate_exercise"))
         #check if get request was successful
         self.assertEqual(response.status_code, 200)
@@ -117,16 +88,8 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, 'exercise_generation.html')
 
     def test_virtualAssistant_view_authenticated(self):
-        #creates the user and saves it in the test database
-        user = User.objects.create_user(username='test5', email = 'test5@hotmailtestttt.com', password='passpass22')
         #login
-        response = self.client.post(reverse("home"), {
-            'username':'test5',
-            'password':'passpass22'}, follow=True)
-        #check if post request was successful
-        self.assertEqual(response.status_code, 200)
-        #check if user is authenticated (logged in)
-        self.assertTrue(response.context['user'].is_authenticated)
+        self.client.force_login(self.user) 
         response = self.client.get(reverse("chatbot"))
         #check if get request was successful
         self.assertEqual(response.status_code, 200)
@@ -174,9 +137,120 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 302)
         #Redirects user back to home page since user is part of the student group
         self.assertRedirects(response, reverse("home"))
+    
+    def test_generateAdaptedContent_view_authenticated(self):
+        #login
+        self.client.force_login(self.user) 
+        response = self.client.get(reverse("generate_adapted_content"))
+        #check if get request was successful
+        self.assertEqual(response.status_code, 200)
+        #check to see if correct template was used
+        self.assertTemplateUsed(response, 'adapted_content_generation.html')
+    
+    #tests viewing your own profile page
+    def test_profile_view_authenticated(self):
+        #login
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("profile", kwargs={'username' : 'test111'}))
+        #check if get request was successful
+        self.assertEqual(response.status_code, 200)
+        #check to see if correct template was used
+        self.assertTemplateUsed(response, 'profile.html')
+    
+    #tests profile page with htmx request
+    def test_profile_htmx_view_authenticated(self):
+        #login
+        self.client.force_login(self.user)
+        headers = {'HTTP_HX-REQUEST' : 'true'}
+        response = self.client.get(reverse("profile", kwargs={'username' : 'test111'}), **headers)
+        #check if get request was successful
+        self.assertEqual(response.status_code, 200)
+        #check to see if correct template was used
+        self.assertTemplateUsed(response, 'partials/profile_list.html')
+    
+    #Tests viewing a different users profile page
+    def test_profileDifferentUser_view_authenticated(self):
+        #login
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("profile", kwargs={'username' : 'test112'}))
+        #check if get request was successful
+        self.assertEqual(response.status_code, 200)
+        #check to see if correct template was used
+        self.assertTemplateUsed(response, 'profile_different_user.html')
+    
+    #Tests viewing a different users profile page with htmx request
+    def test_profileDifferentUser_htmx_view_authenticated(self):
+        #login
+        self.client.force_login(self.user)
+        headers = {'HTTP_HX-REQUEST' : 'true'}
+        response = self.client.get(reverse("profile", kwargs={'username' : 'test112'}), **headers)
+        #check if get request was successful
+        self.assertEqual(response.status_code, 200)
+        #check to see if correct template was used
+        self.assertTemplateUsed(response, 'partials/profile_different_user_list.html')
+    
 
-    """These two tests below check to see if an unauthenticated user is trying to
-       view the generateSummary and generatePresentation pages. If they are they will
+    def test_editProfile_view_authenticated(self):
+        #login
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("edit_profile"))
+        #check if get request was successful
+        self.assertEqual(response.status_code, 200)
+        #check to see if correct template was used
+        self.assertTemplateUsed(response, 'edit_profile.html')
+    
+    def test_changePassword_view_authenticated(self):
+        #login
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("change_password"))
+        #check if get request was successful
+        self.assertEqual(response.status_code, 200)
+        #check to see if correct template was used
+        self.assertTemplateUsed(response, 'change_password.html')
+    
+    def test_chat_view_authenticated(self):
+        #login
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("chat", kwargs={'username' : 'test111'}))
+        #check if get request was successful
+        self.assertEqual(response.status_code, 200)
+        #check to see if correct template was used
+        self.assertTemplateUsed(response, 'chat.html')
+
+    #test chat view with htmx request
+    def test_chat_htmx_view_authenticated(self):
+        #login
+        self.client.force_login(self.user)
+        headers = {'HTTP_HX-REQUEST' : 'true'}
+        response = self.client.get(reverse("chat", kwargs={'username' : 'test111'}), **headers)
+        #check if get request was successful
+        self.assertEqual(response.status_code, 200)
+        #check to see if correct template was used
+        self.assertTemplateUsed(response, 'partials/chat_messages_load.html')
+        
+    
+    def test_newChat_view_authenticated(self):
+        #login
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("new_chats"))
+        #check if get request was successful
+        self.assertEqual(response.status_code, 200)
+        #check to see if correct template was used
+        self.assertTemplateUsed(response, 'new_chats.html')
+    
+    def test_openChat_view_authenticated(self):
+        #login
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("open_chats"))
+        #check if get request was successful
+        self.assertEqual(response.status_code, 200)
+        #check to see if correct template was used
+        self.assertTemplateUsed(response, 'open_chats.html')
+    
+    
+
+    """These  tests below check to see if an unauthenticated user is trying to
+       view pages that require authentication. If they are they will
        be redirected back to the home page.
     """    
     def test_generateSummary_view_not_authenticated(self):
@@ -213,4 +287,33 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 302)
         #Redirects user back to home page since user is not authenticated
         self.assertRedirects(response, reverse("home"))
+    
+    def test_generateAdaptedContent_view_not_authenticated(self):
+        response = self.client.get(reverse("generate_adapted_content"))
+        #If user is not authenticated then it will redirect to homepage
+        self.assertEqual(response.status_code, 302)
+        #Redirects user back to home page since user is not authenticated
+        self.assertRedirects(response, reverse("home"))
+    
+    def test_profile_view_not_authenticated(self):
+        response = self.client.get(reverse("profile", kwargs={'username' : 'test111'}))
+        #If user is not authenticated then it will redirect to homepage
+        self.assertEqual(response.status_code, 302)
+        #Redirects user back to home page since user is not authenticated
+        self.assertRedirects(response, reverse("home"))
+    
+    def test_editProfile_view_not_authenticated(self):
+        response = self.client.get(reverse("edit_profile"))
+        #If user is not authenticated then it will redirect to homepage
+        self.assertEqual(response.status_code, 302)
+        #Redirects user back to home page since user is not authenticated
+        self.assertRedirects(response, reverse("home"))
+    
+    def test_changePassword_view_not_authenticated(self):
+        response = self.client.get(reverse("change_password"))
+        #If user is not authenticated then it will redirect to homepage
+        self.assertEqual(response.status_code, 302)
+        #Redirects user back to home page since user is not authenticated
+        self.assertRedirects(response, reverse("home"))
+        
 
