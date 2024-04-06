@@ -2,6 +2,8 @@
 {% load bootstrap_icons %}
 {% block content %}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -97,26 +99,27 @@
         }
 
         .sender-message {
-        color: #111B47;
-        background-color: #B6BFE2;
-        border-radius: 15px;
-        margin: 3px;
-        padding: 5px;
-        width: 30%;
-        /* Align sender messages to the right */
-        text-align: right;
-    }
+            color: #111B47;
+            background-color: #B6BFE2;
+            border-radius: 15px;
+            margin: 3px;
+            padding: 5px;
+            max-width: 70%; /* Limit message width */
+            word-wrap: break-word; /* Wrap long words */
+            text-align: right;
+        }
 
-    .receiver-message {
-        color: green;
-        background-color: #c4e0d1;
-        border-radius: 15px;
-        margin: 3px;
-        padding: 5px;
-        width: 30%;
-        /* Align receiver messages to the left */
-        text-align: left;
-    }
+        .receiver-message {
+            color: green;
+            background-color: #c4e0d1;
+            border-radius: 15px;
+            margin: 3px;
+            padding: 5px;
+            max-width: 70%; /* Limit message width */
+            word-wrap: break-word; /* Wrap long words */
+            text-align: left;
+        }
+
 
         .title-container {
             background-color: #B6BFE2;
@@ -288,10 +291,8 @@
                     <td class="data-2">
                         <div class="search-container">
                             <form id="search-form">
-                                <br>
                                 <i class="fa fa-search" aria-hidden="true"></i>
                                 <input type="text" id="search-input" placeholder="Search.." name="search">
-                                <br>
                             </form>
                         </div>
                     </td>
@@ -345,6 +346,38 @@
 
             </table>
 
+            <script>
+                window.onload = function () {
+                    const chatMessages = document.getElementById("chat-messages");
+                    const searchForm = document.getElementById("search-form");
+                    const searchInput = document.getElementById("search-input");
+
+                    // Function to filter messages based on search input
+                    function filterMessages() {
+                        const searchTerm = searchInput.value.toLowerCase();
+                        const messages = document.querySelectorAll('.sender-message, .receiver-message');
+
+                        messages.forEach(function (message) {
+                            const messageContent = message.textContent.toLowerCase();
+                            if (messageContent.includes(searchTerm)) {
+                                message.style.display = 'block'; // Show matching messages
+                            } else {
+                                message.style.display = 'none'; // Hide non-matching messages
+                            }
+                        });
+                    }
+
+                    // Add event listener to search input
+                    searchForm.addEventListener("input", filterMessages);
+
+                    // Auto-scroll to the bottom to show the latest message
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+
+                };
+            </script>
+
+            </script>
 
             <script>
                 // Function to handle file upload and set the link in the textarea
