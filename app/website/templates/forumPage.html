@@ -19,14 +19,14 @@
         </div>  
         <div class="col-md-6 offset-md-3">
             {% for value in values %}
-                {% include 'partials/presentations_different_user.html' %}
+                {% include 'partials/presentations_different_user_forum.html' %}
             {% endfor %}
         </div>
     </div>
 </body>
 
 <style>
-    body, html {
+    body {
         font-family: 'Montserrat', sans-serif;
         background-color: #1e1e2f;
     }
@@ -40,7 +40,7 @@
         box-shadow: 0 2px 7px rgba(155, 153, 153, 0.3);
     }
               
-    .dropdown-menu  {
+    .pres-card .dropdown-menu  {
         --bs-dropdown-bg: var(--bs-dark);
         --bs-dropdown-link-color: var(--bs-white);
         --bs-dropdown-border-color: var(--bs-white);
