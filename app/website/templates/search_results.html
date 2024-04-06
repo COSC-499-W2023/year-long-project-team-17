@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 {% load bootstrap_icons %}
 {% block content %}
@@ -8,7 +9,7 @@
 <body>
     <div id="section1">
         <div class="text-center" style="margin-bottom: 50px;">
-            <h1>Forum</h1>
+            <h1>Results for "{{ query }}"</h1>
             <!-- Search bar -->
             <form method="GET" action="{% url 'search_results' %}">
                 <div class="input-group">
@@ -18,7 +19,7 @@
             </form>
         </div>  
         <div class="col-md-6 offset-md-3">
-            {% for value in values %}
+            {% for value in results %}
                 {% include 'partials/presentations_different_user.html' %}
             {% endfor %}
         </div>
@@ -82,3 +83,4 @@
     }
 </style>
 {% endblock content %}
+

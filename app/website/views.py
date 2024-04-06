@@ -282,36 +282,70 @@ def Profile(request, username):
 
 @authenticated_user
 def forumPage(request):
-
     #Users viewing a users profile
     context = {}
     #if username does not exist raise 404 not found http exception
-    
     #Get presentation that are public
     results = Presentations.objects.filter(is_shared = 1).values('main_title','titles','date_created').order_by('-date_created')
-    formated_date = []
+    
+    formated_results = []
     for value in results.values():
         time = datetime.now(timezone.utc) - value['date_created']
         time = format_timespan(math.floor(time.total_seconds()), max_units = 2)
-        formated_date.append(time)
-    
+        
+        
+        user = User.objects.get(id=value['user_id'])
+        username = user.username
+
+        formated_results.append({
+            'id': value['id'],
+            'user_id': value['user_id'],
+            'username': username,
+            'is_shared': value['is_shared'],
+            'main_title': value['main_title'],
+            'titles': value['titles'],
+            'date_created': value['date_created'],
+            'formatted_time': time
+        })
     
 
-    page_results_number = int(request.GET.get('page_results', 1))
-    paginator_results = Paginator(results, 2)
-    page_results_obj = paginator_results.get_page(page_results_number)
-
-    page_date_number = int(request.GET.get('page_date', 1))
-    paginator_date = Paginator(formated_date, 2)
-    page_date_obj = paginator_date.get_page(page_date_number)
-    
-    context['page_results_obj'] = page_results_obj
-    page_date_obj.object_list = deque(page_date_obj.object_list)
-    context['page_date_obj'] = page_date_obj
     if request.htmx:
         return render(request, 'partials/profile_different_user_list.html', context)
 
-    return render(request, 'forumPage.html', context)
+    return render(request, 'forumPage.html', {'values' : formated_results})
+
+from django.db.models import Q
+
+def search_results(request):
+    context = {}
+    query = request.GET.get('query')
+    results = Presentations.objects.filter(
+        Q(main_title__icontains=query) | Q(titles__icontains=query), is_shared = 1
+    )
+    formated_results = []
+    for value in results.values():
+        time = datetime.now(timezone.utc) - value['date_created']
+        time = format_timespan(math.floor(time.total_seconds()), max_units = 2)
+        
+        
+        user = User.objects.get(id=value['user_id'])
+        username = user.username
+
+        formated_results.append({
+            'id': value['id'],
+            'user_id': value['user_id'],
+            'username': username,
+            'is_shared': value['is_shared'],
+            'main_title': value['main_title'],
+            'titles': value['titles'],
+            'date_created': value['date_created'],
+            'formatted_time': time
+        })
+    if request.htmx:
+        return render(request, 'partials/profile_different_user_list.html', context)
+    if( query == ""):
+        return render(request, 'forumPage.html', {'values' : formated_results})
+    return render(request, 'search_results.html', {'results': formated_results, 'query': query})
 
 
 @authenticated_user

@@ -39,6 +39,7 @@ urlpatterns = [
     path('presentation_status/', views.presentation_status, name='presentation_status'), 
     path('profile/<str:username>/', views.Profile, name='profile'),        
     path('forumPage/', views.forumPage, name='forumPage'),  
+    path('search/', views.search_results, name='search_results'),
     path('download_presentation_pptx/<int:pres_id>/', views.download_presentation_pptx, name='download_presentation_pptx'),
     path('change_post_visibility/<int:pres_id>/<int:is_shared>/', views.change_post_visibility, name='change_post_visibility'),
     path('delete_presentation/<int:pres_id>/', views.delete_presentation, name="delete_presentation"),       
