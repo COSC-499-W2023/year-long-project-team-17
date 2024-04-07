@@ -310,7 +310,7 @@ def forumPage(request):
     
 
     if request.htmx:
-        return render(request, 'partials/profile_different_user_list.html', context)
+        return render(request, 'partials/profile_different_user_list_forum.html', context)
 
     return render(request, 'forumPage.html', {'values' : formated_results})
 
@@ -327,8 +327,8 @@ def search_results(request):
     for value in results.values():
         time = datetime.now(timezone.utc) - value['date_created']
         time = format_timespan(math.floor(time.total_seconds()), max_units = 2)
-        
-        
+
+    
         user = User.objects.get(id=value['user_id'])
         username = user.username
 
@@ -343,7 +343,7 @@ def search_results(request):
             'formatted_time': time
         })
     if request.htmx:
-        return render(request, 'partials/profile_different_user_list.html', context)
+        return render(request, 'partials/profile_different_user_list_forum.html', context)
     if( query == ""):
         return render(request, 'forumPage.html', {'values' : formated_results})
     return render(request, 'search_results.html', {'results': formated_results, 'query': query})
