@@ -45,7 +45,7 @@ from django.http import JsonResponse
 from .models import Message  
 
 
-from django.core.mail import send_mail
+from django.core.mail import send_mail, BadHeaderError
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from util import config
@@ -243,10 +243,6 @@ def contact_us(request):
             return render(request, 'contact_us.html')
         try:
             validate_email(email)
-        except ValidationError as err:
-            messages.error(request, "An invalid email address was entered please try again.")
-            return render(request, 'contact_us.html')
-        else:
             subject = 'Question from ' + email   
             #Sends question from user as email to noreplyeduprompt@gmail.com
             send_mail(subject,
@@ -256,7 +252,12 @@ def contact_us(request):
                     fail_silently=False)
             messages.success(request, "Your question has been sent.")
             return render(request, 'contact_us.html')
-        
+        except ValidationError as err:
+            messages.error(request, "An invalid email address was entered please try again.")
+            return render(request, 'contact_us.html')
+        except BadHeaderError as err:
+            messages.error(request, "An invalid header was found please try again.")
+            return render(request, 'contact_us.html')
     else:
         return render(request, 'contact_us.html')
 
