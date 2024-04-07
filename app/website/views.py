@@ -316,6 +316,7 @@ def forumPage(request):
 
 from django.db.models import Q
 
+@authenticated_user
 def search_results(request):
     context = {}
     query = request.GET.get('query')
