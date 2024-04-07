@@ -27,11 +27,7 @@
     .card.mb-3:hover {
         background-color: #c7d4e7;
     }
-    img {
-        position: absolute;
-        left: 0;
-        top: 55px;
-    }
+    
     .parent-chat-container {
         display: flex;
         align-items: center; 
@@ -59,60 +55,38 @@
 <body>
     <h2>Open Chats</h2>
 
-    <img src="{% static 'navpic.png' %}" alt="navpic" width="1263" height="970">
-
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-
+    
     {% for chat in chats %}
-    <div class="card mb-3">
-        <span class="close">&times;</span>
-        {% if chat.receiver.id == chat.sender.id %}
-            <a class="nav-link name" href="/chat/{{ chat.receiver.username }}"><h3>{{ chat.receiver.username }}</h3></a>
-        {% else %}
-            {% if chat.sender.id == user.id %}
-                <a class="nav-link name" href="/chat/{{ chat.receiver.username }}"><h3>{{ chat.receiver.username }}</h3></a>
+    <a href="{% if chat.receiver.id == chat.sender.id %}/chat/{{ chat.receiver.username }}{% else %}{% if chat.sender.id == user.id %}/chat/{{ chat.receiver.username }}{% else %}/chat/{{ chat.sender.username }}{% endif %}{% endif %}" style="text-decoration: none;">
+        <div class="card mb-3">
+            {% if chat.receiver.id == chat.sender.id %}
+                <h3>{{ chat.receiver.username }}</h3>
             {% else %}
-                <a class="nav-link name" href="/chat/{{ chat.sender.username }}"><h3>{{ chat.sender.username }}</h3></a>
-            {% endif %}
-        {% endif %}
-        <div class="parent-chat-container">
-            <div class="circular-container"></div>
-            <div class="chat-text">
-                <p>Open Chat</p>
-                {% if chat.sender.id != user.id %}
-                    <p>{{ chat.sender.username }} : {{ chat.content }}</p>
+                {% if chat.sender.id == user.id %}
+                    <h3>{{ chat.receiver.username }}</h3>
+                {% else %}
+                    <h3>{{ chat.sender.username }}</h3>
                 {% endif %}
-            </div>
+            {% endif %}
+            
+                <div class="chat-text">
+                    {% if chat.sender.id == user.id %}
+                        <p>You : {{ chat.content }}</p>
+                    {% endif %}
+                    {% if chat.sender.id != user.id %}
+                        <p>{{ chat.sender.username }} : {{ chat.content }}</p>
+                    {% endif %}
+                </div>
         </div>
-        <div>
-            <a class="nav-link" href="/new_chats"><button class="button">New Chat</button></a>
-        </div>
+    </a>
+    {% endfor %}
+
+    <div>
+        <a href="/new_chats" class="button">New Chat</a>
     </div>
-{% endfor %}
-        <script>
-            var closebtns = document.getElementsByClassName("close");
-            var i;
-            for (i = 0; i < closebtns.length; i++) {
-                closebtns[i].addEventListener("click", function() {
-                    this.parentElement.style.display = 'none';
-                });
-            }
-        </script>
+    </div>
+    
+    
 </body>
 </html>
 {% endblock %}

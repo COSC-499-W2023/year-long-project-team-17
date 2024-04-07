@@ -43,6 +43,7 @@
             display: flex;
             align-items: center;
             transition: background-color 0.3s ease;
+            cursor: pointer;
         }
 
         .chat-item:hover {
@@ -82,72 +83,25 @@
 </head>
 <body>
 
-    <!-- <div class="chat-list">
-        <div class="search-box">
-            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
-        </div>
-        <ul id="myUL">
-            {% for user in users %}
-                <li class="chat-item">
-                    <a href="/chat/{{ user.username }}" class="chat-link">
-                        <div class="chat-info">
-                            <div class="chat-username">{{ user.username }}</div>
-                            <div class="chat-status">{{ user.recent_messages }}</div>
-                            <div class="chat-last-message">
-                                {% if user.recent_messages %}
-                                    {{ user.recent_messages.first.timestamp }}
-                                {% else %}
-                                    No recent messages
-                                {% endif %}
-                            </div>
-                        </div>
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div> -->
     <div class="chat-list">
         <div class="search-box">
             <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
         </div>
         <ul id="myUL">
             {% for user in users %}
-                <li class="chat-item" data-user-id="{{ user.id }}">
-                    <a href="/chat/{{ user.username }}" class="chat-link">
+                <a href="/chat/{{ user.username }}" class="chat-link">
+                    <li class="chat-item" data-user-id="{{ user.id }}">
                         <div class="chat-info">
                             <div class="chat-username">{{ user.username }}</div>
                             <div class="chat-status">{{ user.recent_messages }}</div>
-                            <div class="chat-last-message" id="last-message-{{ user.id }}">
-                                {% if user.recent_messages %}
-                                    {{ user.recent_messages.first.timestamp }}
-                                {% else %}
-                                    No recent messages
-                                {% endif %}
-                            </div>
+                            <div class="chat-last-message" id="last-message-{{ user.id }}"></div>
                         </div>
-                    </a>
-                </li>
+                    </li>
+                </a>
             {% endfor %}
         </ul>
     </div>
-    
-    <script>
-        function updateTimestamps() {
-            const chatItems = document.querySelectorAll('.chat-item');
-            chatItems.forEach(item => {
-                const userId = item.dataset.userId;
-                fetch(`/get_recent_messages/${userId}/`)
-                    .then(response => response.json())
-                    .then(data => {
-                        const timestamp = data.timestamp;
-                        document.getElementById(`last-message-${userId}`).innerText = timestamp || 'No recent messages';
-                    });
-            });
-        }
-    
-        setInterval(updateTimestamps, 5000); // Update every 5 seconds (adjust as needed)
-    </script>
-    
+
     <script>
         function myFunction() {
             var input, filter, ul, li, a, i, txtValue;
@@ -155,7 +109,7 @@
             filter = input.value.toUpperCase();
             ul = document.getElementById("myUL");
             li = ul.getElementsByTagName('li');
-    
+
             for (i = 0; i < li.length; i++) {
                 a = li[i].getElementsByTagName("a")[0];
                 txtValue = a.textContent || a.innerText;
