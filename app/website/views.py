@@ -45,7 +45,7 @@ from django.http import JsonResponse
 from .models import Message  
 
 
-from django.core.mail import send_mail
+from django.core.mail import send_mail, BadHeaderError
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from util import config
@@ -243,10 +243,6 @@ def contact_us(request):
             return render(request, 'contact_us.html')
         try:
             validate_email(email)
-        except ValidationError as err:
-            messages.error(request, "An invalid email address was entered please try again.")
-            return render(request, 'contact_us.html')
-        else:
             subject = 'Question from ' + email   
             #Sends question from user as email to noreplyeduprompt@gmail.com
             send_mail(subject,
@@ -256,7 +252,12 @@ def contact_us(request):
                     fail_silently=False)
             messages.success(request, "Your question has been sent.")
             return render(request, 'contact_us.html')
-        
+        except ValidationError as err:
+            messages.error(request, "An invalid email address was entered please try again.")
+            return render(request, 'contact_us.html')
+        except BadHeaderError as err:
+            messages.error(request, "An invalid header was found please try again.")
+            return render(request, 'contact_us.html')
     else:
         return render(request, 'contact_us.html')
 
@@ -321,6 +322,75 @@ def Profile(request, username):
             return render(request, 'partials/profile_different_user_list.html', context)
 
         return render(request, 'profile_different_user.html', context)
+
+
+@authenticated_user
+def forumPage(request):
+    #Users viewing a users profile
+    context = {}
+    #if username does not exist raise 404 not found http exception
+    #Get presentation that are public
+    results = Presentations.objects.filter(is_shared = 1).values('main_title','titles','date_created').order_by('-date_created')
+    
+    formated_results = []
+    for value in results.values():
+        time = datetime.now(timezone.utc) - value['date_created']
+        time = format_timespan(math.floor(time.total_seconds()), max_units = 2)
+        
+        
+        user = User.objects.get(id=value['user_id'])
+        username = user.username
+
+        formated_results.append({
+            'id': value['id'],
+            'user_id': value['user_id'],
+            'username': username,
+            'is_shared': value['is_shared'],
+            'main_title': value['main_title'],
+            'titles': value['titles'],
+            'date_created': value['date_created'],
+            'formatted_time': time
+        })
+    
+
+    if request.htmx:
+        return render(request, 'partials/profile_different_user_list_forum.html', context)
+
+    return render(request, 'forumPage.html', {'values' : formated_results})
+
+from django.db.models import Q
+
+@authenticated_user
+def search_results(request):
+    context = {}
+    query = request.GET.get('query')
+    results = Presentations.objects.filter(
+        Q(main_title__icontains=query) | Q(titles__icontains=query), is_shared = 1
+    )
+    formated_results = []
+    for value in results.values():
+        time = datetime.now(timezone.utc) - value['date_created']
+        time = format_timespan(math.floor(time.total_seconds()), max_units = 2)
+
+    
+        user = User.objects.get(id=value['user_id'])
+        username = user.username
+
+        formated_results.append({
+            'id': value['id'],
+            'user_id': value['user_id'],
+            'username': username,
+            'is_shared': value['is_shared'],
+            'main_title': value['main_title'],
+            'titles': value['titles'],
+            'date_created': value['date_created'],
+            'formatted_time': time
+        })
+    if request.htmx:
+        return render(request, 'partials/profile_different_user_list_forum.html', context)
+    if( query == ""):
+        return render(request, 'forumPage.html', {'values' : formated_results})
+    return render(request, 'search_results.html', {'results': formated_results, 'query': query})
 
 
 @authenticated_user

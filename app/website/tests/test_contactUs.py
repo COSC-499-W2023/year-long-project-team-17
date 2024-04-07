@@ -7,20 +7,11 @@ from django.contrib import auth
 class TestContactForm(TestCase):
     
     def setUp(self) -> None:
-        user = User.objects.create_user(username='test3', email = 'test3@hotmailtestttt.com', password='passpass22')
+        self.user = User.objects.create_user(username='test3', email = 'test3@hotmailtestttt.com', password='passpass22')
+        self.client.force_login(self.user)
         return super().setUp()
     
     def test_contact_form_successful(self):
-        response = self.client.post(reverse("home"), {
-            'username':'test3',
-            'password':'passpass22'}, follow=True)
-        
-        #check if post response was a success
-        self.assertEqual(response.status_code, 200)
-        
-        #Should return true if user is logged in
-        self.assertTrue(response.context['user'].is_authenticated)
-
         #Makes a post request to the contact form on contact us page
         response = self.client.post(reverse("contact_us"), {
             'email':'test3@hotmailtestttt.com',
@@ -36,16 +27,6 @@ class TestContactForm(TestCase):
         self.assertEquals(mail.outbox[0].subject, "Question from test3@hotmailtestttt.com")
 
     def test_contact_form_invalid_email(self):
-        response = self.client.post(reverse("home"), {
-            'username':'test3',
-            'password':'passpass22'}, follow=True)
-        
-        #check if post response was a success
-        self.assertEqual(response.status_code, 200)
-        
-        #Should return true if user is logged in
-        self.assertTrue(response.context['user'].is_authenticated)
-
         #Makes a post request to the contact form on contact us page passing an invalid email 
         response = self.client.post(reverse("contact_us"), {
             'email':'h',
@@ -59,16 +40,6 @@ class TestContactForm(TestCase):
         self.assertEqual(len(mail.outbox), 0)
 
     def test_contact_form_invalid_question(self):
-        response = self.client.post(reverse("home"), {
-            'username':'test3',
-            'password':'passpass22'}, follow=True)
-        
-        #check if post response was a success
-        self.assertEqual(response.status_code, 200)
-        
-        #Should return true if user is logged in
-        self.assertTrue(response.context['user'].is_authenticated)
-
         #Makes a post request to the contact form on contact us page passing an empty question
         response = self.client.post(reverse("contact_us"), {
             'email':'bob12@hotmaill.commm',
@@ -79,7 +50,6 @@ class TestContactForm(TestCase):
         self.assertEquals(response.status_code, 200)
         #check to see that if no email was sent since the form is invalid
         self.assertEqual(len(mail.outbox), 0)
-
 
 
 
