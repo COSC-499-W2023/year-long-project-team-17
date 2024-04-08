@@ -169,17 +169,14 @@ EMAIL_HOST_PASSWORD = email_host_password
 
 
 #Memcache configuration
-''' Remove theses comment tags and the ones below after Memcache is installed and running
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
         'LOCATION': '127.0.0.1:11211',
     }
 }
-'''
 
-#RATELIMIT_USE_CACHE = 'default'
-#RATELIMIT_ENABLE = True
-#Remove this line below
-RATELIMIT_ENABLE = False
-#RATELIMIT_VIEW = 'website.views.isLimited'
+
+RATELIMIT_USE_CACHE = 'default'
+RATELIMIT_ENABLE = True
+RATELIMIT_VIEW = 'website.views.isLimited'
