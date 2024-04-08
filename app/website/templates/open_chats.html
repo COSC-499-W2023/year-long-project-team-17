@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <!DOCTYPE html>
@@ -7,55 +8,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Open Chats</title>
-
-    <style>
-    .custom-button {
-        color: #fff;
-        background: linear-gradient(to right, #3498db 0%, #800080 100%);
-        background-size: 200% 100%;
-        transition: background-position 0.3s ease;
+<style>
+    .nav-link.name {
+        margin: 5px;
+        color: #3a2e79;
     }
-
-    .custom-button:hover,
-    .custom-button:focus {
-        background-position: -100% 0;
+    .close {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        right: 0%;
+        padding: 12px 16px;
+        transform: translate(0%, -50%);
+    }   
+    .close:hover {
+        background: #d39494;
     }
-
-    </style>
+    .card.mb-3:hover {
+        background-color: #c7d4e7;
+    }
+    
+    .parent-chat-container {
+        display: flex;
+        align-items: center; 
+        padding: 10px;
+    }
+    .button {
+        background-color: #1b4a88;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .button:hover {
+        background-color: #0b1f3a;
+    }
+</style>
 
 </head>
+
 <body>
     <h2>Open Chats</h2>
 
-        {% for chat in chats %}
-            <div class="card mb-3" style="max-width: 54" >
-                {% if chat.receiver.id == chat.sender.id %}
-            <a class="nav-link" href="/chat/{{ chat.receiver.username }}"><h3>{{ chat.receiver.username }}</h3>
-             {% else %}
-             {% if chat.sender.id == user.id %}
-             <a class="nav-link" href="/chat/{{ chat.receiver.username }}"><h3>{{ chat.receiver.username }}</h3>
-                {% else %}
-                <a class="nav-link" href="/chat/{{ chat.sender.username }}"><h3>{{ chat.sender.username }}</h3>
-                {% endif %}
-                {% endif %}
-                {% if chat.sender.id == user.id %}
-            <p>You: {{ chat.content }}</p></a>
+    
+    {% for chat in chats %}
+    <a href="{% if chat.receiver.id == chat.sender.id %}/chat/{{ chat.receiver.username }}{% else %}{% if chat.sender.id == user.id %}/chat/{{ chat.receiver.username }}{% else %}/chat/{{ chat.sender.username }}{% endif %}{% endif %}" style="text-decoration: none;">
+        <div class="card mb-3">
+            {% if chat.receiver.id == chat.sender.id %}
+                <h3>{{ chat.receiver.username }}</h3>
             {% else %}
-            <p>{{chat.sender.username}} : {{ chat.content }}</p></a>
+                {% if chat.sender.id == user.id %}
+                    <h3>{{ chat.receiver.username }}</h3>
+                {% else %}
+                    <h3>{{ chat.sender.username }}</h3>
+                {% endif %}
             {% endif %}
-            </div>
-
             
+                <div class="chat-text">
+                    {% if chat.sender.id == user.id %}
+                        <p>You : {{ chat.content }}</p>
+                    {% endif %}
+                    {% if chat.sender.id != user.id %}
+                        <p>{{ chat.sender.username }} : {{ chat.content }}</p>
+                    {% endif %}
+                </div>
+        </div>
+    </a>
+    {% endfor %}
 
-        {% endfor %}
-        <div>
-
-            <a href="{% url 'new_chats' %}" class="btn btn-danger col-md-0 offset-md-0 custom-button" >New Chat</a>
-
-          </div>
-
-   
+    <div>
+        <a href="/new_chats" class="button">New Chat</a>
+    </div>
+    </div>
+    
+    
 </body>
 </html>
-
 {% endblock %}

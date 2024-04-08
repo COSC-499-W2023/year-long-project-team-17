@@ -114,9 +114,13 @@
     background: linear-gradient(to left, rgba(15, 60, 99, 0.249), rgba(0, 0, 255, 0.098), rgba(103, 7, 81, 0.116));
     color: #ffffff; /* Comfortable dark gray text for readability */
   }
-  .nav-item {
-        list-style-type: none; /* Removes default marker */
-      }
+  body[data-theme='light'] {
+    background: linear-gradient(to left, rgba(15, 60, 99, 0.249), rgba(0, 0, 255, 0.098), rgba(103, 7, 81, 0.116));
+    color: #0c0909; 
+  }
+  body[data-theme='light'] .glow{
+    color:#130f28;
+  }
 
   body[data-theme='light'] #sectiondiv span{
     border: 1px solid #000000;
@@ -137,11 +141,16 @@
   body[data-theme='light'] .nav-link {
     color: #ffffff; 
   }
+  body[data-theme='light'] .nav-link.name {
+    color: #3a2e79;
+  }
+  body[data-theme='light'] .nav-link.name:hover,
+
   /* body[data-theme='light'] .accordion div{
     background-color: rgb(160, 205, 244);
   } */
   body[data-theme='light'] .col-md-8.offset-md-2 h1{
-    color: #131025;
+    color: #3a2e79;
   }
   body[data-theme='light'] .container.col-md-7.offset-md-0{
     color: #131025;
@@ -265,8 +274,11 @@ body[data-theme='light'] .nav-link:focus {
 }
 
 body[data-theme='light'] form {
-    background-color: #f5f7fa; /* White background for form */
+    background-color: #f5f7fa; 
     color: #2f2f2f; /* Dark text for readability */
+}
+body[data-theme='light'] #some-contact {
+    background-color: #00000000; /* White background for form */
 }
 body[data-theme='light'] .form-check-label {
     color: #2f2f2f; /* Dark form labels for better contrast */

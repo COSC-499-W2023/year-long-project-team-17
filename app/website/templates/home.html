@@ -19,10 +19,7 @@
         color: white;
     }
     .container {
-
-
-        margin-top: 35px;
-
+        margin-top: 15px;
     }
     h1 {
         color: #fff;
@@ -261,19 +258,28 @@
 } 
 
 
+.slide-right {
+            width: 100%;
+            overflow: hidden;
+        }
 
-    .custom-button:hover,
-    .custom-button:focus {
-        background-position: -100% 0;
-    }
-    .tech-guy{
-        float:right;
-        right:0;
-        top:250px;
-    }
-        .onscroll-animation.show {
+        .slide-right p {
+            animation: 3s slide-right 2s forwards;
+            transform:translateX(-100%);
+        }
+        .container.light-blue-header.onscroll-animation {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .container.light-blue-header.onscroll-animation.show {
             opacity: 1;
             transform: translateY(0);
+        }
+        @keyframes slide-right {
+        to {
+            transform:translateX(0);
+        }
         }
         .card.text-white.bg-primary.mb-3{
             transition: transform .2s;
@@ -283,14 +289,32 @@
             -webkit-transform: scale(1.1); 
             transform: scale(1.1); 
         }
-        @keyframes slide-right {
-        to {
-            transform:translateX(0);
-        }
-        }
 
 </style>
 
+<script>
+    // JavaScript to add animation on scroll
+    document.addEventListener('DOMContentLoaded', function () {
+        window.addEventListener('scroll', function () {
+            var elements = document.querySelectorAll('.onscroll-animation');
+            elements.forEach(function (element) {
+                if (isInViewport(element)) {
+                    element.classList.add('show');
+                }
+            });
+        });
+
+        function isInViewport(element) {
+            var rect = element.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+    });
+</script>
 
 <script>
   $(function() {
@@ -336,14 +360,11 @@
 </head>
 <body>
 
-
     <div id="section1">
-      <div class="container col-md-5 offset-md-3.5">
-
+      <div class="container col-md-5 offset-md-3.5" id="welcome-container">
         <h1 class="animated-text ">   Welcome to EduPrompt</h1>
-    </div>  
-
-
+      </div>  
+    <br>
     <br>
     <div class="container2">
         <div class="row">
@@ -388,14 +409,6 @@
 
 </html>
 
-
-<a href="#" class="smoothScroll" onclick="smoothScroll('section2')">
-  <section id="sectiondiv" class="demo">
-    <span  class="sectiondiv-span"></span>
-  </section>
-</a>
-
-<br>
 <br>
 <br>
 <br>
@@ -404,9 +417,9 @@
 
 <div class="parent-container">
 
+
   <div class="some-about">
     <h1 class="container col-md-1 offset-md-0" style="margin-top: 100px;">About</h1>
-
     <section>
         <aside>
             <p class="container col-md-7 offset-md-0">Welcome to <b>EduPrompt!</b> <br>The purpose of this website is to create a learning space for students and teachers for using different files as input and being able to adapt the material using AI, or create new materials according to the user's preference.<br><br> The main focus is to adapt materials for different age groups. It can either make it easier to understand, or give a deeper understanding to the topic.</p>
@@ -467,23 +480,16 @@
     }
     </script>
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
     </div>
     
-<div class="team-details container col-md-6 offset-md-3 text-center" id="section2">
-
+<!-- <div class="team-details container col-md-6 offset-md-3 text-center" id="section2">
     <div class="container ">
         <h1 >Meet the Team</h1>
         <br>
@@ -494,7 +500,6 @@
         <img src="{% static 'Founder2.jpg' %}" alt="Charvie" width="150" height="150">
         <img src="{% static 'Founder3.jpg' %}" alt="Harsh" width="250" height="150">
         <img src="{% static 'Founder4.jpg' %}" alt="Davit" width="250" height="150">
-
     </div>
 
     <div class="one-line">
@@ -504,7 +509,7 @@
       <p>Davit</p>
     </div>
 
-</div>
+</div> -->
 
 <br>
 <br>
@@ -515,10 +520,7 @@
 <div class="container3">
 
     <div>
-
-        <h2 class="col-md-6 offset-md-3 text-center">Technologies we're excited about</h2>
-        <h4 class="col-md-6 offset-md-3 text-center">Opportunities to access deep technical content</h4>
-
+        <h1 class="col-md-6 offset-md-3 text-center readable-header">Technologies we're excited about</h1>
     </div>
 
 </div>
@@ -537,13 +539,11 @@
 <section class="container info-box" id="section3">
     <div class="row">
         <div class="col-md-7 offset-md-0">
-            <h2 class="container  light-blue-header">Detect Plagiarism</h2>
+            <h2 class="container  light-blue-header onscroll-animation">Detect Plagiarism</h2>
             <p class="container">Utilizing advanced algorithms and text-matching techniques, our plagiarism detector helps teachers identify intellectual property theft. By efficiently scanning and comparing texts, the plagiarism detection tool plays a crucial role in upholding academic integrity in schools and universities and maintaining ethical standards.</p>
             <br>
-
             <a href="{% url 'detect_plagiarism' %}" class="btn btn-danger col-md-0 offset-md-0 custom-button" >Try It</a>
         </div>
-
 
         <div class="col-md-5 offset-md-0">
             {% load static %}
@@ -558,7 +558,7 @@
 <div class="container info-box">
     <div class="row">
         <div class="col-md-7 offset-md-5 text-md-end">
-            <h2 class="container  light-blue-header">Generate Presentation</h2>
+            <h2 class="container  light-blue-header onscroll-animation">Generate Presentation</h2>
             <p>The AI presentation generator is a tool designed to automate the process of creating compelling and coherent presentations. Leveraging natural language processing (NLP) and machine learning, the generator analyzes user prompts to generate relevant content, structure, and visuals for a presentation. This technology not only streamlines the creation process but also ensures consistency and professionalism in the output, saving time for users while maintaining the effectiveness of the presented information.</p>
             <br>
             <a href="{% url 'generate_presentation' %}" class="btn btn-danger col-md-0 offset-md-5 custom-button">Try It</a>
@@ -575,12 +575,10 @@
 <div class="container info-box">
     <div class="row">
         <div class="col-md-7 offset-md-0">
-            <h2 class="container  light-blue-header">Generate Exercises</h2>
+            <h2 class="container  light-blue-header onscroll-animation">Generate Exercises</h2>
             <p>The AI exercise generator is a tool similar to the presentation generator as it automates the process of creating problem-solving content for students. It leverages NLP and machine learning to create a variety of content based on user inputs.</p>
             <br>
-
-           <a href="{% url 'generate_exercise' %}" class="btn btn-danger col-md-0 offset-md-0 custom-button">Try It</a>
-
+            <a href="{% url 'generate_exercise' %}" class="btn btn-danger col-md-0 offset-md-0 custom-button">Try It</a>
         </div>
 
         <div class="col-md-5 offset-md-0">
@@ -595,7 +593,7 @@
 <div class="container info-box">
     <div class="row">
         <div class="col-md-7 offset-md-5 text-md-end">
-            <h2 class="container  light-blue-header">Generate Summary</h2>
+            <h2 class="container  light-blue-header onscroll-animation">Generate Summary</h2>
             <p>The summary generator is a software tool embedded in our website that is designed to condense lengthy pieces of text or content into concise and coherent summaries. The user inputs chunks of texts into the textbook. Using NLP and ML algorithms, the generator analyzes the input texts, identifies key themes and extracts important information. This technology is useful for students and teachers to summarize articles, research papers, facilitating efficient information consumption and comprehension.</p>
             <br>
             <a href="{% url 'generate_summary' %}" class="btn btn-danger col-md-0 offset-md-5 custom-button">Try It</a>
@@ -614,7 +612,7 @@
 <div class="container info-box">
     <div class="row">
         <div class="col-md-7 offset-md-0">
-            <h2 class="container  light-blue-header">Virtual Assistant</h2>
+            <h2 class="container  light-blue-header onscroll-animation">Virtual Assistant</h2>
             <p>The virtual assistant feature is designed to provide support to users through NLP and machine learning capabilities. Virtual assistant is always there to help you and answer any questions you have regarding our website. It does this by comprehending and responding to typed commands. It plays a pivotal role in enhancing user convenience, efficiency, and accessibility across diverse technological ecosystems.</p>
             <br>
             <a href="{% url 'chatbot' %}" class="btn btn-danger col-md-0 offset-md-0 custom-button">Try It</a>
@@ -631,11 +629,7 @@
 
 <div class="container">
     <div>
-        <h1 class="col-md-6 offset-md-3 text-center readable-header">Testimonies</h1>
-
-
-        <h2 class="col-md-6 offset-md-3 text-center">Testimonies</h2>
-
+        <h1 class="col-md-6 offset-md-3 text-center readable-header ">Testimonies</h1>
     </div>
     <br>
     <div class="row">
@@ -742,12 +736,10 @@
         
         <br>
 
-        <div class="col-md-3">
+        <!-- <div class="col-md-3">
             {% load static %}
-
             <img src="{% static 'Contact-card.png' %}" alt="Contact" style="width: 100%; max-width: 250px; margin-left: auto;  margin-top: 100px;">
-
-        </div>
+        </div> -->
     </div>
 
 </section>
@@ -756,69 +748,23 @@
 {% else %}
 
 <div class="col-md-6 offset-md-3">
-<h1>Login</h1>
-</br>
-<form method="POST" action="{% url 'home' %}" id="login-form">
-    {% csrf_token %}
-  </br>
-        <div class="mb-3">
-          <input type="text" class="form-control" name="username", placeholder="Username" required>
-        </div>
+    <h1>Login</h1>
     </br>
-        <div class="mb-3">
-          <input type="password" class="form-control" name="password", placeholder="Password" required>
-        </div>
-    </br>
-        <button type="submit" style="margin-right: 7rem;" class="btn btn-outline-primary">Login</button> 
-        <a href="reset_password" class="link-primary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">Forgot password?</a>
-    </br></br>
-</form>
+    <form id="some-contact" method="POST" action="{% url 'home' %}">
+        {% csrf_token %}
+            <div class="mb-3">
+            <input  id="some-contact" type="text" class="form-control" name="username", placeholder="Username" required>
+            </div>
+        </br>
+            <div class="mb-3">
+            <input  id="some-contact" type="password" class="form-control" name="password", placeholder="Password" required>
+            </div>
+        </br>
+            <button type="submit" style="margin-right: 7rem;" class="btn btn-outline-primary">Login</button> 
+            <a href="reset_password" class="link-primary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">Forgot password?</a>
+    </form>
 </div>
 
-<style>
-  body {
-  font-family: 'Montserrat', sans-serif;
-  background-color: #1e1e2f;
-  color: white;
-}
-.container {
-  margin-top: 50px;
-}
-h1 {
-  color: #fff;
-  text-align: center;
-  margin-bottom: 50px;
-  font-weight: 700;
-}
-form {
-  background: rgba(255, 255, 255, 0.05);
-  padding-left: 25px;
-  padding-right: 25px;
-  padding-top: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-}
-
-.form-check-label {
-  color: #fff;
-}
-.btn {
-  transition: all 0.4s;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: 600;
-}
-.btn:hover {
-  transform: translateY(-3px);
-}
-
-.btn:active {
-  transform: translateY(2px);
-}
-    
-
-</style>
 
 
 {% endif %}

@@ -5,7 +5,11 @@
 
 <div class="col-md-6 offset-md-3">
 
-    <h1 class="mb-5" style="text-align: center;">Frequent asked questions</h1>
+  {% load static %}
+
+
+    <h1 class="mb-5" style="text-align: center">Frequent asked questions</h1>
+
 
     <div class="accordion" id="accordionExample">
         <div class="accordion-item mb-4">
@@ -326,6 +330,8 @@
         body{
         font-family: 'Montserrat', sans-serif;
         background-color: #1e1e2f;
+        background-image: url("{% static 'circle.png' %}"); 
+
         color: white;
     }
     .container {
