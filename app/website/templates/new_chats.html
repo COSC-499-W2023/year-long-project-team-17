@@ -89,38 +89,33 @@
         </div>
         <ul id="myUL">
             {% for user in users %}
-                <a href="/chat/{{ user.username }}" class="chat-link">
-                    <li class="chat-item" data-user-id="{{ user.id }}">
-                        <div class="chat-info">
-                            <div class="chat-username">{{ user.username }}</div>
-                            <div class="chat-status">{{ user.recent_messages }}</div>
-                            <div class="chat-last-message" id="last-message-{{ user.id }}"></div>
-                        </div>
-                    </li>
-                </a>
+            <li class="chat-item" data-user-id="{{ user.id }}"><a href="/chat/{{ user.username }}" class="chat-link">{{ user.username }}</a></li>
+
             {% endfor %}
         </ul>
     </div>
 
     <script>
         function myFunction() {
-            var input, filter, ul, li, a, i, txtValue;
-            input = document.getElementById('myInput');
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("myUL");
-            li = ul.getElementsByTagName('li');
-
-            for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
-                txtValue = a.textContent || a.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
-                    li[i].style.display = "none";
-                }
+          // Declare variables
+          var input, filter, ul, li, a, i, txtValue;
+          input = document.getElementById('myInput');
+          filter = input.value.toUpperCase();
+          ul = document.getElementById("myUL");
+          li = ul.getElementsByTagName('li');
+        
+          // Loop through all list items, and hide those who don't match the search query
+          for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              li[i].style.display = "";
+            } else {
+              li[i].style.display = "none";
             }
+          }
         }
-    </script>
+        </script>
 </body>
 </html>
 
