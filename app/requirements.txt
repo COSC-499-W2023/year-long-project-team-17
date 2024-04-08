@@ -30,6 +30,7 @@ openai==1.3.5
 Pillow==9.5.0
 protobuf==4.21.12
 pymemcache==4.0.0
+PyMySQL==1.1.0
 PyPDF2==3.0.1
 python-docx==0.8.11
 python-dotenv==1.0.0
