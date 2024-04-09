@@ -450,3 +450,31 @@ adding a change password page and testing.
 - #155 Chat messages reload update -> in review
 - #158 Change password testing -> in review
 - #160 Profile page light mode -> in progress
+
+
+## Week 13 Term 2
+
+### Work period
+- April.1, 2024 - April.7, 2024
+
+### Tasks worked on
+![Screenshot](images/PeerEvaluationHarshWeek25.png)
+
+### Weekly goal recap
+
+- My goal this week was to complete everything I was working on and
+finish my individual report. 
+
+### Tasks on board
+
+![Screenshot](images/ProjectBoardScreenshotHarshWeek25.png)
+
+### Completed vs in progress
+
+- #116 change password -> completed
+- #117 edit profile testing -> completed
+- #149 Update edit profile page -> completed
+- #155 Chat messages reload update -> completed
+- #158 Change password testing -> completed
+- #160 Profile page light mode -> completed
+- #179 Updated testing -> harshg03 -> complete
