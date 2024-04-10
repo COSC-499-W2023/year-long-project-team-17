@@ -241,3 +241,19 @@
 - Next week I'll be working on fixing some minor issues and writing the code report
 
 ![Screenshot](images/CharvieT2W12.png)
+
+## Week 13 (April.1, 2024 - April.7, 2024)
+### Goals Recap
+- My goal this week was to complete everything I was working on and
+finish my individual report. 
+
+### Completed vs in progress
+
+- #141 Open Chat Redesign -> charviey 
+- #165 Chat search and media functionality -> charviey
+- #166 New Chat functionality UI/UX -> charviey
+
+### Context
+- This was the last week of capstone
+
+![Screenshot](images/CharvieT2W13.png)
