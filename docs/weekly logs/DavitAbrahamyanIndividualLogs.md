@@ -405,3 +405,21 @@ Github commit for helper icons - https://github.com/COSC-499-W2023/year-long-pro
 ### Peer eval
 
 ![Screenshot](images/Term2Week12DavitPeerEval.png)
+
+
+## Week 13 Term 2 (April.1, 2024 - April.7, 2024)
+### Goals Recap
+- The goal for this week was update the prompt for virtual ai-assistant, test the overall system to see if anything breaks and write the final report
+
+### Tasks on board
+- update ai assistant prompt (already completed)
+
+### Completed vs InProgress
+- completed "update ai assistant prompt" task, no more tasks on board
+
+### Context
+- This week was productive as I was able to finalize everything that was still ongoing, test the system, and create the final project report.
+
+### Peer eval
+
+![Screenshot](images/Term2Week13DavitPeerEval.png)
