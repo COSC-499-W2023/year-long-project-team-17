@@ -387,3 +387,20 @@ This week I did not have any advancement in features as I was focused on the liv
 
 
 ![Screenshot](images/T2Week12GerardPeerEval.png)
+
+## Week13 (Apr 1, 2023 - Apr 7, 2024)
+### Goals Recap
+- This week, the goal was to finish everything that we had halve way, I also had to create a forum page and a functional search bar for this forum
+### Tasks on board
+- Everything was completed
+
+### Completed vs InProgress
+- Everything was completed
+
+### Context
+- 
+
+### Peer eval
+
+
+![Screenshot](images/T2Week12GerardPeerEval.png)
