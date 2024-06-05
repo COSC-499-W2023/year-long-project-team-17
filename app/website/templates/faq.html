@@ -1,0 +1,389 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+<div class="col-md-6 offset-md-3">
+
+  {% load static %}
+
+
+    <h1 class="mb-5" style="text-align: center">Frequent asked questions</h1>
+
+
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button collapsed p-4" style="background-color: AliceBlue" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+              <b class="question">Is it possible to get solutions along with the exercise problems created by Generate Exercise?</b>
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">Yes, it is possible. To do so, you must specify that you want the solutions alongside the exercises, for example.
+                  "Create five exercises on solving quadratic equations and the solutions to those exercises." </p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed p-4" style="background-color: AliceBlue" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            <b class="question">Is there a limit to the number of times I can use a tool on EduPrompt, such as Generate Summary or Exercise?</b>
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">No, there is no limit as of now, but we may plan on adding a paid subscription service in the future and in doing so, we'll
+                  enforce limits on using specific components of EduPrompt.
+                  </p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            <b class="question">Can I choose if I want my generated content to be in a different language?</b>
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">It is not possible since that functionality does not currently exist on EduPrompt. 
+                  However, we may consider adding it in the future.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingFour">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+              <b class="question">Can I specify or adapt the generated content to a certain education level, such as the tenth grade?</b>
+            </button>
+          </h2>
+          <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">At the moment, it is not possible to adapt your generated content to a certain education level, but we're working
+                  to add it in the future.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingFive">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+            <b class="question">How does detect plagiarism work and how is the similarity score computed?</b>
+            </button>
+          </h2>
+          <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">Our method of detecting plagiarism uses the cosine similarity approach. A cosine similarity score is calculated by mapping the text in the two input files provided to high-dimensional vectors and computing the cosine angles between these vectors. 
+                  The higher the similarity score, the more similar the text in the two input files is.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingSix">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+            <b class="question">Are there any text limits on any of the components on EduPrompt when using a file or typing yourself?</b>
+            </button>
+          </h2>
+          <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">There currently is no text limit in place when using the different components of EduPrompt, such as Generate Summary. We may plan on having a paid subscription service in the future, which will enforce limits on using specific features of EduPrompt. 
+                  When the limit is implemented, it will be based on the number of tokens you as a user have consumed when generating your prompt, given a specific time frame. 
+                  You can think of a token as pieces of words that can vary in terms of length. The text or file you input is essentially broken down into tokens by ChatGPT; 
+                  ChatGPT uses those tokens to determine many important factors, such as billing.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingSeven">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+            <b class="question">When using Generate Summary is it possible for me to specify how many words I want my text summarized to?</b>
+            </button>
+          </h2>
+          <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">No, it is not possible to specify how many words you want your text summarized to at this time.
+                  However, we may consider adding that functionality to Generate Summary in the future.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingEight">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+            <b class="question">I'm able to tweak a previously generated presentation of mine?</b>
+            </button>
+          </h2>
+          <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">At this time, it is not possible to tweak a previously generated presentation; however, you can tweak the input you gave for that generated presentation, such as providing a more detailed answer about
+                  what you are looking for in your presentation. For instance, if you were looking for a certain number of slides in your presentation, you can say, "Create a presentation on Integral Calculus; I want the presentation to have 10 slides.".
+                  </p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingNine">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+            <b class="question">Can I customize the details, such as the transitions or themes of the slides in the presentation generated from Generate Presentation?</b>
+            </button>
+          </h2>
+          <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">It is not possible at the moment, but we may consider adding that functionality to Generate Presentation in the future. </p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingTen">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+            <b class="question">What file formats are supported?</b>
+            </button>
+          </h2>
+          <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">The file formats supported for Generate Summary are .txt, .pptx, .docx and .pdf.
+                  The file formats supported for Generate Presentation are .txt, .docx and .pdf.
+                  The file formats supported for Detect Plagiarism and Generate Exercise are .docx and .pdf.
+                  You can see what file formats are available when you are using a component by moving your mouse cursor onto the blue question mark icon, and it will display information relating
+                  to that component of EduPrompt.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingEleven">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+            <b class="question">What file formats are available to download a generated presentation?</b>
+            </button>
+          </h2>
+          <div id="collapseEleven" class="accordion-collapse collapse" aria-labelledby="headingEleven" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">PowerPoint Presentation (.pptx) is the only file format available for downloading a generated presentation at this moment.</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingTwelve">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
+            <b class="question">Do I have access to my previous files created by Generate Presentation?</b>
+            </button>
+          </h2>
+          <div id="collapseTwelve" class="accordion-collapse collapse" aria-labelledby="headingTwelve" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">Yes, you can access those created files on your profile page.</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingThirteen">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
+            <b class="question">Can a generated summary or exercises be downloaded as a file, such as a PDF?</b>
+            </button>
+          </h2>
+          <div id="collapseThirteen" class="accordion-collapse collapse" aria-labelledby="headingThirteen" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">Currently, Generate Summary and Generate Exercise do not have the option to download as a file.</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingFourteen">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen">
+            <b class="question">Do I have access to my previously generated summaries or exercises?</b>
+            </button>
+          </h2>
+          <div id="collapseFourteen" class="accordion-collapse collapse" aria-labelledby="headingFourteen" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">No, at this moment, generated exercises and summaries do not get stored.</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingFifteen">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFifteen" aria-expanded="false" aria-controls="collapseFifteen">
+            <b class="question">Is EduPrompt free to use?</b>
+            </button>
+          </h2>
+          <div id="collapseFifteen" class="accordion-collapse collapse" aria-labelledby="headingFifteen" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">Yes, EduPrompt is free to use for now, but we may plan to add a paid subscription service in the future.</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingSixteen">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSixteen" aria-expanded="false" aria-controls="collapseSixteen">
+            <b class="question">Do I have to register for an account to use the tools this website provides?</b>
+            </button>
+          </h2>
+          <div id="collapseSixteen" class="accordion-collapse collapse" aria-labelledby="headingSixteen" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">Yes, registration is required, and an account is needed to access the different segments of EduPrompt.</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingSeventeen">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeventeen" aria-expanded="false" aria-controls="collapseSeventeen">
+            <b class="question">I am able to permantly delete my account?</b>
+            </button>
+          </h2>
+          <div id="collapseSeventeen" class="accordion-collapse collapse" aria-labelledby="headingSeventeen" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">No, that is not possible right now, but we are looking to add that option to the edit profile setting. </p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingEighteen">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEighteen" aria-expanded="false" aria-controls="collapseEighteen">
+            <b class="question">What are the student and teacher groups? What are they used for?</b>
+            </button>
+          </h2>
+          <div id="collapseEighteen" class="accordion-collapse collapse" aria-labelledby="headingEighteen" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">The student and teacher groups differentiate a user as a student or teacher and allow a specific group access to a distinct section of EduPrompt while restricting access for the other group.
+                  Currently, users in the teacher group have access to detect plagiarism, and users from the student group can't access the detect plagiarism tool.</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingNinteen">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNinteen" aria-expanded="false" aria-controls="collapseNinteen">
+            <b class="question">Where can I find my shared presentations?</b>
+            </button>
+          </h2>
+          <div id="collapseNinteen" class="accordion-collapse collapse" aria-labelledby="headingNinteen" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">You can find your shared presentations on your profile page.</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingTwenty">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwenty" aria-expanded="false" aria-controls="collapseTwenty">
+            <b class="question">Can I save or like other user's presentations?</b>
+            </button>
+          </h2>
+          <div id="collapseTwenty" class="accordion-collapse collapse" aria-labelledby="headingTwenty" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">That functionality does not exist in EduPrompt at this moment, but it may be added in the future.</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingTwentyOne">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwentyOne" aria-expanded="false" aria-controls="collapseTwentyOne">
+            <b class="question">How do I remove or private generated presentations of mine that's been shared?</b>
+            </button>
+          </h2>
+          <div id="collapseTwentyOne" class="accordion-collapse collapse" aria-labelledby="headingTwentyOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">Currently, it is not possible to remove or private previously shared generated content, but we're working
+                  to add it.</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="accordion-item mb-4">
+          <h2 class="accordion-header" id="headingTwentyTwo">
+            <button class="accordion-button collapsed p-4" style="background-color: aliceblue;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwentyTwo" aria-expanded="false" aria-controls="collapseTwentyTwo">
+            <b class="question">Does a mobile application exist for EduPrompt for iOS or Android devices?</b>
+            </button>
+          </h2>
+          <div id="collapseTwentyTwo" class="accordion-collapse collapse" aria-labelledby="headingTwentyTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-3 accordBodyBg">
+                <p class="answer">No, an EduPrompt mobile application does not currently exist; however, you can access the EduPrompt website on your mobile device using a web browser.</p>
+            </div>
+          </div>
+        </div>
+        <style>
+        body{
+        font-family: 'Montserrat', sans-serif;
+        background-color: #1e1e2f;
+        background-image: url("{% static 'circle.png' %}"); 
+
+        color: white;
+    }
+    .container {
+        margin-top: 50px;
+    }
+    h1 {
+        color: #fff;
+        text-align: center;
+        margin-bottom: 50px;
+        font-weight: 700;
+    }
+    form {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+    .form-check-label {
+        color: #fff;
+    }
+    .btn {
+        transition: all 0.4s;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .btn:hover {
+        transform: translateY(-3px);
+    }
+    .btn:active {
+        transform: translateY(2px);
+    }
+          .answer {
+            color:black;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+          }
+
+          .question {
+            color: black;
+            font-size: large;
+          }
+
+          .accordBodyBg {
+            background-color: rgb(240, 251, 253);
+          }
+
+
+        </style>
+
+      </div>
+
+      <p class="mt-4" style="text-align: center;"><a href="{% url 'contact_us' %}" class="link-primary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">If you still have any questions contact us here</a></p>
+</div>
+{% endblock %}

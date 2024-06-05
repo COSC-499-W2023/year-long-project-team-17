@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Chats</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1E1E2F;
+        }
+
+        .chat-list {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #F0F8FF;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .search-box input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .chat-item {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .chat-item:hover {
+            background-color: #ceddeb;
+        }
+
+
+        .chat-info {
+            flex: 1;
+        }
+
+        .chat-username {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: black;
+        }
+
+        .chat-status {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .chat-last-message {
+            color: #888;
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .chat-link {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-list">
+        <div class="search-box">
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+        </div>
+        <ul id="myUL">
+            {% for user in users %}
+            <li class="chat-item" data-user-id="{{ user.id }}"><a href="/chat/{{ user.username }}" class="chat-link">{{ user.username }}</a></li>
+
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        function myFunction() {
+          // Declare variables
+          var input, filter, ul, li, a, i, txtValue;
+          input = document.getElementById('myInput');
+          filter = input.value.toUpperCase();
+          ul = document.getElementById("myUL");
+          li = ul.getElementsByTagName('li');
+        
+          // Loop through all list items, and hide those who don't match the search query
+          for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              li[i].style.display = "";
+            } else {
+              li[i].style.display = "none";
+            }
+          }
+        }
+        </script>
+</body>
+</html>
+
+{% endblock %}

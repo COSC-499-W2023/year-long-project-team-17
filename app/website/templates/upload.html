@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    .upload-container {
+        margin: 50px auto;
+        max-width: 400px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .upload-title {
+        margin-bottom: 20px;
+        font-size: 24px;
+        text-align: center;
+    }
+    
+    .upload-form {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .upload-input {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    
+    .upload-button {
+        background-color: #1b4a88;
+        color: white;
+        border: none;
+        padding: 15px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    .upload-button:hover {
+        background-color: #0b1f3a;
+;
+    }
+    </style>
+
+<div class="upload-container">
+    <h2 class="upload-title">Upload</h2>
+    <form method="post" enctype="multipart/form-data" class="upload-form">
+        {% csrf_token %}
+        <input type="file" name="document" class="upload-input">
+        <button type="submit" class="upload-button">Upload file</button>
+
+    </form>
+    <br>
+    {% if url %}
+        <p>Copy Uploaded file to share: <a href="{{ url }}">{{ url }}</a></p>
+    {% endif %}
+</div>
+{% endblock %}

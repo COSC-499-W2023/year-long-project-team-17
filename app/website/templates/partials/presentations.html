@@ -1,0 +1,77 @@
+{% load bootstrap_icons %}
+<div class="card pres-card text-center text-white bg-dark border-primary border-1 border-opacity-25 mb-4">
+    <div class="card-header border-2 border-primary border-opacity-25 d-flex dropend">
+      {% include 'partials/post_visibility.html' %}
+      <p class="mt-3 flex-grow-1 fs-5">Generated Presentation</p> 
+      <button type="button" class="btn btn-sm shadow-none bg-transparent text-white" data-bs-toggle="dropdown"  aria-expanded="false"><i>{% bs_icon 'three-dots' %}</i></button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{% url 'download_presentation_pptx' value.id %}">Download PowerPoint <i>{% bs_icon 'filetype-pptx' %}</i></a></li>
+        <li><a class="dropdown-item" id="delete-pres" 
+            hx-delete="{% url 'delete_presentation' value.id %}"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            style="cursor: pointer;">Delete<i>{% bs_icon 'trash' %}</i></a></li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{ value.main_title }}</h5>
+      <p class="card-text">Details regarding each slide: {{ value.titles }}</p>
+    </div>
+    <div class="card-footer cfooter border-2 border-primary border-opacity-25 text-muted">
+      <p aria-label="Presentation was created on {{ value.date_created }} UTC time" title="{{ value.date_created }} UTC">Generated {{ page_date_obj.object_list.popleft }} ago</p>
+    </div>
+</div>
+
+
+
+<script>
+    document.addEventListener("htmx:confirm", function(e) {
+      
+    if(e.target.tagName == "A") {
+    e.preventDefault()
+    var visibility = "";
+    if(e.detail.question === "1") {visibility = "private";}
+    if(e.detail.question === "0") {visibility = "public";}
+    
+    if(e.target.id == "delete-pres") {Swal.fire({
+        icon: 'warning',
+        iconColor: '#f03932',
+        text: 'Do you wish to delete this presentation?',
+        color: '#fff',
+        background: '#17181a',
+        showCancelButton: true,
+        confirmButtonColor: '#4191fa',
+        cancelButtonColor: '#f03932',
+        cancelButtonText:'Cancel',
+        confirmButtonText: 'Delete presentation'
+    }).then(function(result) {
+      if(result.isConfirmed) e.detail.issueRequest(true) 
+    })}
+
+    if(e.target.id == "post-visibility"){Swal.fire({
+        icon: 'warning',
+        iconColor: '#f03932',
+        text: `Are you sure you want your presentation to be ${visibility}?`,
+        color: '#fff',
+        background: '#17181a',
+        showCancelButton: true,
+        confirmButtonColor: '#4191fa',
+        cancelButtonColor: '#f03932',
+        cancelButtonText:'Cancel',
+        confirmButtonText: `Set ${visibility}`
+    }).then(function(result) {
+      if(result.isConfirmed) 
+      { 
+        Swal.fire({
+      text: `Your presentation has been set to ${visibility}!`,
+      icon: "success",
+      showConfirmButton: false,
+      color: '#fff',
+      background: '#17181a',
+      timer: 1500
+    });
+    e.detail.issueRequest(true);
+    }
+    })}
+    
+  } })
+</script>

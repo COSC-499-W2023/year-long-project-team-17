@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3">
+
+{% if request.get_full_path == "/"  %}
+
+    <h1>Login</h1>
+    </br>
+    <p>You have exceeded the max login attempts for that user. Please
+        try to remember your correct login information and retry again in 
+        {{timeleft}} by refreshing the page or returning to login.
+    </p>
+    
+    
+
+{% elif request.get_full_path == "/reset_password/" %} 
+    <h1>Password reset</h1>
+    <p>You have exceeded the maximum attempts for the password reset. You may try again
+    to reset your password in {{timeleft}}
+    </p>   
+
+{% endif %}
+    
+{% endblock %}

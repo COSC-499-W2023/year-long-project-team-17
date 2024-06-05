@@ -1,0 +1,415 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background: linear-gradient(to right, #0f3c63, #670750);">
+  <div class="container-fluid">
+    
+    <a class="navbar-brand text-light" href="{% url 'home' %}">Edu Prompt</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        {% if user.is_authenticated %} 
+
+        <!-- User Options Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUserOptions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {% if user.profile.profile_pic %}
+              <img src="{{ user.profile.profile_pic.url }}" alt="Profile Picture" class="rounded-circle" style="width: 32px; height: 32px;">
+
+            {% endif %}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownUserOptions">
+            <li><a class="dropdown-item" href="{% url 'profile' user.username %}">Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Profile</a></li>
+            {% if request.user.groups.all.0.name == 'teacher' %}
+              <li><a class="dropdown-item" href="{% url 'detect_plagiarism' %}">Detect Plagiarism</a></li>
+            {% endif %}
+            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+        </li>
+
+
+        <!-- Generation Options Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownGenerationOptions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Generation Options
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownGenerationOptions">
+            <li><a class="dropdown-item" href="{% url 'generate_presentation' %}">Generate Presentation</a></li>
+            <li><a class="dropdown-item" href="{% url 'generate_exercise' %}">Generate Exercise</a></li>
+            <li><a class="dropdown-item" href="{% url 'generate_summary' %}">Generate Summary</a></li>
+            <li><a class="dropdown-item" href="{% url 'generate_adapted_content' %}">Generate Adapted Content</a></li>
+          </ul>
+        </li>
+
+        <!-- Other Links -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'forumPage' %}">Forum</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'chatbot' %}">Virtual Assistant</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'open_chats' %}">Chats</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'faq' %}">FAQ</a>
+        </li>
+
+        {% else %}
+        <!-- Guest Links -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register' %}">Register</a>
+        </li>
+        {% endif %}
+      </ul>
+
+      <!-- Theme Toggle Switch -->
+      <li class="nav-item">
+        <label class="switch">
+          <input type="checkbox" id="theme-toggle">
+          <span class="slider round"></span>
+        </label>
+      </li>
+    </div>
+  </div>
+</nav>
+
+
+<script type="text/javascript">
+  // This script toggles the dark and light mode and remembers the choice in localStorage
+  const themeToggleSwitch = document.getElementById('theme-toggle');
+  const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+  if (currentTheme === 'light') {
+    themeToggleSwitch.checked = true;
+  } else {
+    themeToggleSwitch.checked = false;
+  }
+
+  themeToggleSwitch.addEventListener('change', function () {
+    // Toggles the theme and updates localStorage
+    if (themeToggleSwitch.checked) {
+      document.body.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.body.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+
+  // Apply the current theme from local storage on page load
+  document.addEventListener('DOMContentLoaded', (event) => {
+    document.body.setAttribute('data-theme', currentTheme || 'dark');
+  });
+</script>
+
+
+<style>
+
+  body[data-theme='light'] {
+    background: linear-gradient(to left, rgba(15, 60, 99, 0.249), rgba(0, 0, 255, 0.098), rgba(103, 7, 81, 0.116));
+    color: #ffffff; /* Comfortable dark gray text for readability */
+  }
+  body[data-theme='light'] {
+    background: linear-gradient(to left, rgba(15, 60, 99, 0.249), rgba(0, 0, 255, 0.098), rgba(103, 7, 81, 0.116));
+    color: #0c0909; 
+  }
+  body[data-theme='light'] .glow{
+    color:#130f28;
+  }
+
+  body[data-theme='light'] #sectiondiv span{
+    border: 1px solid #000000;
+  }
+
+  body[data-theme='light'] #sectiondiv span::after{
+    border-left: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+  }
+
+  /* Navbar changes for light theme */
+  body[data-theme='light'] .navbar{ 
+    background: linear-gradient(to right, #ffffff, #f4f3f3); /* Light gradient background for the navbar */
+  }
+
+  body[data-theme='light'] .navbar-brand,
+  body[data-theme='light'] .mb-5,
+  body[data-theme='light'] .nav-link {
+    color: #ffffff; 
+  }
+  body[data-theme='light'] .nav-link.name {
+    color: #3a2e79;
+  }
+  body[data-theme='light'] .nav-link.name:hover,
+
+  /* body[data-theme='light'] .accordion div{
+    background-color: rgb(160, 205, 244);
+  } */
+  body[data-theme='light'] .col-md-8.offset-md-2 h1{
+    color: #3a2e79;
+  }
+  body[data-theme='light'] .container.col-md-7.offset-md-0{
+    color: #131025;
+  }
+  body[data-theme='light'] .team-details.container.col-md-6.offset-md-3.text-center .container h1{
+    color: #131025;
+  }
+  body[data-theme='light'] .container3 div h1{
+    color: #131025;
+  }
+  body[data-theme='light'] .container.info-box div h2{
+    color: #3a2e79;
+  }
+  body[data-theme='light'] .container.info-box div p{
+    color: #130f28;
+  }
+  body[data-theme='light'] .container div h1{
+    color: #130f28;
+  }
+  body[data-theme='light'] .textarea{
+    background-color: #d2d1d2;
+  }
+  body[data-theme='light'] .animated-text{
+    color: #131025;
+  }
+  body[data-theme='light'] .mb-4 div h3{
+    color: #131025;
+  }
+  body[data-theme='light'] .container2 blockquote{
+    color: #131025;
+  }
+  body[data-theme='light'] .container2 figure{
+    background-color: #dcdae76d;
+
+  }
+  body[data-theme='light'] .container.col-md-1.offset-md-0{
+    color: #000000;
+  }
+  body[data-theme='light'] .text-right.w-responsive.mx-auto.mb-5{
+    color: #000000;
+
+  }
+
+  /* Style the toggle switch */
+  .switch {
+    position: relative;
+    display: inline-block;
+    list-style-type: none;
+    width: 60px;
+    height: 34px;
+    margin-left: 10px; /* To align with other navbar items */
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+
+  /* Additional styles for buttons and form elements in light mode */
+body[data-theme='light'] {
+    background-color: #f5f7fa; /* Soft gray background */
+    color: #2f2f2f; /* Dark gray text for better readability */
+}
+
+body[data-theme='light'] .navbar {
+    background-color: #ffffff; /* Pure white for navbar */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow under navbar */
+}
+
+
+body[data-theme='light'] .navbar-brand {
+    color: #2f2f2f; /* Dark text color for brand */
+}
+
+
+body[data-theme='light'] .nav-link {
+    color: #e1e0e0; /* Slightly lighter for links to not be too harsh */
+    transition: color 0.4s; /* Smooth transition for color */
+}
+
+body[data-theme='light'] .nav-link:hover,
+body[data-theme='light'] .nav-link:focus {
+    color: #ffffff; /* Change link color on hover/focus */
+}
+
+body[data-theme='light'] form {
+    background-color: #f5f7fa; 
+    color: #2f2f2f; /* Dark text for readability */
+}
+body[data-theme='light'] #some-contact {
+    background-color: #00000000; /* White background for form */
+}
+body[data-theme='light'] .form-check-label {
+    color: #2f2f2f; /* Dark form labels for better contrast */
+}
+
+body[data-theme='light'] .custom-radio .checkmark {
+    background-color: #e6e9ec; /* Lighter taken from the form border color */
+}
+
+body[data-theme='light'] .custom-radio input:checked ~ .checkmark {
+    background-color: #4a90e2; /* Bright blue color for checked state */
+}
+
+body[data-theme='light'] .btn-outline-primary,
+body[data-theme='light'] .btn {
+    background-color: #4a90e2; /* Matched the checked state blue */
+    color: #ffffff; /* White text on buttons */
+    border: 1px solid #4a90e2; /* Blue border to match */
+}
+
+body[data-theme='light'] .btn-outline-primary:hover,
+body[data-theme='light'] .btn:hover,
+body[data-theme='light'] .btn-outline-primary:focus,
+body[data-theme='light'] .btn:focus {
+    background-color: #357abd; /* A shade darker for hover state */
+    border-color: #357abd; /* Match the button background */
+}
+
+body[data-theme='light'] textarea,
+body[data-theme='light'] input[type="file"] {
+    background-color: #ffffff; /* White backgrounds for text inputs */
+    color: #2f2f2f; /* Dark text for readability */
+    /* Other styles (border, focus) remain the same as dark theme */
+}
+
+/* sweetalert popup */
+body[data-theme='light'] .swal2-popup {
+  background: hsl(205, 93%, 95%) !important;
+  color: black !important;
+}
+
+
+
+body[data-theme='light'] div.form-group .edit-profile,
+body[data-theme='light'] div.form-group .change-password,
+body[data-theme='light'] #contact-us,
+body[data-theme='light'] #login-form,
+body[data-theme='light'] #register-form,
+body[data-theme='light'] .password-reset   {
+  box-shadow: 0 0px 10px rgba(12, 68, 90, 0.2);
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 20px;
+}
+
+body[data-theme='light'] textarea.form-control {
+  background-color:hsl(0, 0%, 100%);
+}
+body[data-theme='light'] input.form-control {
+  background-color:hsl(0, 0%, 100%);
+}
+
+
+/* Profile page*/
+
+body[data-theme='light'] .prof-card {
+  background-color: rgba(205, 238, 252, 0.1) !important;
+  border-radius: 10px;
+  border: 1.0px solid hsl(216, 90%, 90%);
+  box-shadow: 0 0px 6px hsl(202, 98%, 45%);
+}
+
+body[data-theme='light'] .profile-heading { 
+  color: black !important;
+}
+
+body[data-theme='light'] .profile-bio { 
+  color: black !important;
+}
+
+body[data-theme='light'] #spinner-display { 
+  color: #2196F3 !important;
+}
+
+body[data-theme='light'] .pres-card {
+  background-color: rgba(205, 238, 252, 0.1) !important;
+  border-radius: 10px;
+  border: 1.0px solid hsl(202, 98%, 95%) !important;
+  box-shadow: 0 0px 3px hsl(202, 98%, 55%);
+  color: black !important;
+}
+
+body[data-theme='light'] .pres-card .card-header .btn { 
+  color: hsl(202, 98%, 45%) !important;
+  border: 0px;
+}
+
+body[data-theme='light'] .pres-card .card-footer {
+  color:hsl(261, 100%, 25%) !important;
+  border-color: hsl(202, 98%, 75%) !important;
+}
+
+body[data-theme='light'] .pres-card .card-header {
+  border-color:  hsl(202, 98%, 75%) !important;
+}
+
+body[data-theme='light'] .pres-card .dropdown-menu {
+  background-color: hsl(205, 93%, 98%) !important;
+  border-color: hsl(202, 98%, 90%) !important;
+}
+
+body[data-theme='light'] .pres-card .dropdown-menu a {
+  color: hsl(0, 0%, 0%);
+}
+
+body[data-theme='light'] .pres-card .dropdown-menu a:hover {
+  color: hsl(0, 0%, 70%)
+}
+
+body[data-theme='light'] .prof-card .custom-button {
+  background: linear-gradient(to right, hsl(214, 96%, 65%) 0%, hsl(214,96%, 50%) 100%) !important;
+  background-size: 200% 100% !important;
+  transition: background-position 0.3s ease !important;
+  padding: 4px 4px !important;
+  border-color: hsl(214, 96%, 55%) !important;
+}
+
+body[data-theme='light'] .prof-card .custom-button:hover,
+body[data-theme='light'] .prof-card .custom-button:focus {
+   background-position: -100% 0 !important;
+  }
+
+
+</style>

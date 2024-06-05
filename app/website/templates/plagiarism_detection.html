@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-md-9 offset-md-2">
+    <h1>Please Upload Files To Test For Plagiarism</h1>
+
+    <form method="POST" enctype="multipart/form-data" style="background-color: transparent;">
+        {% csrf_token %}
+
+        <div id="uploadFileField" style="display: block;" >
+            <label for="file" >Upload File:<span class="question-mark-upload" onclick="showInstructionsUploadFile()">?</span></label>
+              <div class="cloud-tooltip" id="textInstructionsUploadFile">
+                <p>Please upload files below. Similarity score will be calculated between each pair of files and reported to you in a table. The files that will have a similarity score of more than 85% will be marked as containing a plagiarism.</p>
+            </div>
+            <br>
+            <input type="file" id="file" name="file" multiple>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-outline-primary" name="detect_plagiarism">Detect Plagiarism</button>
+    </form>
+
+    {% if plagiarised_files %}
+        <br>
+        <h1> The list of plagiarised files is the following: </h1>
+    <table class="table table-striped table-hover table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">File 1</th>
+          <th scope="col">File 2</th>
+          <th scope="col">Similarity Score</th>
+        </tr>
+      </thead>
+        <tbody>
+        <br>
+
+        {% for plagiarised_pair in plagiarised_files%}
+            <tr>
+                <td>{{ plagiarised_pair.0}} </td>
+                <td>{{plagiarised_pair.1}} </td>
+                <td>{{plagiarised_pair.2|floatformat:"4"}}%</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+
+        {% endif %}
+    {%if all_similarities%}
+    {% if not plagiarised_files %}
+        <br>
+        <h1>No Plagiarism Was Detected </h1>
+        <br>
+    {% endif %}
+    <br>
+        <h5>Please see below the full list of similarity percentages between files</h5>
+        <table class="table table-striped table-hover table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">File 1</th>
+          <th scope="col">File 2</th>
+          <th scope="col">Similarity Score</th>
+        </tr>
+      </thead>
+        <tbody>
+        <br>
+
+        {% for sim_score in all_similarities %}
+            <tr>
+                <td>{{ sim_score.0}} </td>
+                <td>{{sim_score.1}} </td>
+            <td>{{ sim_score.2|floatformat:"4"}}%</td>
+            </tr>
+        </tbody>
+            {% endfor %}
+        </table>
+
+        {% endif %}
+
+</div>
+
+
+<style>
+    .question-mark-upload {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #3498db; /* You can change the color as needed */
+        color: #fff; /* Text color inside the circle */
+        text-align: center;
+        line-height: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-left: 5px; /* Adjust as needed for spacing */
+    }
+
+    #file{
+        background-color: transparent;
+    }
+    .cloud-tooltip {
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: none;
+        z-index: 1;
+        transform: translate(30%, -100%);
+        max-width: 400px;
+    }
+
+    .question-mark-upload:hover {
+        background-color: #800080; /* Change the color on hover to desired color */
+    }
+
+
+    .label-with-tooltip {
+        position: relative;
+        display: inline-block;
+    }
+
+    .btn-outline-primary {
+        background: linear-gradient(to right, #3498db 0%, #800080 100%);
+        background-size: 200% 100%;
+        transition: background-position 0.4s ease;
+    }
+
+    .btn-outline-primary:hover,
+    .btn-outline-primary:focus {
+        background-position: -100% 0;
+    }
+</style>
+
+<script>
+
+        const textInstructionsUploadFile = document.getElementById('textInstructionsUploadFile');
+
+
+        function showInstructionsUploadFile() {
+            textInstructionsUploadFile.style.display = 'block';
+        }
+
+        const questionMarkUpload = document.querySelector('.question-mark-upload');
+        questionMarkUpload.addEventListener('mouseenter', showInstructionsUploadFile);
+        questionMarkUpload.addEventListener('mouseleave', function () {
+            textInstructionsUploadFile.style.display = 'none';
+        });
+</script>
+
+{% endblock %}

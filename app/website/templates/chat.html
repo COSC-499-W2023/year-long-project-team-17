@@ -1,0 +1,456 @@
+{% extends 'base.html' %}
+{% load bootstrap_icons %}
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Chat with {{ receiver.username }}</title>
+    <style>
+        body {
+            justify-content: center;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to left, rgb(80, 12, 80), rgb(90, 22, 83), rgb(28, 12, 90));
+            margin: 0;
+            padding: 0;
+            border-radius: 10px;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+        }
+        #btn1{
+            padding: 10px;
+            background-color: #FA9189;
+            border: none;
+            border-radius: 5px;
+            color: #b9382f;
+        }
+        #btn1:hover{
+            background-color: #d17b75;
+        }
+        #btn2{
+            padding: 10px;
+            background-color: #B3F5BC;
+            border: none;
+            border-radius: 5px;
+            color: #387a41;
+        }
+        #btn2:hover{
+            background-color: #92c999;
+        }
+        #btn3{
+            padding: 10px;
+            background-color: #D1BDFF;
+            border: none;
+            border-radius: 5px;
+            color:  #594488;
+        }
+        #btn3:hover{
+            background-color: #a797cc;
+        }
+        #btn4{
+            padding: 10px;
+            background-color: #aee0ee;
+            border: none;
+            border-radius: 5px;
+            color:  #356f7e;
+        }
+        #btn4:hover{
+            background-color: #9dcbd8;
+        }
+        #btn5{
+            padding: 10px;
+            background-color: #94a2a7;
+            border: none;
+            border-radius: 5px;
+            color:  #333636;
+        }
+        #btn5:hover{
+            background-color: #61686b;
+        }
+        .column.middle {
+            flex: 2; /* Take up twice the space as the side column */
+        }
+
+        .column.side {
+            flex: 1; /* Take up half the space as the middle column */
+            background-color: #F0F2F5;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .fontAwesome {
+            font-family: 'Helvetica', FontAwesome, sans-serif;
+        }
+
+        #chat-messages {
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: #fff;
+            height: 300px;
+            max-width: 800px;
+            border-radius: 10px;
+            
+        }
+
+        .sender-message {
+            color: #111B47;
+            background-color: #B6BFE2;
+            border-radius: 15px;
+            margin: 3px;
+            padding: 5px;
+            max-width: 70%; /* Limit message width */
+            word-wrap: break-word; /* Wrap long words */
+            text-align: right;
+        }
+
+        .receiver-message {
+            color: green;
+            background-color: #c4e0d1;
+            border-radius: 15px;
+            margin: 3px;
+            padding: 5px;
+            max-width: 70%; /* Limit message width */
+            word-wrap: break-word; /* Wrap long words */
+            text-align: left;
+        }
+
+
+        .title-container {
+            background-color: #B6BFE2;
+            padding: 18px;
+            border-radius: 10px;
+        }
+
+        .main-container {
+            border-radius: 10px;
+        }
+
+        #message-form {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            background: transparent;
+        }
+
+        #message-input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+            width: 620px;
+            height:100px;
+            border-radius: 10px;
+        }
+
+        #btn {
+            padding: 13px;
+            width: 13%;
+            height: 100%;
+            border: none;
+            background-color: #111B47;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .search-section {
+            display: flex; /* Arrange search elements horizontally */
+            flex-direction: column; /* Stack elements vertically */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .search-title {
+            text-align: center;
+            padding-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+        .lazy-loaded.htmx-added {
+            opacity: 0;
+        }
+
+        .lazy-loaded {
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+        .profile-image {
+            height: 125px;
+            width: 125px;
+            margin-top: 1em;
+            margin-right: 1.5em;
+            margin-bottom: 2em;
+        }
+    </style>
+</head>
+
+<body>
+   
+    
+    <script>
+        document.addEventListener("htmx:confirm", function(e) {
+          
+        if(e.target.tagName == "A") {
+        e.preventDefault()
+        var visibility = "";
+        if(e.detail.question === "1") {visibility = "private";}
+        if(e.detail.question === "0") {visibility = "public";}
+        
+        if(e.target.id == "delete-pres") {Swal.fire({
+            icon: 'warning',
+            iconColor: '#f03932',
+            text: 'Do you wish to delete this presentation?',
+            color: '#fff',
+            background: '#17181a',
+            showCancelButton: true,
+            confirmButtonColor: '#4191fa',
+            cancelButtonColor: '#f03932',
+            cancelButtonText:'Cancel',
+            confirmButtonText: 'Delete presentation'
+        }).then(function(result) {
+          if(result.isConfirmed) e.detail.issueRequest(true) 
+        })}
+    
+        if(e.target.id == "post-visibility"){Swal.fire({
+            icon: 'warning',
+            iconColor: '#f03932',
+            text: `Are you sure you want your presentation to be ${visibility}?`,
+            color: '#fff',
+            background: '#17181a',
+            showCancelButton: true,
+            confirmButtonColor: '#4191fa',
+            cancelButtonColor: '#f03932',
+            cancelButtonText:'Cancel',
+            confirmButtonText: `Set ${visibility}`
+        }).then(function(result) {
+          if(result.isConfirmed) 
+          { 
+            Swal.fire({
+          text: `Your presentation has been set to ${visibility}!`,
+          icon: "success",
+          showConfirmButton: false,
+          color: '#fff',
+          background: '#17181a',
+          timer: 1500
+        });
+        e.detail.issueRequest(true);
+        }
+        })}
+        
+      } })
+    </script>
+    
+
+    
+<div class="row">
+
+    <div class="column middle">
+        <div class="main-container">
+            <div class="title-container">
+                <h2 id="title">Chat with {{ receiver.username }} <i class="fa fa-commenting-o" aria-hidden="true"></i></h2>
+            </div>
+            <br>
+
+            <div id="chat-messages" 
+                hx-get="{% url 'chat' receiver.username %}" 
+                hx-trigger="every 4s" 
+                hx-swap="innerHTML">
+                {% include 'partials/chat_messages_load.html' %}
+            </div>
+        </div>
+        <form method="post" action="{% url 'send_message' username=receiver.username %}" id="message-form">
+            {% csrf_token %}
+            <textarea id="message-input" name="content" required rows="2" placeholder="Type message"></textarea>
+            <button type="send" id="btn">Send</button>
+        </form>
+    </div>
+
+
+
+
+    <div class="column side" >
+        <div class="table-2" >
+            <table style="height: 300px">
+                <tr class="row-data-2">
+                    <td  class="data-2">
+                        <button style="margin-left: 60px;" id="toggle-chat" class="btn btn-primary" onclick="window.location.href='{% url 'open_chats' %}'">Back to Chat List</button>
+                    </td>
+                </tr>
+                <tr class="row-data-2">
+                    <td class="data-2">
+                        <br>
+                        Search in Channel
+                    </td>
+                </tr>
+                <tr class="row-data-2">
+                    <td class="data-2">
+                        <div class="search-container">
+                            <form id="search-form">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                                <input type="text" id="search-input" placeholder="Search.." name="search">
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="row-data-2">
+                    <td class="data-2">
+                        <!-- Add more elements here -->
+                        <br>
+                        Attach Files:
+                        <br>
+                    </td>
+                </tr>
+                <br>
+                <tr class="row-data-2">
+                    <td class="data-2">
+                        <!-- Add more elements here -->
+                            <br>
+
+                            <a id="btn1" href="{% url 'upload' %}" role="button">PDF</a>
+                            <a id="btn2" href="{% url 'upload' %}" role="button">Video</a>
+                            <a id="btn4" href="{% url 'upload' %}" role="button">Image</a>
+
+                    </td>
+                </tr>
+                <br>
+
+                <tr class="row-data-2">
+                    <td class="data-2">
+                        <br>
+
+                        <!-- Add more elements here -->
+                        Access Media:
+                        <br>
+
+                    </td>
+                </tr>
+                <tr class="row-data-2">
+                    <td class="data-2">
+                        <!-- Add more elements here -->
+                        <div>
+                            <br>
+
+                            <input type="file" name="document" id="file-input" style="display: none;">
+                            <button type="button" onclick="document.getElementById('file-input').click()"><i class="fa-solid fa-radio"></i><br>Upload file</button>
+
+
+                        </div>
+
+                    </td>
+                </tr>
+
+            </table>
+
+            <script>
+                window.onload = function () {
+                    const chatMessages = document.getElementById("chat-messages");
+                    const searchForm = document.getElementById("search-form");
+                    const searchInput = document.getElementById("search-input");
+
+                    // Function to filter messages based on search input
+                    function filterMessages() {
+                        const searchTerm = searchInput.value.toLowerCase();
+                        const messages = document.querySelectorAll('.sender-message, .receiver-message');
+
+                        messages.forEach(function (message) {
+                            const messageContent = message.textContent.toLowerCase();
+                            if (messageContent.includes(searchTerm)) {
+                                message.style.display = 'block'; // Show matching messages
+                            } else {
+                                message.style.display = 'none'; // Hide non-matching messages
+                            }
+                        });
+                    }
+
+                    // Add event listener to search input
+                    searchForm.addEventListener("input", filterMessages);
+
+                    // Auto-scroll to the bottom to show the latest message
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+
+                };
+
+            </script>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const chatMessages = document.getElementById("chat-messages");
+                    const toggleChatButton = document.getElementById("toggle-chat");
+
+                    toggleChatButton.addEventListener("click", function() {
+                        chatMessages.classList.toggle("expanded");
+                    });
+                });
+            </script>
+            <script>
+                // Function to handle file upload and set the link in the textarea
+                function handleFileUpload(event) {
+                    const file = event.target.files[0];
+                    const fileLink = URL.createObjectURL(file);
+                    const textarea = document.getElementById('message-input');
+                    textarea.value = fileLink;
+                }
+            
+                // Add event listener to the file input
+                document.getElementById('file-input').addEventListener('change', handleFileUpload);
+            </script>
+                
+                <script>
+                    // Function to handle file upload and set the link in the textarea
+                    function handleFileUpload(event) {
+                        const file = event.target.files[0];
+                        const formData = new FormData();
+                        formData.append('document', file);
+                
+                        // Send AJAX request to the server to handle the file upload
+                        fetch('{% url "upload" %}', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Set the URL returned by the server in the div as a clickable link
+                            const fileUrl = data.url;
+                            const linkDiv = document.getElementById('file-link');
+                            linkDiv.innerHTML = `<a href="${fileUrl}" target="_blank">${fileUrl}</a>`;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    }
+                
+                    // Add event listener to the file input
+                    document.getElementById('file-input').addEventListener('change', handleFileUpload);
+                </script>
+                
+                
+                
+        
+
+            
+        </div>
+    </div>
+    
+    
+
+        
+</div>
+
+</body>
+</html>
+{% endblock %}
